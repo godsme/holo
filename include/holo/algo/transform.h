@@ -25,10 +25,22 @@ namespace detail {
    };
 }
 
-template <typename ... Ts, typename F>
-constexpr auto transform(F&&, const tuple<Ts...>&) {
-   return typename detail::transform_impl<std::decay_t<F>, tuple<>, Ts...>::type{};
-}
+struct transform_c {
+   template <typename ... Ts, typename F>
+   constexpr auto operator()(F&&, const tuple<Ts...>&) const {
+      return typename detail::transform_impl<std::decay_t<F>, tuple<>, Ts...>::type{};
+   }
+
+   template <typename F>
+   constexpr auto operator()(F&& f) const {
+      return [func = std::move(f), this](auto stream) {
+         return this->operator()(func, stream);
+      };
+   }
+};
+
+constexpr transform_c transform{};
+
 
 HOLO_NS_END
 

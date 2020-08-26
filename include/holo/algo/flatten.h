@@ -41,10 +41,20 @@ namespace {
 template<typename ... Ts>
 using flatten_t = typename flatten_impl<Ts...>::type;
 
-template<typename ... Ts>
-constexpr auto flatten(tuple<Ts...> const&) {
-   return flatten_t<Ts...>{};
-}
+struct flatten_c {
+   template<typename ... Ts>
+   constexpr auto operator()(tuple<Ts...>) const {
+      return flatten_t<Ts...>{};
+   }
+
+   constexpr auto operator()() const {
+      return [this](auto stream) {
+         return operator()(stream);
+      };
+   }
+};
+
+constexpr flatten_c flatten{};
 
 HOLO_NS_END
 

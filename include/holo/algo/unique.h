@@ -34,10 +34,21 @@ namespace detail {
 template<typename ... Ts>
 using unique_t = typename detail::unique_impl<tuple<>, void, Ts...>::type;
 
-template<typename ... Ts>
-constexpr auto unique(tuple<Ts...> const&) {
-   return unique_t<Ts...>{};
-}
+struct unique_c {
+   template<typename ... Ts>
+   constexpr auto operator()(tuple<Ts...>) const {
+      return unique_t<Ts...>{};
+   }
+
+   constexpr auto operator()() const {
+      return [this](auto stream) {
+         return operator()(stream);
+      };
+   }
+};
+
+constexpr unique_c unique{};
+
 
 HOLO_NS_END
 

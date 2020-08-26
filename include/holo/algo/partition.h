@@ -35,10 +35,21 @@ namespace detail {
 template<typename F, typename ... Ts>
 using partition_t = typename detail::partition_impl<std::decay_t<F>, tuple<>, tuple<>, void, Ts...>::type;
 
-template <typename ... Ts, typename F>
-constexpr auto partition(F&&, tuple<Ts...> const&) {
-   return partition_t<F, Ts...>{};
-}
+struct partition_c {
+   template <typename ... Ts, typename F>
+   constexpr auto operator()(F&&, tuple<Ts...>) const {
+      return partition_t<F, Ts...>{};
+   }
+
+   template <typename ... Ts, typename F>
+   constexpr auto operator()(F&& f) const {
+      return [ func = std::move(f), this](auto stream) {
+         return operator()(func, stream);
+      };
+   }
+};
+
+constexpr partition_c partition{};
 
 HOLO_NS_END
 

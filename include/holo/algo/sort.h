@@ -30,10 +30,21 @@ namespace detail {
 template<typename LT, typename ... Ts>
 using sort_t = typename detail::sort_impl<LT, Ts...>::type;
 
-template <typename ... Ts, typename F>
-constexpr auto sort(F&& f, tuple<Ts...> const&) {
-   return sort_t<std::decay_t<F>, Ts...>{};
-}
+struct sort_c {
+   template <typename ... Ts, typename F>
+   constexpr auto operator()(F&& f, tuple<Ts...>) const {
+      return sort_t<std::decay_t<F>, Ts...>{};
+   }
+
+   template <typename F>
+   constexpr auto operator()(F&& f) const {
+      return [ func = std::move(f), this ](auto stream) {
+         return operator()(func, stream);
+      };
+   }
+};
+
+constexpr sort_c sort{};
 
 HOLO_NS_END
 

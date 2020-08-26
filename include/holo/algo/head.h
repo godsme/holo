@@ -17,20 +17,40 @@ constexpr auto empty(const TUPLE& tuple) {
    return bool_c<std::tuple_size_v<TUPLE> == 0>;
 }
 
-template <typename TUPLE>
-constexpr auto size(const TUPLE& tuple) {
-   return holo::size_c<tuple_size_v<TUPLE>>;
+template <typename ... Ts>
+constexpr auto size(tuple<Ts...>) {
+   return holo::size_c<sizeof...(Ts)>;
 }
 
-template <typename ... Ts>
-constexpr auto head(tuple<Ts...> const&) {
-   return typename tuple<Ts...>::head{};
-}
+struct head_c {
+   template <typename ... Ts>
+   constexpr auto operator()(tuple<Ts...>) const {
+      return typename tuple<Ts...>::head{};
+   }
 
-template <typename ... Ts>
-constexpr auto tail(tuple<Ts...> const&) {
-   return typename tuple<Ts...>::tail{};
-}
+   constexpr auto operator()() const {
+      return [this](auto stream) {
+         return operator()(stream);
+      };
+   }
+};
+
+constexpr head_c head{};
+
+struct tail_c {
+   template <typename ... Ts>
+   constexpr auto operator()(tuple<Ts...>) const {
+      return typename tuple<Ts...>::tail{};
+   }
+
+   constexpr auto operator()() const {
+      return [this](auto stream) {
+         return operator()(stream);
+      };
+   }
+};
+
+constexpr tail_c tail{};
 
 HOLO_NS_END
 

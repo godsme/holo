@@ -29,10 +29,21 @@ namespace detail {
    };
 }
 
-template<typename ... Ts, typename F>
-constexpr auto find_if(F&& f, const tuple<Ts...>& tuple) {
-   return typename detail::find_if_impl<F, void, Ts...>::type{};
-}
+struct find_if_c {
+   template<typename ... Ts, typename F>
+   constexpr auto operator()(F&&, tuple<Ts...>) const {
+      return typename detail::find_if_impl<F, void, Ts...>::type{};
+   }
+
+   template<typename F>
+   constexpr auto operator()(F&& f) const {
+      return [func = std::move(f), this](auto stream) {
+         return operator()(func, stream);
+      };
+   }
+};
+
+constexpr find_if_c find_if{};
 
 HOLO_NS_END
 

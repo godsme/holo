@@ -26,10 +26,22 @@ namespace detail {
    };
 }
 
-template<typename ... Ts, typename F>
-constexpr auto remove_if(F&& f, const tuple<Ts...>&) {
-   return typename detail::remove_if_impl<F, tuple<>, void, Ts...>::type{};
-}
+struct remove_if_c {
+   template<typename ... Ts, typename F>
+   constexpr auto operator()(F&& f, const tuple<Ts...>&) const {
+      return typename detail::remove_if_impl<F, tuple<>, void, Ts...>::type{};
+   }
+
+   template<typename F>
+   constexpr auto operator()(F&& f) const {
+      return [func = std::move(f), this](auto stream) {
+         return operator()(func, stream);
+      };
+   }
+};
+
+constexpr remove_if_c remove_if{};
+
 
 HOLO_NS_END
 

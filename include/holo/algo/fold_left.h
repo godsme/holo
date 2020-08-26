@@ -26,11 +26,22 @@ namespace detail {
    }
 }
 
-template <typename ...Ts, typename INIT, typename F>
-constexpr auto fold_left(INIT&& init, F&& f, const tuple<Ts...>& tuple) {
-   auto result = (detail::fold_helper{std::forward<INIT>(init), std::forward<F>(f)} <<  ... << Ts{});
-   return result.value_;
-}
+struct fold_left_c {
+   template <typename ...Ts, typename INIT, typename F>
+   constexpr auto operator()(INIT&& init, F&& f, const tuple<Ts...>& tuple) const {
+      auto result = (detail::fold_helper{std::forward<INIT>(init), std::forward<F>(f)} <<  ... << Ts{});
+      return result.value_;
+   }
+
+   template <typename INIT, typename F>
+   constexpr auto operator()(INIT&& init, F&& f) const {
+      return [i = std::move(init), func = std::move(f), this](auto stream) {
+         return operator()(i, func, stream);
+      };
+   }
+};
+
+constexpr fold_left_c fold_left{};
 
 HOLO_NS_END
 

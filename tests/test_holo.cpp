@@ -24,6 +24,7 @@
 #include <holo/types/sizeof_c.h>
 #include <holo/algo/unique.h>
 #include <holo/algo/flatten.h>
+#include <holo/algo/pipeline.h>
 #include <holo/algo/ap.h>
 
 namespace {
@@ -41,12 +42,11 @@ namespace {
    struct value_holder { constexpr static auto value = VALUE; };
 
    TEST_CASE("holo fold left 1") {
-      constexpr auto result =
+      constexpr auto result = holo::tuple_t<value_holder<1>, value_holder<2>, value_holder<3>> |
          holo::fold_left(0,
              [](auto const& acc, auto elem){
                       return decltype(elem)::type::value + acc;
-             },
-             holo::tuple_t<value_holder<1>, value_holder<2>, value_holder<3>>);
+             });
 
       REQUIRE(result == 6);
    }
@@ -63,11 +63,10 @@ namespace {
    }
 
    TEST_CASE("holo find if") {
-      constexpr auto result = holo::find_if(
-         [](auto elem) {
+      constexpr auto result = holo::tuple_t<int, double, float> |
+         holo::find_if([](auto elem) {
             return elem == holo::type_c<double>;
-         },
-         holo::tuple_t<int, double, float>);
+         });
 
       static_assert(result != holo::nothing, "");
       static_assert(result == holo::type_c<double>);
@@ -75,31 +74,29 @@ namespace {
 
    template <typename T> struct w{};
    TEST_CASE("holo transform") {
-      constexpr auto result = holo::transform(
+      constexpr auto result = holo::tuple_t<int, double, float> | holo::transform(
          [](auto elem) constexpr {
             return holo::type_c<w<typename decltype(elem)::type>>;
-         },
-         holo::tuple_t<int, double, float>);
+         });
 
       static_assert(result == holo::tuple_t<w<int>, w<double>, w<float>>);
    }
 
    TEST_CASE("holo filter") {
-      constexpr auto result = holo::filter(
+      constexpr auto result = holo::tuple_t<int, double, float> |
+         holo::filter(
          [](auto elem) constexpr {
             return elem != holo::type_c<double>;
-         },
-         holo::tuple_t<int, double, float>);
+         });
 
       static_assert(result == holo::tuple_t<int, float>);
    }
 
    TEST_CASE("holo remove_if") {
-      constexpr auto result = holo::remove_if(
-         [](auto elem) constexpr {
+      constexpr auto result = holo::tuple_t<int, double, float> |
+         holo::remove_if([](auto elem) constexpr {
             return elem == holo::type_c<double>;
-         },
-         holo::tuple_t<int, double, float>);
+         });
 
       static_assert(result == holo::tuple_t<int, float>);
    }
@@ -126,40 +123,40 @@ namespace {
 
    template <typename T> struct S;
    TEST_CASE("partition") {
-      constexpr auto result = holo::partition(
-         [](auto elem)  {
+      constexpr auto result = holo::tuple_t<int, long long, char, float, short, double, bool, long double> |
+         holo::partition([](auto elem)  {
             return holo::sizeof_c<typename std::decay_t<decltype(elem)>::type> < holo::sizeof_c<size_t>;
-         },
-         holo::tuple_t<int, long long, char, float, short, double, bool, long double>);
+         });
 
       static_assert(result == holo::make_pair(holo::tuple_t<int, char, float, short, bool>, holo::tuple_t<long long, double, long double>));
    }
 
    template <typename T> struct S;
    TEST_CASE("sort") {
-      constexpr auto result = holo::sort(
-         [](auto l, auto r) {
+      constexpr auto result = holo::tuple_t<int, long long, short, char> |
+         holo::sort([](auto l, auto r) {
             return holo::sizeof_c<typename std::decay_t<decltype(l)>::type> <
                    holo::sizeof_c<typename std::decay_t<decltype(r)>::type>;
-         },
-         holo::tuple_t<int, long long, short, char>);
+         });
 
       static_assert(result == holo::tuple_t<char, short, int, long long>);
    }
 
    TEST_CASE("unique") {
-      constexpr auto result = holo::unique(
-         holo::tuple_t<int, short, long long, short, char, int, long long, char, short>);
+      constexpr auto result =
+         holo::tuple_t<int, short, long long, short, char, int, long long, char, short> |
+         holo::unique();
 
       static_assert(result == holo::tuple_t<int, short, long long, char>);
    }
 
    TEST_CASE("flatten") {
-      constexpr auto result = holo::flatten(
+      constexpr auto result =
          holo::make_tuple(holo::type_c<int>, holo::type_c<char>,
             holo::make_tuple(holo::type_c<long>, holo::make_tuple(holo::type_c<char>), holo::type_c<float>),
             holo::type_c<double>, holo::type_c<long long>,
-            holo::make_tuple(holo::type_c<short>, holo::make_tuple(holo::type_c<long double>), holo::type_c<float>)));
+            holo::make_tuple(holo::type_c<short>, holo::make_tuple(holo::type_c<long double>), holo::type_c<float>)) |
+            holo::flatten();
 
       static_assert(result == holo::tuple_t<int, char, long, char, float, double, long long, short, long double, float>);
    }

@@ -28,10 +28,21 @@ namespace detail {
    };
 }
 
-template <typename ... Ts, typename F>
-constexpr auto filter(F&& f, const tuple<Ts...>&) {
-   return typename detail::filter_impl<F, tuple<>, void, Ts...>::type{};
-}
+struct filter_c {
+   template <typename ... Ts, typename F>
+   constexpr auto operator()(F&& f, tuple<Ts...>) const {
+      return typename detail::filter_impl<F, tuple<>, void, Ts...>::type{};
+   }
+
+   template <typename F>
+   constexpr auto operator()(F&& f) const {
+      return [func = std::move(f), this](auto stream) {
+         return operator()(func, stream);
+      };
+   }
+};
+
+constexpr filter_c filter{};
 
 HOLO_NS_END
 

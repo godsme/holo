@@ -5,9 +5,8 @@
 #ifndef GRAPH_UNIQUE_H
 #define GRAPH_UNIQUE_H
 
-#include <holo/algo/head.h>
-#include <holo/algo/partition.h>
-#include <holo/algo/concat.h>
+#include <holo/types/integral_c.h>
+#include <holo/algo/contains.h>
 
 HOLO_NS_BEGIN
 

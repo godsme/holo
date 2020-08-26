@@ -17,6 +17,9 @@ struct pair : tuple<T1, T2> {
 };
 
 template<typename T1, typename T2>
+constexpr pair<type_c_t<T1>, type_c_t<T2>> pair_t{};
+
+template<typename T1, typename T2>
 constexpr auto make_pair(T1 const&, T2 const&) {
    return tuple<std::decay_t<T1>, std::decay_t<T2>>{};
 }

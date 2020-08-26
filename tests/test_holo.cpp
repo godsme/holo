@@ -23,6 +23,8 @@
 #include <holo/algo/sort.h>
 #include <holo/types/sizeof_c.h>
 #include <holo/algo/unique.h>
+#include <holo/algo/flatten.h>
+#include <holo/algo/ap.h>
 
 namespace {
    TEST_CASE("holo fold left") {
@@ -150,5 +152,25 @@ namespace {
          holo::tuple_t<int, short, long long, short, char, int, long long, char, short>);
 
       static_assert(result == holo::tuple_t<int, short, long long, char>);
+   }
+
+   TEST_CASE("flatten") {
+      constexpr auto result = holo::flatten(
+         holo::make_tuple(holo::type_c<int>, holo::type_c<char>,
+            holo::make_tuple(holo::type_c<long>, holo::make_tuple(holo::type_c<char>), holo::type_c<float>),
+            holo::type_c<double>, holo::type_c<long long>,
+            holo::make_tuple(holo::type_c<short>, holo::make_tuple(holo::type_c<long double>), holo::type_c<float>)));
+
+      static_assert(result == holo::tuple_t<int, char, long, char, float, double, long long, short, long double, float>);
+   }
+
+   TEST_CASE("ap") {
+      constexpr auto result = holo::ap(
+         holo::tuple_t<char, short, int>,
+         holo::tuple_t<float, double>);
+
+      static_assert(result == holo::make_tuple(holo::pair_t<char, float>, holo::pair_t<char, double>,
+         holo::pair_t<short, float>, holo::pair_t<short, double>,
+            holo::pair_t<int, float>, holo::pair_t<int, double>));
    }
 }

@@ -5,9 +5,7 @@
 #ifndef GRAPH_FLATTEN_H
 #define GRAPH_FLATTEN_H
 
-#include <holo/algo/head.h>
-#include <holo/algo/partition.h>
-#include <holo/algo/concat.h>
+#include <holo/types/tuple.h>
 
 HOLO_NS_BEGIN
 
@@ -15,40 +13,37 @@ namespace {
    template <typename T>
    struct flatten_helper {
       constexpr flatten_helper(T value) : value_(value) {}
+      using type = T;
       T value_;
    };
 
-   template<typename T, typename ELEM>
-   constexpr auto operator+(flatten_helper<T> acc, ELEM elem) {
-      return flatten_helper{std::tuple_cat(acc.value_, elem)};
-   }
-}
-
-struct flatten_class final {
-   template<typename ... Ts>
-   constexpr static auto flatten_1(const std::tuple<Ts...>& list) {
-      return flatten(list);
+   template<typename ... Ts1, typename ... Ts2>
+   constexpr auto operator+(flatten_helper<tuple<Ts1...>> acc, tuple<Ts2...> elem) {
+      return flatten_helper{tuple<Ts1..., Ts2...>{}};
    }
 
    template<typename T>
-   constexpr static auto flatten_1(const T& value) {
-      return std::make_tuple(value);
-   }
+   struct flatten_trait {
+      using type = tuple<T>;
+   };
 
-   template<size_t ... I, typename LIST>
-   constexpr static auto flatten(const LIST& list, std::index_sequence<I...>) {
-      return (flatten_helper{tuple_t<>} + ... + flatten_1(std::get<I>(list))).value_;
-   }
+   template<typename ... Ts>
+   struct flatten_impl {
+      using type = typename decltype((flatten_helper<tuple<>>{tuple<>{}} + ... + typename flatten_trait<Ts>::type{}))::type;
+   };
 
-   template<typename LIST>
-   constexpr static auto flatten(const LIST& list) {
-      return flatten(list, std::make_index_sequence<std::tuple_size_v<LIST>>{});
-   }
-};
+   template<typename ... Ts>
+   struct flatten_trait<tuple<Ts...>> {
+      using type = typename flatten_impl<Ts...>::type;
+   };
+}
 
-template<typename LIST>
-constexpr auto flatten(const LIST& list) {
-   return flatten_class::flatten(list);
+template<typename ... Ts>
+using flatten_t = typename flatten_impl<Ts...>::type;
+
+template<typename ... Ts>
+constexpr auto flatten(tuple<Ts...> const&) {
+   return flatten_t<Ts...>{};
 }
 
 HOLO_NS_END

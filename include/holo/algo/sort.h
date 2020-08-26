@@ -5,7 +5,6 @@
 #ifndef GRAPH_SORT_H
 #define GRAPH_SORT_H
 
-#include <holo/holo_ns.h>
 #include <holo/algo/partition.h>
 
 HOLO_NS_BEGIN

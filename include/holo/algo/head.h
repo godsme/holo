@@ -6,7 +6,6 @@
 #define GRAPH_HEAD_H
 
 #include <holo/holo_ns.h>
-#include <tuple>
 #include <holo/types/tuple.h>
 #include <holo/types/size_c.h>
 #include <holo/types/integral_c.h>

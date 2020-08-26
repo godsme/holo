@@ -5,7 +5,6 @@
 #ifndef GRAPH_PARTITION_H
 #define GRAPH_PARTITION_H
 
-#include <holo/holo_ns.h>
 #include <holo/types/type_c.h>
 #include <holo/types/tuple.h>
 #include <holo/algo/concat.h>

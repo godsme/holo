@@ -6,16 +6,11 @@
 #define GRAPH_FIND_IF_H
 
 #include <holo/holo_ns.h>
-#include <holo/types/type_c.h>
-#include <holo/types/integral_c.h>
 #include <type_traits>
-#include <tuple>
-#include <optional>
 #include <holo/types/maybe.h>
 #include <holo/algo/detail/pred.h>
 
 HOLO_NS_BEGIN
-
 
 namespace detail {
    template <typename PRED, typename = void, typename ... Ts>

@@ -5,7 +5,6 @@
 #ifndef GRAPH_TRANSFORM_H
 #define GRAPH_TRANSFORM_H
 
-#include <holo/holo_ns.h>
 #include <holo/types/type_c.h>
 #include <type_traits>
 

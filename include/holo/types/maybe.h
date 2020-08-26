@@ -41,6 +41,11 @@ constexpr auto operator!=(nothing_t const&, T const&) {
    return bool_c<true>;
 }
 
+template<typename T>
+constexpr auto is_nothing(T const& v) {
+   return v == nothing;
+}
+
 HOLO_NS_END
 
 #endif //GRAPH_MAYBE_H

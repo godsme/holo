@@ -21,10 +21,18 @@ namespace detail {
    };
 }
 
-template <typename ... Ts>
-constexpr auto reverse(tuple<Ts...> const&) {
-   return typename detail::reverse_impl<tuple<>, Ts...>::type{};
-}
+struct reverse_c {
+   template <typename ... Ts>
+   constexpr auto operator()(tuple<Ts...>) const {
+      return typename detail::reverse_impl<tuple<>, Ts...>::type{};
+   }
+
+   constexpr auto operator()() const {
+      return [this](auto stream) { return operator()(stream); };
+   }
+};
+
+constexpr reverse_c reverse{};
 
 HOLO_NS_END
 

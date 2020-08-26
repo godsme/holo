@@ -11,10 +11,21 @@
 
 HOLO_NS_BEGIN
 
-template <typename ... Ts, typename T>
-constexpr auto contains(T&& value, tuple<Ts...> const&) {
-   return bool_c<(std::is_same_v<Ts, std::decay_t<T>> || ...)>;
-}
+struct contains_c {
+   template <typename ... Ts, typename T>
+   constexpr auto operator()(T&& value, tuple<Ts...>) const {
+      return bool_c<(std::is_same_v<Ts, std::decay_t<T>> || ...)>;
+   }
+
+   template <typename T>
+   constexpr auto operator()(T&& v) const {
+      return [value = std::move(v), this]( auto stream ) {
+         return operator()(value, stream);
+      };
+   }
+};
+
+constexpr contains_c contains{};
 
 HOLO_NS_END
 

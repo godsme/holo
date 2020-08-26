@@ -10,15 +10,37 @@
 
 HOLO_NS_BEGIN
 
-template <typename ... Ts, typename T>
-constexpr auto append(T&&, tuple<Ts...> const&) {
-   return tuple<Ts..., std::decay_t<T>>{};
-}
+struct append_c {
+   template <typename ... Ts, typename T>
+   constexpr auto operator()(T&&, tuple<Ts...>) const {
+      return tuple<Ts..., std::decay_t<T>>{};
+   }
 
-template <typename ... Ts, typename T>
-constexpr auto prepend(T&&, tuple<Ts...> const&) {
-   return tuple<std::decay_t<T>, Ts...>{};
-}
+   template <typename T>
+   constexpr auto operator()(T&& v) const {
+      return [value = std::move(v), this](auto stream) {
+         return operator()(value, stream);
+      };
+   }
+};
+
+constexpr append_c append{};
+
+struct prepend_c {
+   template <typename ... Ts, typename T>
+   constexpr auto operator()(T&&, tuple<Ts...>) const {
+      return tuple<std::decay_t<T>, Ts...>{};
+   }
+
+   template <typename T>
+   constexpr auto operator()(T&& v) const {
+      return [value = std::move(v), this](auto stream) {
+         return operator()(value, stream);
+      };
+   }
+};
+
+constexpr prepend_c prepend{};
 
 template <typename ... Ts1, typename ...Ts2>
 constexpr auto concat(tuple<Ts1...> const&, tuple<Ts2...> const&) {

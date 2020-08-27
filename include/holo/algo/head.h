@@ -9,6 +9,7 @@
 #include <holo/types/tuple.h>
 #include <holo/types/size_c.h>
 #include <holo/types/integral_c.h>
+#include <holo/algo/partial_apply.h>
 
 HOLO_NS_BEGIN
 
@@ -22,31 +23,43 @@ constexpr auto size(tuple<Ts...>) {
    return holo::size_c<sizeof...(Ts)>;
 }
 
+//////////////////////////////////////////////////////////////////////////
 struct head_c {
+private:
    template <typename ... Ts>
-   constexpr auto operator()(tuple<Ts...>) const {
+   constexpr static auto invoke(tuple<Ts...>) {
       return typename tuple<Ts...>::head{};
    }
 
+public:
+   template <typename ... Ts>
+   constexpr auto operator()(tuple<Ts...> stream) const {
+      return invoke(stream);
+   }
+
    constexpr auto operator()() const {
-      return [this](auto stream) {
-         return (*this)(stream);
-      };
+      __return_invoke_0();
    }
 };
 
 constexpr head_c head{};
 
+//////////////////////////////////////////////////////////////////////////
 struct tail_c {
+private:
    template <typename ... Ts>
-   constexpr auto operator()(tuple<Ts...>) const {
+   constexpr static auto invoke(tuple<Ts...>) {
       return typename tuple<Ts...>::tail{};
    }
 
+public:
+   template <typename ... Ts>
+   constexpr auto operator()(tuple<Ts...> stream) const {
+      return invoke(stream);
+   }
+
    constexpr auto operator()() const {
-      return [this](auto stream) {
-         return (*this)(stream);
-      };
+      __return_invoke_0();
    }
 };
 

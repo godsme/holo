@@ -6,6 +6,7 @@
 #define GRAPH_FLATTEN_H
 
 #include <holo/types/tuple.h>
+#include <holo/algo/partial_apply.h>
 
 HOLO_NS_BEGIN
 
@@ -42,15 +43,20 @@ template<typename ... Ts>
 using flatten_t = typename flatten_impl<Ts...>::type;
 
 struct flatten_c {
+private:
    template<typename ... Ts>
-   constexpr auto operator()(tuple<Ts...>) const {
+   constexpr static auto invoke(tuple<Ts...>) {
       return flatten_t<Ts...>{};
    }
 
+public:
+   template<typename ... Ts>
+   constexpr auto operator()(tuple<Ts...> stream) const {
+      return invoke(stream);
+   }
+
    constexpr auto operator()() const {
-      return [this](auto stream) {
-         return (*this)(stream);
-      };
+      __return_invoke_0();
    }
 };
 

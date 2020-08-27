@@ -7,36 +7,47 @@
 
 #include <holo/types/tuple.h>
 #include <type_traits>
+#include "partial_apply.h"
 
 HOLO_NS_BEGIN
 
 struct append_c {
-   template <typename ... Ts, typename T>
-   constexpr auto operator()(T&&, tuple<Ts...>) const {
+private:
+   template <typename T, typename ... Ts>
+   constexpr static auto invoke(tuple<Ts...>) {
       return tuple<Ts..., std::decay_t<T>>{};
    }
 
+public:
+   template <typename ... Ts, typename T>
+   constexpr auto operator()(T&&, tuple<Ts...> stream) const {
+      return invoke<T>(stream);
+   }
+
    template <typename T>
-   constexpr auto operator()(T&& v) const {
-      return [value = std::move(v), this](auto stream) {
-         return (*this)(value, stream);
-      };
+   constexpr auto operator()(T&&) const {
+      __return_invoke(T);
    }
 };
 
 constexpr append_c append{};
 
 struct prepend_c {
-   template <typename ... Ts, typename T>
-   constexpr auto operator()(T&&, tuple<Ts...>) const {
+private:
+   template <typename T, typename ... Ts>
+   constexpr static auto invoke(tuple<Ts...>) {
       return tuple<std::decay_t<T>, Ts...>{};
    }
 
+public:
+   template <typename T, typename ... Ts>
+   constexpr auto operator()(T&&, tuple<Ts...> stream) const {
+      return invoke<T>(stream);
+   }
+
    template <typename T>
-   constexpr auto operator()(T&& v) const {
-      return [value = std::move(v), this](auto stream) {
-         return operator()(value, stream);
-      };
+   constexpr auto operator()(T&&) const {
+      __return_invoke(T);
    }
 };
 

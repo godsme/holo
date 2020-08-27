@@ -6,6 +6,7 @@
 #define GRAPH_REVERSE_H
 
 #include <holo/holo_ns.h>
+#include <holo/algo/partial_apply.h>
 
 HOLO_NS_BEGIN
 
@@ -21,14 +22,24 @@ namespace detail {
    };
 }
 
+template<typename ... Ts>
+using reverse_t = typename detail::reverse_impl<tuple<>, Ts...>::type;
+
 struct reverse_c {
+private:
    template <typename ... Ts>
-   constexpr auto operator()(tuple<Ts...>) const {
-      return typename detail::reverse_impl<tuple<>, Ts...>::type{};
+   constexpr static auto invoke(tuple<Ts...>) {
+      return reverse_t<Ts...>{};
+   }
+
+public:
+   template <typename ... Ts>
+   constexpr auto operator()(tuple<Ts...> stream) const {
+      return invoke(stream);
    }
 
    constexpr auto operator()() const {
-      return [this](auto stream) { return (*this)(stream); };
+      __return_invoke_0();
    }
 };
 

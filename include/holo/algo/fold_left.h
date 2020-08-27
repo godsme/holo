@@ -26,18 +26,24 @@ namespace detail {
    }
 }
 
+
 struct fold_left_c {
+private:
    template <typename ...Ts, typename INIT, typename F>
-   constexpr auto operator()(INIT&& init, F&& f, const tuple<Ts...>& tuple) const {
-      auto result = (detail::fold_helper{std::forward<INIT>(init), std::forward<F>(f)} <<  ... << Ts{});
+   constexpr static auto invoke(INIT init, F f, tuple<Ts...>) {
+      auto result = (detail::fold_helper{init, f} <<  ... << Ts{});
       return result.value_;
+   }
+
+public:
+   template <typename ...Ts, typename INIT, typename F>
+   constexpr auto operator()(INIT&& init, F&& f, tuple<Ts...> const& stream) const {
+      return invoke(init, f, stream);
    }
 
    template <typename INIT, typename F>
    constexpr auto operator()(INIT&& init, F&& f) const {
-      return [i = std::move(init), func = std::move(f), this](auto stream) {
-         return (*this)(i, func, stream);
-      };
+      return [=](auto stream) { return invoke(init, f, stream); };
    }
 };
 

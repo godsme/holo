@@ -7,11 +7,11 @@
 
 #include <holo/types/integral_c.h>
 #include <holo/algo/contains.h>
+#include <holo/algo/partial_apply.h>
 
 HOLO_NS_BEGIN
 
 namespace detail {
-
    template<typename H, typename RESULT>
    constexpr bool Contains = std::is_same_v<bool_c_t<true>, decltype(contains(std::declval<H>(), RESULT{}))>;
 
@@ -36,14 +36,17 @@ using unique_t = typename detail::unique_impl<tuple<>, void, Ts...>::type;
 
 struct unique_c {
    template<typename ... Ts>
-   constexpr auto operator()(tuple<Ts...>) const {
+   constexpr static auto invoke(tuple<Ts...>) {
       return unique_t<Ts...>{};
    }
 
+   template<typename ... Ts>
+   constexpr auto operator()(tuple<Ts...> stream) const {
+      return invoke(stream);
+   }
+
    constexpr auto operator()() const {
-      return [this](auto stream) {
-         return (*this)(stream);
-      };
+      __return_invoke_0();
    }
 };
 

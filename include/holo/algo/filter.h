@@ -7,6 +7,7 @@
 
 #include <holo/holo_ns.h>
 #include <holo/types/type_c.h>
+#include <holo/algo/partial_apply.h>
 #include <type_traits>
 
 HOLO_NS_BEGIN
@@ -28,17 +29,25 @@ namespace detail {
    };
 }
 
+template<typename F, typename ... Ts>
+using filter_t = typename detail::filter_impl<F, tuple<>, void, Ts...>::type;
+
 struct filter_c {
-   template <typename ... Ts, typename F>
-   constexpr auto operator()(F&& f, tuple<Ts...>) const {
-      return typename detail::filter_impl<F, tuple<>, void, Ts...>::type{};
+private:
+   template <typename F, typename ... Ts>
+   constexpr static auto invoke(tuple<Ts...>) {
+      return filter_t<F, Ts...>{};
+   }
+
+public:
+   template <typename F, typename ... Ts>
+   constexpr auto operator()(F&&, tuple<Ts...> stream) const {
+      return invoke<F>(stream);
    }
 
    template <typename F>
-   constexpr auto operator()(F&& f) const {
-      return [func = std::move(f), this](auto stream) {
-         return (*this)(func, stream);
-      };
+   constexpr auto operator()(F&&) const {
+      __return_invoke(F);
    }
 };
 

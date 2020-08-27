@@ -6,6 +6,7 @@
 #define GRAPH_SORT_H
 
 #include <holo/algo/partition.h>
+#include <holo/algo/partial_apply.h>
 
 HOLO_NS_BEGIN
 
@@ -31,16 +32,21 @@ template<typename LT, typename ... Ts>
 using sort_t = typename detail::sort_impl<LT, Ts...>::type;
 
 struct sort_c {
-   template <typename ... Ts, typename F>
-   constexpr auto operator()(F&& f, tuple<Ts...>) const {
+private:
+   template <typename F, typename ... Ts>
+   constexpr static auto invoke(tuple<Ts...>) {
       return sort_t<std::decay_t<F>, Ts...>{};
    }
 
+public:
+   template <typename F, typename ... Ts>
+   constexpr auto operator()(F&&, tuple<Ts...> stream) const {
+      return invoke<F>(stream);
+   }
+
    template <typename F>
-   constexpr auto operator()(F&& f) const {
-      return [ func = std::move(f), this ](auto stream) {
-         return (*this)(func, stream);
-      };
+   constexpr auto operator()(F&&) const {
+      __return_invoke(F);
    }
 };
 

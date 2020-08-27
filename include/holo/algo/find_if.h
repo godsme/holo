@@ -9,6 +9,7 @@
 #include <type_traits>
 #include <holo/types/maybe.h>
 #include <holo/algo/detail/pred.h>
+#include <holo/algo/partial_apply.h>
 
 HOLO_NS_BEGIN
 
@@ -29,17 +30,25 @@ namespace detail {
    };
 }
 
+template<typename F, typename ... Ts>
+using find_if_t = typename detail::find_if_impl<F, void, Ts...>::type;
+
 struct find_if_c {
-   template<typename ... Ts, typename F>
-   constexpr auto operator()(F&&, tuple<Ts...>) const {
-      return typename detail::find_if_impl<F, void, Ts...>::type{};
+private:
+   template<typename F, typename ... Ts>
+   constexpr static auto invoke(tuple<Ts...>) {
+      return find_if_t<F, Ts...>{};
+   }
+
+public:
+   template<typename F, typename ... Ts>
+   constexpr auto operator()(F&&, tuple<Ts...> stream) const {
+      return invoke<F>(stream);
    }
 
    template<typename F>
-   constexpr auto operator()(F&& f) const {
-      return [func = std::move(f), this](auto stream) {
-         return (*this)(func, stream);
-      };
+   constexpr auto operator()(F&&) const {
+      __return_invoke(F);
    }
 };
 

@@ -49,7 +49,7 @@ struct flatten_c {
 
    constexpr auto operator()() const {
       return [this](auto stream) {
-         return operator()(stream);
+         return (*this)(stream);
       };
    }
 };

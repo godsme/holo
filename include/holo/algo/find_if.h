@@ -38,7 +38,7 @@ struct find_if_c {
    template<typename F>
    constexpr auto operator()(F&& f) const {
       return [func = std::move(f), this](auto stream) {
-         return operator()(func, stream);
+         return (*this)(func, stream);
       };
    }
 };

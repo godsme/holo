@@ -36,7 +36,7 @@ struct fold_left_c {
    template <typename INIT, typename F>
    constexpr auto operator()(INIT&& init, F&& f) const {
       return [i = std::move(init), func = std::move(f), this](auto stream) {
-         return operator()(i, func, stream);
+         return (*this)(i, func, stream);
       };
    }
 };

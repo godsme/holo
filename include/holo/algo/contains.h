@@ -20,7 +20,7 @@ struct contains_c {
    template <typename T>
    constexpr auto operator()(T&& v) const {
       return [value = std::move(v), this]( auto stream ) {
-         return operator()(value, stream);
+         return (*this)(value, stream);
       };
    }
 };

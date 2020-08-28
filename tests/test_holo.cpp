@@ -149,10 +149,10 @@ namespace {
 
    TEST_CASE("flatten") {
       constexpr auto result =
-         holo::make_tuple(holo::type_c<int>, holo::type_c<char>,
-            holo::make_tuple(holo::type_c<long>, holo::make_tuple(holo::type_c<char>), holo::type_c<float>),
+         holo::type_list(holo::type_c<int>, holo::type_c<char>,
+            holo::type_list{holo::type_c<long>, holo::type_list(holo::type_c<char>), holo::type_c<float>},
             holo::type_c<double>, holo::type_c<long long>,
-            holo::make_tuple(holo::type_c<short>, holo::make_tuple(holo::type_c<long double>), holo::type_c<float>)) |
+            holo::type_list(holo::type_c<short>, holo::type_list(holo::type_c<long double>), holo::type_c<float>)) |
             holo::flatten();
 
       static_assert(result == holo::type_list_t<int, char, long, char, float, double, long long, short, long double, float>);
@@ -163,7 +163,7 @@ namespace {
          holo::type_list_t<char, short, int>,
          holo::type_list_t<float, double>);
 
-      static_assert(result == holo::make_tuple(holo::pair_t<char, float>, holo::pair_t<char, double>,
+      static_assert(result == holo::type_list(holo::pair_t<char, float>, holo::pair_t<char, double>,
          holo::pair_t<short, float>, holo::pair_t<short, double>,
             holo::pair_t<int, float>, holo::pair_t<int, double>));
    }

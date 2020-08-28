@@ -39,7 +39,7 @@ struct tuple : detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...> {
 };
 
 template<typename ... Xs>
-tuple(Xs const& ...) -> tuple<Xs...>;
+tuple(Xs&& ...) -> tuple<std::decay_t<Xs>...>;
 
 template<std::size_t N, typename ... Xs>
 constexpr auto get(tuple<Xs...> const& xs) noexcept -> decltype(auto) {

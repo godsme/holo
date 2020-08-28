@@ -15,51 +15,43 @@ HOLO_NS_BEGIN
 
 struct type_list_tag{};
 
+namespace detail {
+   template<template<typename ...> typename C, typename ... Ts>
+   struct type_list_impl {};
+
+   template<template<typename ...> typename C, typename H, typename ... Ts>
+   struct type_list_impl<C, H, Ts...> {
+      using head = H;
+      using tail = C<Ts...>;
+   };
+}
+
 template<typename ... Ts>
-struct type_list {
+struct type_list : detail::type_list_impl<type_list, Ts...> {
+   template<typename ... Xs>
+   constexpr type_list(Xs&&...) {}
+
    using tag_type = type_list_tag;
-
-   constexpr static size_t Size = 0;
-
-   template<typename T>
-   using append_type = type_list<T>;
+   constexpr static size_t Size = sizeof...(Ts);
 
    template<typename T>
-   using prepend_type = type_list<T>;
+   using append_type = type_list<Ts..., T>;
 
-   template<template <typename ...> typename F>
-   using export_to = F<>;
+   template<typename T>
+   using prepend_type = type_list<T, Ts...>;
+
+   template<template<typename ...> typename F>
+   using export_to = F<Ts...>;
 
    template<typename ... Ts2>
-   using append = type_list<Ts2...>;
-
-   template<typename TUPLE>
-   using append_list = TUPLE;
-};
-
-template<typename H, typename ... Ts>
-struct type_list<H, Ts...> {
-   using tag_type = type_list_tag;
-
-   constexpr static size_t Size = sizeof...(Ts) + 1;
-   using head = H;
-   using tail = type_list<Ts...>;
-
-   template<typename T>
-   using append_type = type_list<H, Ts..., T>;
-
-   template<typename T>
-   using prepend_type = type_list<T, H, Ts...>;
-
-   template<template <typename ...> typename F>
-   using export_to = F<H, Ts...>;
-
-   template<typename ... Ts2>
-   using append = type_list<H, Ts..., Ts2...>;
+   using append = type_list<Ts..., Ts2...>;
 
    template<typename TUPLE>
    using append_list = typename TUPLE::template export_to<append>;
 };
+
+template<typename ... Xs>
+type_list(Xs&&...) -> type_list<std::decay_t<Xs>...>;
 
 template<typename ... Ts1, typename ... Ts2>
 constexpr auto operator==(type_list<Ts1...> const& lhs, type_list<Ts2...> const& rhs) {
@@ -71,13 +63,8 @@ constexpr auto operator!=(type_list<Ts1...> const& lhs, type_list<Ts2...> const&
    return !operator==(lhs, rhs);
 }
 
-template<typename ... Ts>
-constexpr auto make_tuple(Ts&& ... args) {
-   return type_list<std::decay_t<Ts>...>{};
-}
-
 template <typename ... Ts>
-constexpr type_list<type_c_t < Ts>...> type_list_t{};
+constexpr type_list<type_c_t <Ts>...> type_list_t{};
 
 template<>
 struct append_impl<type_list_tag> {

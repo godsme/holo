@@ -5,53 +5,32 @@
 #ifndef GRAPH_FILTER_H
 #define GRAPH_FILTER_H
 
-#include <holo/holo_ns.h>
-#include <holo/types/type_c.h>
-#include <holo/algo/partial_apply.h>
-#include <type_traits>
+#include <holo/concept/algo.h>
+#include <holo/algo/detail/tag_of.h>
+#include <utility>
 
 HOLO_NS_BEGIN
 
-namespace detail {
-   template<typename PRED, typename RESULT, typename = void, typename ... Ts>
-   struct filter_impl {
-      using type = RESULT;
-   };
-
-   template<typename PRED, typename RESULT, typename H, typename ... Ts>
-   struct filter_impl<PRED, RESULT, std::enable_if_t<Is_Pred_Satisfied<PRED, H>>, H, Ts...> {
-      using type = typename filter_impl<PRED, typename RESULT::template append_type<H>, void, Ts...>::type;
-   };
-
-   template<typename PRED, typename RESULT, typename H, typename ... Ts>
-   struct filter_impl<PRED, RESULT, std::enable_if_t<!Is_Pred_Satisfied <PRED, H>>, H, Ts...> {
-      using type = typename filter_impl<PRED, RESULT, void, Ts...>::type;
-   };
-}
-
-template<typename F, typename ... Ts>
-using filter_t = typename detail::filter_impl<F, type_list<>, void, Ts...>::type;
-
-struct filter_c {
+struct filter_t {
 private:
-   template <typename F, typename ... Ts>
-   constexpr static auto invoke(type_list<Ts...>) {
-      return filter_t<F, Ts...>{};
+   template <typename F, typename Xs>
+   constexpr static auto apply(F&& f, Xs&& xs) {
+      return filter_algo<typename holo::tag_of<Xs>::type>::apply(f, xs);
    }
 
 public:
-   template <typename F, typename ... Ts>
-   constexpr auto operator()(F&&, type_list<Ts...> stream) const {
-      return invoke<F>(stream);
+   template <typename F, typename Xs>
+   constexpr auto operator()(F&& f, Xs&& xs) const {
+      return apply(std::forward<F>(f), std::forward<Xs>(xs));
    }
 
    template <typename F>
-   constexpr auto operator()(F&&) const {
-      __return_invoke(F);
+   constexpr auto operator()(F&& f) const {
+      return [=](auto xs) { return apply(f, xs); };
    }
 };
 
-constexpr filter_c filter{};
+constexpr filter_t filter{};
 
 HOLO_NS_END
 

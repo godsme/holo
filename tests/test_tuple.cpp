@@ -6,6 +6,7 @@
 #include <holo/types/tuple.h>
 #include <holo/algo/append.h>
 #include <holo/algo/prepend.h>
+#include <holo/algo/concat.h>
 
 namespace {
    TEST_CASE("construct an empty tuple") {

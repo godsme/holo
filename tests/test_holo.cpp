@@ -69,6 +69,13 @@ namespace {
       static_assert(result == holo::type_c<double>);
    }
 
+   TEST_CASE("holo type_list contains") {
+      constexpr auto result = holo::type_list_t<int, double, float> |
+                              holo::contains(holo::type_c<double>);
+
+      static_assert(result);
+   }
+
    template <typename T> struct w{};
    TEST_CASE("holo transform") {
       constexpr auto result = holo::type_list_t<int, double, float> | holo::transform(

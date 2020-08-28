@@ -8,7 +8,7 @@
 #include <holo/types/integral_c.h>
 #include <holo/types/detail/ebo.h>
 #include <holo/types/size_c.h>
-#include <holo/concept/append.h>
+#include <holo/concept/algo.h>
 #include <utility>
 
 HOLO_NS_BEGIN
@@ -99,14 +99,8 @@ constexpr auto tuple_cat(tuple<Xs...> const& xs, tuple<Ys...> const& ys) {
    }
 }
 
-template<typename ... Xs, typename ... Ys>
-constexpr auto concat(tuple<Xs...> const& xs, tuple<Ys...> const& ys) {
-   return tuple_cat(xs, ys);
-}
-
-
 template<>
-struct concat_impl<tuple_tag> {
+struct concat_algo<tuple_tag> {
    template<typename ... Xs, typename ... Ys>
    constexpr static auto apply(tuple<Xs...> const& xs, tuple<Ys...> const& ys) {
       return tuple_cat(xs, ys);
@@ -114,7 +108,7 @@ struct concat_impl<tuple_tag> {
 };
 
 template<>
-struct append_impl<tuple_tag> {
+struct append_algo<tuple_tag> {
 private:
    template<typename ... Xs, typename X, std::size_t ... Xn>
    constexpr static auto tuple_append(X const& x, tuple<Xs...> const& xs, std::index_sequence<Xn...>) {
@@ -137,7 +131,7 @@ public:
 };
 
 template<>
-struct prepend_impl<tuple_tag> {
+struct prepend_algo<tuple_tag> {
 private:
    template<typename ... Xs, typename X, std::size_t ... Xn>
    constexpr static auto tuple_prepend(X const& x, tuple<Xs...> const& xs, std::index_sequence<Xn...>) {

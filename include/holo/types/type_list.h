@@ -8,8 +8,9 @@
 #include <holo/holo_ns.h>
 #include <type_traits>
 #include <holo/types/type_c.h>
-#include <holo/concept/append.h>
+#include <holo/concept/algo.h>
 #include <holo/algo/partial_apply.h>
+#include <holo/algo/detail/pred.h>
 
 HOLO_NS_BEGIN
 
@@ -67,7 +68,7 @@ template <typename ... Ts>
 constexpr type_list<type_c_t <Ts>...> type_list_t{};
 
 template<>
-struct append_impl<type_list_tag> {
+struct append_algo<type_list_tag> {
    template <typename T, typename ... Ts>
    constexpr static auto apply(T, type_list<Ts...>) {
       return type_list<Ts..., std::decay_t<T>>{};
@@ -75,7 +76,7 @@ struct append_impl<type_list_tag> {
 };
 
 template<>
-struct prepend_impl<type_list_tag> {
+struct prepend_algo<type_list_tag> {
    template <typename X, typename ... Xs>
    constexpr static auto apply(X, type_list<Xs...>) {
       return type_list<std::decay_t<X>, Xs...>{};
@@ -83,10 +84,46 @@ struct prepend_impl<type_list_tag> {
 };
 
 template<>
-struct concat_impl<type_list_tag> {
+struct concat_algo<type_list_tag> {
    template <typename ... Xs, typename ... Ys>
    constexpr static auto apply(type_list<Xs...>, type_list<Ys...>) {
       return type_list<Xs..., Ys...>{};
+   }
+};
+
+template<>
+struct contains_algo<type_list_tag> {
+   template <typename X, typename ... Xs>
+   constexpr static auto apply(X, type_list<Xs...>) {
+      return bool_c<(std::is_same_v<Xs, std::decay_t<X>> || ...)>;
+   }
+};
+
+namespace detail {
+   template<typename PRED, typename RESULT, typename = void, typename ... Ts>
+   struct filter_impl {
+      using type = RESULT;
+   };
+
+   template<typename PRED, typename ... Ys, typename H, typename ... Ts>
+   struct filter_impl<PRED, type_list<Ys...>, std::enable_if_t<Is_Pred_Satisfied<PRED, H>>, H, Ts...> {
+      using type = typename filter_impl<PRED, type_list<Ys..., H>, void, Ts...>::type;
+   };
+
+   template<typename PRED, typename RESULT, typename H, typename ... Ts>
+   struct filter_impl<PRED, RESULT, std::enable_if_t<!Is_Pred_Satisfied <PRED, H>>, H, Ts...> {
+   using type = typename filter_impl<PRED, RESULT, void, Ts...>::type;
+};
+}
+
+template<typename F, typename ... Xs>
+using TL_filter_t = typename detail::filter_impl<F, type_list<>, void, Xs...>::type;
+
+template<>
+struct filter_algo<type_list_tag> {
+   template<typename F, typename ... Xs>
+   constexpr static auto apply(F, type_list<Xs...>) {
+      return TL_filter_t<F, Xs...>{};
    }
 };
 

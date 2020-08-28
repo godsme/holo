@@ -13,7 +13,7 @@ HOLO_NS_BEGIN
 namespace detail {
    template<typename LT, typename ... Ts>
    struct sort_impl {
-      using type = tuple<>;
+      using type = type_list<>;
    };
 
    template<typename LT, typename H, typename ... Ts>
@@ -34,13 +34,13 @@ using sort_t = typename detail::sort_impl<LT, Ts...>::type;
 struct sort_c {
 private:
    template <typename F, typename ... Ts>
-   constexpr static auto invoke(tuple<Ts...>) {
+   constexpr static auto invoke(type_list<Ts...>) {
       return sort_t<std::decay_t<F>, Ts...>{};
    }
 
 public:
    template <typename F, typename ... Ts>
-   constexpr auto operator()(F&&, tuple<Ts...> stream) const {
+   constexpr auto operator()(F&&, type_list<Ts...> stream) const {
       return invoke<F>(stream);
    }
 

@@ -6,7 +6,7 @@
 #define GRAPH_HEAD_H
 
 #include <holo/holo_ns.h>
-#include <holo/types/tuple.h>
+#include <holo/types/type_list.h>
 #include <holo/types/size_c.h>
 #include <holo/types/integral_c.h>
 #include <holo/algo/partial_apply.h>
@@ -19,7 +19,7 @@ constexpr auto empty(const TUPLE& tuple) {
 }
 
 template <typename ... Ts>
-constexpr auto size(tuple<Ts...>) {
+constexpr auto size(type_list<Ts...>) {
    return holo::size_c<sizeof...(Ts)>;
 }
 
@@ -27,13 +27,13 @@ constexpr auto size(tuple<Ts...>) {
 struct head_c {
 private:
    template <typename ... Ts>
-   constexpr static auto invoke(tuple<Ts...>) {
-      return typename tuple<Ts...>::head{};
+   constexpr static auto invoke(type_list<Ts...>) {
+      return typename type_list<Ts...>::head{};
    }
 
 public:
    template <typename ... Ts>
-   constexpr auto operator()(tuple<Ts...> stream) const {
+   constexpr auto operator()(type_list<Ts...> stream) const {
       return invoke(stream);
    }
 
@@ -48,13 +48,13 @@ constexpr head_c head{};
 struct tail_c {
 private:
    template <typename ... Ts>
-   constexpr static auto invoke(tuple<Ts...>) {
-      return typename tuple<Ts...>::tail{};
+   constexpr static auto invoke(type_list<Ts...>) {
+      return typename type_list<Ts...>::tail{};
    }
 
 public:
    template <typename ... Ts>
-   constexpr auto operator()(tuple<Ts...> stream) const {
+   constexpr auto operator()(type_list<Ts...> stream) const {
       return invoke(stream);
    }
 

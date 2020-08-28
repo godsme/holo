@@ -5,13 +5,13 @@
 #ifndef GRAPH_PAIR_H
 #define GRAPH_PAIR_H
 
-#include <holo/types/tuple.h>
+#include <holo/types/type_list.h>
 #include <type_traits>
 
 HOLO_NS_BEGIN
 
 template<typename T1, typename T2>
-struct pair : tuple<T1, T2> {
+struct pair : type_list<T1, T2> {
    using first  = T1;
    using second = T2;
 };

@@ -5,7 +5,7 @@
 #ifndef GRAPH_REMOVE_IF_H
 #define GRAPH_REMOVE_IF_H
 
-#include <holo/types/tuple.h>
+#include <holo/types/type_list.h>
 #include <holo/algo/partial_apply.h>
 
 HOLO_NS_BEGIN
@@ -28,16 +28,16 @@ namespace detail {
 }
 
 template<typename F, typename ... Ts>
-using remove_if_t = typename detail::remove_if_impl<F, tuple<>, void, Ts...>::type;
+using remove_if_t = typename detail::remove_if_impl<F, type_list<>, void, Ts...>::type;
 
 struct remove_if_c {
    template<typename F, typename ... Ts>
-   constexpr static auto invoke(tuple<Ts...>) {
+   constexpr static auto invoke(type_list<Ts...>) {
       return remove_if_t<F, Ts...>{};
    }
 
    template<typename F, typename ... Ts>
-   constexpr auto operator()(F&&, tuple<Ts...> stream) const {
+   constexpr auto operator()(F&&, type_list<Ts...> stream) const {
       return invoke<F>(stream);
    }
 

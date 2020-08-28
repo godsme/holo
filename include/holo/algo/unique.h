@@ -32,16 +32,16 @@ namespace detail {
 }
 
 template<typename ... Ts>
-using unique_t = typename detail::unique_impl<tuple<>, void, Ts...>::type;
+using unique_t = typename detail::unique_impl<type_list<>, void, Ts...>::type;
 
 struct unique_c {
    template<typename ... Ts>
-   constexpr static auto invoke(tuple<Ts...>) {
+   constexpr static auto invoke(type_list<Ts...>) {
       return unique_t<Ts...>{};
    }
 
    template<typename ... Ts>
-   constexpr auto operator()(tuple<Ts...> stream) const {
+   constexpr auto operator()(type_list<Ts...> stream) const {
       return invoke(stream);
    }
 

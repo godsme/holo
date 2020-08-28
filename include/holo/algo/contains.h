@@ -15,13 +15,13 @@ HOLO_NS_BEGIN
 struct contains_c {
 private:
    template <typename T, typename ... Ts>
-   constexpr static auto invoke(tuple<Ts...>) {
+   constexpr static auto invoke(type_list<Ts...>) {
       return bool_c<(std::is_same_v<Ts, std::decay_t<T>> || ...)>;
    }
 
 public:
    template <typename T, typename ... Ts>
-   constexpr auto operator()(T&& value, tuple<Ts...> stream) const {
+   constexpr auto operator()(T&& value, type_list<Ts...> stream) const {
       return invoke<T>(stream);
    }
 

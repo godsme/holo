@@ -30,18 +30,18 @@ namespace detail {
 }
 
 template<typename F, typename ... Ts>
-using filter_t = typename detail::filter_impl<F, tuple<>, void, Ts...>::type;
+using filter_t = typename detail::filter_impl<F, type_list<>, void, Ts...>::type;
 
 struct filter_c {
 private:
    template <typename F, typename ... Ts>
-   constexpr static auto invoke(tuple<Ts...>) {
+   constexpr static auto invoke(type_list<Ts...>) {
       return filter_t<F, Ts...>{};
    }
 
 public:
    template <typename F, typename ... Ts>
-   constexpr auto operator()(F&&, tuple<Ts...> stream) const {
+   constexpr auto operator()(F&&, type_list<Ts...> stream) const {
       return invoke<F>(stream);
    }
 

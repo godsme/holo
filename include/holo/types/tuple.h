@@ -1,92 +1,67 @@
 //
-// Created by Darwin Yuan on 2020/8/26.
+// Created by Darwin Yuan on 2020/8/28.
 //
 
-#ifndef GRAPH_TUPLE_H
-#define GRAPH_TUPLE_H
+#ifndef HOLO_TUPLE_H
+#define HOLO_TUPLE_H
 
-#include <holo/holo_ns.h>
-#include <type_traits>
-#include <holo/types/type_c.h>
+#include <holo/types/integral_c.h>
+#include <holo/types/detail/ebo.h>
+#include <utility>
 
 HOLO_NS_BEGIN
 
-template<typename ... Ts>
-struct tuple {
-   constexpr static size_t Size = 0;
+namespace detail {
+   template<typename Indices, typename ... Xs>
+   struct tuple_impl;
 
-   template<typename T>
-   using append_type = tuple<T>;
+   template<std::size_t ... I, typename ... Xs>
+   struct tuple_impl<std::index_sequence<I...>, Xs...> : ebo<I, Xs>... {
+      constexpr static std::size_t size = sizeof...(Xs);
 
-   template<typename T>
-   using prepend_type = tuple<T>;
-
-   template<template <typename ...> typename F>
-   using export_to = F<>;
-
-   template<typename ... Ts2>
-   using append = tuple<Ts2...>;
-
-   template<typename TUPLE>
-   using append_list = TUPLE;
-};
-
-template<typename H, typename ... Ts>
-struct tuple<H, Ts...> {
-   constexpr static size_t Size = sizeof...(Ts) + 1;
-   using head = H;
-   using tail = tuple<Ts...>;
-
-   template<typename T>
-   using append_type = tuple<H, Ts..., T>;
-
-   template<typename T>
-   using prepend_type = tuple<T, H, Ts...>;
-
-   template<template <typename ...> typename F>
-   using export_to = F<H, Ts...>;
-
-   template<typename ... Ts2>
-   using append = tuple<H, Ts..., Ts2...>;
-
-   template<typename TUPLE>
-   using append_list = typename TUPLE::template export_to<append>;
-};
-
-template<typename ... Ts1, typename ... Ts2>
-constexpr auto operator==(tuple<Ts1...> const& lhs, tuple<Ts2...> const& rhs) {
-   return bool_c<std::is_same_v<tuple<Ts1...>, tuple<Ts2...>>>;
+      constexpr tuple_impl() = default;
+      constexpr tuple_impl(tuple_impl const& rhs) = default;
+      template<typename ... Ys>
+      constexpr tuple_impl(Ys const& ... args)
+         : ebo<I, Xs>{static_cast<Xs const&>(args)}... {}
+   };
 }
 
-template<typename ... Ts1, typename ... Ts2>
-constexpr auto operator!=(tuple<Ts1...> const& lhs, tuple<Ts2...> const& rhs) {
+template<typename ... Xs>
+struct tuple : detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...> {
+   using base = detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...>;
+   using base::base;
+};
+
+template<typename ... Xs>
+tuple(Xs const& ...) -> tuple<Xs...>;
+
+template<std::size_t N, typename ... Xs>
+constexpr auto get(tuple<Xs...> const& xs) noexcept -> decltype(auto) {
+   return detail::ebo_get<N>(xs);
+}
+
+namespace detail {
+   template<std::size_t ... I, typename Xs, typename Ys>
+   constexpr auto tuple_equals(Xs const& xs, Ys const& ys) noexcept {
+      return bool_c<((get<I>(xs) == get<I>(ys)) && ...)>;
+   }
+}
+
+template<typename ... Xs, typename ... Ys>
+constexpr auto operator==(tuple<Xs...> const& lhs, tuple<Ys...> const& rhs) noexcept {
+   if constexpr (std::is_same_v<tuple<Xs...>, tuple<Ys...>>) {
+      return detail::tuple_equals(lhs, rhs);
+   } else {
+      return bool_c<false>;
+   }
+}
+
+template<typename ... Xs, typename ... Ys>
+constexpr auto operator!=(tuple<Xs...> const& lhs, tuple<Ys...> const& rhs) noexcept {
    return !operator==(lhs, rhs);
-}
-
-template<typename ... Ts>
-constexpr auto make_tuple(Ts&& ... args) {
-   return tuple<std::decay_t<Ts>...>{};
-}
-
-template <typename ... Ts>
-constexpr tuple<type_c_t<Ts>...> tuple_t{};
-
-template<typename T>
-struct tuple_size;
-
-template<typename ... Ts>
-struct tuple_size<tuple<Ts...>> {
-   constexpr static size_t value = sizeof...(Ts);
-};
-
-template<typename T>
-constexpr size_t tuple_size_v = tuple_size<T>::value;
-
-template<typename ...Ts1, typename ...Ts2>
-constexpr auto tuple_cat(const tuple<Ts1...>&, const tuple<Ts2...>&) {
-   return tuple<Ts1..., Ts2...>{};
 }
 
 HOLO_NS_END
 
-#endif //GRAPH_TUPLE_H
+#endif //HOLO_TUPLE_H

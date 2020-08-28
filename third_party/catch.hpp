@@ -1918,9 +1918,9 @@ namespace Catch {
 }
 #endif // CATCH_CONFIG_ENABLE_OPTIONAL_STRINGMAKER
 
-// Separate std::tuple specialization
+// Separate std::type_list specialization
 #if defined(CATCH_CONFIG_ENABLE_TUPLE_STRINGMAKER)
-#include <tuple>
+#include <type_list>
 namespace Catch {
     namespace Detail {
         template<
@@ -1929,10 +1929,10 @@ namespace Catch {
             bool = (N < std::tuple_size<Tuple>::value)
             >
             struct TupleElementPrinter {
-            static void print(const Tuple& tuple, std::ostream& os) {
+            static void print(const Tuple& type_list, std::ostream& os) {
                 os << (N ? ", " : " ")
-                    << ::Catch::Detail::stringify(std::get<N>(tuple));
-                TupleElementPrinter<Tuple, N + 1>::print(tuple, os);
+                    << ::Catch::Detail::stringify(std::get<N>(type_list));
+                TupleElementPrinter<Tuple, N + 1>::print(type_list, os);
             }
         };
 
@@ -1947,11 +1947,11 @@ namespace Catch {
     }
 
     template<typename ...Types>
-    struct StringMaker<std::tuple<Types...>> {
-        static std::string convert(const std::tuple<Types...>& tuple) {
+    struct StringMaker<std::type_list<Types...>> {
+        static std::string convert(const std::type_list<Types...>& type_list) {
             ReusableStringStream rss;
             rss << '{';
-            Detail::TupleElementPrinter<std::tuple<Types...>>::print(tuple, rss.get());
+            Detail::TupleElementPrinter<std::type_list<Types...>>::print(type_list, rss.get());
             rss << " }";
             return rss.str();
         }
@@ -6802,7 +6802,7 @@ namespace Catch {
 // Timing
 
 
-#include <tuple>
+#include <type_list>
 #include <type_traits>
 
 namespace Catch {
@@ -6935,7 +6935,7 @@ namespace Catch {
 #include <vector>
 #include <iterator>
 #include <numeric>
-#include <tuple>
+#include <type_list>
 #include <cmath>
 #include <utility>
 #include <cstddef>
@@ -7075,7 +7075,7 @@ namespace Catch {
 // end catch_stats.hpp
 #include <algorithm>
 #include <iterator>
-#include <tuple>
+#include <type_list>
 #include <vector>
 #include <cmath>
 

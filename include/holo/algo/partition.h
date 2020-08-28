@@ -5,7 +5,7 @@
 #ifndef GRAPH_PARTITION_H
 #define GRAPH_PARTITION_H
 
-#include <holo/types/tuple.h>
+#include <holo/types/type_list.h>
 #include <type_traits>
 #include <holo/types/pair.h>
 #include <holo/algo/detail/pred.h>
@@ -31,16 +31,16 @@ namespace detail {
 }
 
 template<typename F, typename ... Ts>
-using partition_t = typename detail::partition_impl<std::decay_t<F>, tuple<>, tuple<>, void, Ts...>::type;
+using partition_t = typename detail::partition_impl<std::decay_t<F>, type_list<>, type_list<>, void, Ts...>::type;
 
 struct partition_c {
    template <typename F, typename ... Ts>
-   constexpr static auto invoke(tuple<Ts...>) {
+   constexpr static auto invoke(type_list<Ts...>) {
       return partition_t<F, Ts...>{};
    }
 
    template <typename F, typename ... Ts>
-   constexpr auto operator()(F&&, tuple<Ts...> stream) const {
+   constexpr auto operator()(F&&, type_list<Ts...> stream) const {
       return invoke<F>(stream);
    }
 

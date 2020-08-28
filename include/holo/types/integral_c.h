@@ -18,6 +18,9 @@ struct integral_c {
 template<bool V>
 using bool_c_t = integral_c<bool, V>;
 
+using true_type  = integral_c<bool, true>;
+using false_type = integral_c<bool, false>;
+
 template<bool V>
 constexpr bool_c_t<V> bool_c{};
 

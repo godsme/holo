@@ -7,7 +7,7 @@
 
 #include <holo/holo_ns.h>
 #include <holo/types/type_c.h>
-#include <holo/types/tuple.h>
+#include <holo/types/type_list.h>
 #include <type_traits>
 
 HOLO_NS_BEGIN
@@ -30,14 +30,14 @@ namespace detail {
 struct fold_left_c {
 private:
    template <typename ...Ts, typename INIT, typename F>
-   constexpr static auto invoke(INIT init, F f, tuple<Ts...>) {
+   constexpr static auto invoke(INIT init, F f, type_list<Ts...>) {
       auto result = (detail::fold_helper{init, f} <<  ... << Ts{});
       return result.value_;
    }
 
 public:
    template <typename ...Ts, typename INIT, typename F>
-   constexpr auto operator()(INIT&& init, F&& f, tuple<Ts...> const& stream) const {
+   constexpr auto operator()(INIT&& init, F&& f, type_list<Ts...> const& stream) const {
       return invoke(init, f, stream);
    }
 

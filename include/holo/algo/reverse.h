@@ -23,18 +23,18 @@ namespace detail {
 }
 
 template<typename ... Ts>
-using reverse_t = typename detail::reverse_impl<tuple<>, Ts...>::type;
+using reverse_t = typename detail::reverse_impl<type_list<>, Ts...>::type;
 
 struct reverse_c {
 private:
    template <typename ... Ts>
-   constexpr static auto invoke(tuple<Ts...>) {
+   constexpr static auto invoke(type_list<Ts...>) {
       return reverse_t<Ts...>{};
    }
 
 public:
    template <typename ... Ts>
-   constexpr auto operator()(tuple<Ts...> stream) const {
+   constexpr auto operator()(type_list<Ts...> stream) const {
       return invoke(stream);
    }
 

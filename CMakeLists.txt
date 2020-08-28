@@ -10,4 +10,4 @@ include_directories(
 
 add_executable(holo
         tests/test_holo.cpp
-        tests/catch.cpp include/holo/algo/pipeline.h include/holo/holo.h include/holo/algo/partial_apply.h)
+        tests/catch.cpp include/holo/algo/pipeline.h include/holo/holo.h include/holo/algo/partial_apply.h include/holo/types/detail/ebo.h include/holo/types/tuple.h tests/test_tuple.cpp)

@@ -27,18 +27,18 @@ namespace detail {
 }
 
 template<typename F, typename ... Ts>
-using transform_t = typename detail::transform_impl<std::decay_t<F>, tuple<>, Ts...>::type;
+using transform_t = typename detail::transform_impl<std::decay_t<F>, type_list<>, Ts...>::type;
 
 struct transform_c {
 private:
    template <typename F, typename ... Ts>
-   constexpr static auto invoke(tuple<Ts...>) {
+   constexpr static auto invoke(type_list<Ts...>) {
       return transform_t<F, Ts...>{};
    }
 
 public:
    template <typename F, typename ... Ts>
-   constexpr auto operator()(F&&, tuple<Ts...> stream) const {
+   constexpr auto operator()(F&&, type_list<Ts...> stream) const {
       return invoke<F>(stream);
    }
 

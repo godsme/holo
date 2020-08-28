@@ -3,7 +3,7 @@
 //
 
 #include <catch.hpp>
-#include <holo/types/tuple.h>
+#include <holo/types/tuple/tuple.h>
 #include <holo/algo/append.h>
 #include <holo/algo/prepend.h>
 #include <holo/algo/concat.h>

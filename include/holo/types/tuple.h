@@ -8,6 +8,7 @@
 #include <holo/types/integral_c.h>
 #include <holo/types/detail/ebo.h>
 #include <holo/types/size_c.h>
+#include <holo/types/non_comparable.h>
 #include <holo/concept/algo.h>
 #include <utility>
 
@@ -99,6 +100,23 @@ constexpr auto tuple_cat(tuple<Xs...> const& xs, tuple<Ys...> const& ys) {
    }
 }
 
+
+
+template<>
+struct contains_algo<tuple_tag> {
+private:
+   template<typename X, typename ... Xs, std::size_t ... Xn>
+   constexpr static auto tuple_contains(X const& x, tuple<Xs...> const& xs, std::index_sequence<Xn...>) {
+      return ((get<Xn>(xs) == x) || ...);
+   }
+
+public:
+   template<typename X, typename ... Xs>
+   constexpr static auto apply(X const& x, tuple<Xs...> const& xs) {
+      return tuple_contains(x, xs, std::index_sequence_for<Xs...>{});
+   }
+};
+
 template<>
 struct concat_algo<tuple_tag> {
    template<typename ... Xs, typename ... Ys>
@@ -106,6 +124,8 @@ struct concat_algo<tuple_tag> {
       return tuple_cat(xs, ys);
    }
 };
+
+
 
 template<>
 struct append_algo<tuple_tag> {

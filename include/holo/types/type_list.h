@@ -112,8 +112,8 @@ namespace detail {
 
    template<typename PRED, typename RESULT, typename H, typename ... Ts>
    struct filter_impl<PRED, RESULT, std::enable_if_t<!Is_Pred_Satisfied <PRED, H>>, H, Ts...> {
-   using type = typename filter_impl<PRED, RESULT, void, Ts...>::type;
-};
+      using type = typename filter_impl<PRED, RESULT, void, Ts...>::type;
+   };
 }
 
 template<typename F, typename ... Xs>

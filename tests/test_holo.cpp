@@ -10,6 +10,8 @@
 #include <holo/algo/transform.h>
 #include <holo/algo/filter.h>
 #include <holo/algo/contains.h>
+#include <holo/algo/append.h>
+#include <holo/algo/prepend.h>
 #include <holo/algo/concat.h>
 #include <holo/algo/remove_if.h>
 #include <holo/algo/reverse.h>

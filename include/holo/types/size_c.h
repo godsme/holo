@@ -10,9 +10,11 @@
 
 HOLO_NS_BEGIN
 
+template <size_t V>
+using size_c_t = integral_c<size_t, V>;
 
 template <size_t V>
-constexpr integral_c<size_t, V> size_c{};
+constexpr size_c_t<V> size_c{};
 
 HOLO_NS_END
 

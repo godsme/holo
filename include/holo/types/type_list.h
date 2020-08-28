@@ -8,11 +8,17 @@
 #include <holo/holo_ns.h>
 #include <type_traits>
 #include <holo/types/type_c.h>
+#include <holo/concept/append.h>
+#include <holo/algo/partial_apply.h>
 
 HOLO_NS_BEGIN
 
+struct type_list_tag{};
+
 template<typename ... Ts>
 struct type_list {
+   using tag_type = type_list_tag;
+
    constexpr static size_t Size = 0;
 
    template<typename T>
@@ -33,6 +39,8 @@ struct type_list {
 
 template<typename H, typename ... Ts>
 struct type_list<H, Ts...> {
+   using tag_type = type_list_tag;
+
    constexpr static size_t Size = sizeof...(Ts) + 1;
    using head = H;
    using tail = type_list<Ts...>;
@@ -71,17 +79,29 @@ constexpr auto make_tuple(Ts&& ... args) {
 template <typename ... Ts>
 constexpr type_list<type_c_t < Ts>...> type_list_t{};
 
-template<typename T>
-struct tuple_size;
-
-template<typename ... Ts>
-struct tuple_size<type_list<Ts...>> {
-   constexpr static size_t value = sizeof...(Ts);
+template<>
+struct append_impl<type_list_tag> {
+   template <typename T, typename ... Ts>
+   constexpr static auto apply(T, type_list<Ts...>) {
+      return type_list<Ts..., std::decay_t<T>>{};
+   }
 };
 
-template<typename T>
-constexpr size_t tuple_size_v = tuple_size<T>::value;
+template<>
+struct prepend_impl<type_list_tag> {
+   template <typename X, typename ... Xs>
+   constexpr static auto apply(X, type_list<Xs...>) {
+      return type_list<std::decay_t<X>, Xs...>{};
+   }
+};
 
+template<>
+struct concat_impl<type_list_tag> {
+   template <typename ... Xs, typename ... Ys>
+   constexpr static auto apply(type_list<Xs...>, type_list<Ys...>) {
+      return type_list<Xs..., Ys...>{};
+   }
+};
 
 HOLO_NS_END
 

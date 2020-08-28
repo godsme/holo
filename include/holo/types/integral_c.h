@@ -24,6 +24,9 @@ using false_type = integral_c<bool, false>;
 template<bool V>
 constexpr bool_c_t<V> bool_c{};
 
+constexpr bool_c_t<true> true_c{};
+constexpr bool_c_t<false> false_c{};
+
 template<typename T, T V1, T V2>
 inline constexpr auto operator==(integral_c<T, V1> const& lhs, integral_c<T, V2> const& rhs) {
    return bool_c<V1 == V2>;

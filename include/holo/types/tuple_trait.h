@@ -17,7 +17,7 @@ template<typename T, template<typename ...> typename C>
 struct tuple_trait;
 
 template <template<typename ...> typename C, typename ... Ts>
-struct tuple_trait<tuple<Ts...>, C> {
+struct tuple_trait<type_list<Ts...>, C> {
    using type = C<typename Ts::type...>;
 };
 

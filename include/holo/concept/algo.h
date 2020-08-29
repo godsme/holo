@@ -46,6 +46,9 @@ template<typename Tag>
 struct tail_algo;
 
 template<typename Tag>
+struct take_algo;
+
+template<typename Tag>
 struct drop_algo;
 
 HOLO_NS_END

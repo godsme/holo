@@ -66,6 +66,9 @@ struct elem_algo;
 template<typename Tag>
 struct product_algo;
 
+template<typename Tag>
+struct sort_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_DEFS_H

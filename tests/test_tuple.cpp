@@ -18,6 +18,8 @@
 #include <holo/algo/drop.h>
 #include <holo/algo/head.h>
 #include <holo/algo/tail.h>
+#include <holo/algo/partition.h>
+#include <holo/types/sizeof_c.h>
 
 namespace {
    TEST_CASE("construct an empty tuple") {
@@ -202,5 +204,13 @@ namespace {
                                               holo::tuple_t<int, float, double>);
 
       static_assert(result == holo::tuple_t<int, float, double>);
+   }
+
+   TEST_CASE("tuple partition") {
+      constexpr auto xs = holo::tuple_t<int, long long, char, float, short, double, bool, long double>;
+      constexpr auto result = holo::partition([](auto elem)  {
+                                 return holo::sizeof_c<typename decltype(elem)::type> < holo::sizeof_c<size_t>;
+                              }, xs);
+      static_assert(result == holo::pair(holo::tuple_t<int, char, float, short, bool>, holo::tuple_t<long long, double, long double>));
    }
 }

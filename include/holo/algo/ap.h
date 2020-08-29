@@ -6,7 +6,7 @@
 #define GRAPH_AP_H
 
 #include <holo/types/type_list/type_list.h>
-#include <holo/types/pair.h>
+#include <holo/types/type_pair.h>
 #include <holo/algo/flatten.h>
 
 HOLO_NS_BEGIN
@@ -14,7 +14,7 @@ HOLO_NS_BEGIN
 namespace detail {
    template<typename T, typename ... Ts>
    struct ap_impl {
-      using type = type_list<pair<T, Ts> ...>;
+      using type = type_list<type_pair<T, Ts> ...>;
    };
 }
 

@@ -8,14 +8,14 @@
 #include <holo/types/type_list/type_list_t.h>
 #include <holo/concept/algo.h>
 #include <holo/algo/detail/pred.h>
-#include <holo/types/pair.h>
+#include <holo/types/type_pair.h>
 
 HOLO_NS_BEGIN
 
 namespace detail {
    template<typename PRED, typename FIRST, typename SECOND, typename ... Ts>
    struct partition_impl {
-      using type = pair<FIRST, SECOND>;
+      using type = type_pair<FIRST, SECOND>;
    };
 
    template<typename PRED, typename ... Xs, typename ... Ys, typename H, typename ... Ts>

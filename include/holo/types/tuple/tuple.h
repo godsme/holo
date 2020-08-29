@@ -20,6 +20,7 @@
 #include <holo/types/tuple/tuple_find_if.h>
 #include <holo/types/tuple/tuple_flatten.h>
 #include <holo/types/tuple/tuple_fold_left.h>
+#include <holo/types/tuple/tuple_partition.h>
 
 HOLO_NS_BEGIN
 

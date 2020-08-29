@@ -13,6 +13,7 @@
 #include <holo/algo/find_if.h>
 #include <holo/algo/transform.h>
 #include <holo/algo/flatten.h>
+#include <holo/algo/fold_left.h>
 
 namespace {
    TEST_CASE("construct an empty tuple") {
@@ -187,5 +188,15 @@ namespace {
                                         holo::tuple(holo::type_c<short>, holo::tuple(holo::type_c<long double>), holo::type_c<float>));
       constexpr auto result = holo::flatten(list);
       static_assert(result == holo::tuple_t<int, char, long, char, float, double, long long, short, long double, float>);
+   }
+
+   TEST_CASE("tuple fold left") {
+      constexpr auto result = holo::fold_left(holo::tuple{},
+                                              [](auto const& acc, auto const& elem){
+                                                 return holo::append(elem, acc);
+                                              },
+                                              holo::tuple_t<int, float, double>);
+
+      static_assert(result == holo::tuple_t<int, float, double>);
    }
 }

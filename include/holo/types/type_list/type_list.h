@@ -8,6 +8,7 @@
 #include <holo/types/type_list/type_list_t.h>
 #include <holo/types/type_list/type_list_filter.h>
 #include <holo/types/type_list/type_list_remove_if.h>
+#include <holo/types/type_list/type_list_find_if.h>
 #include <holo/types/type_list/type_list_concat.h>
 #include <holo/types/type_list/type_list_append.h>
 #include <holo/types/type_list/type_list_prepend.h>

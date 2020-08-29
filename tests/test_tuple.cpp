@@ -243,8 +243,8 @@ namespace {
       constexpr auto result = holo::sort([](auto l, auto r) {
                                  return holo::sizeof_c<typename decltype(l)::type> <
                                         holo::sizeof_c<typename decltype(r)::type>;
-                              }, holo::tuple_t<int, long long, short, char>);
+                              }, holo::tuple_t<long double, int, long long, bool, short, char>);
 
-      static_assert(result == holo::tuple_t<char, short, int, long long>);
+      static_assert(result == holo::tuple_t<bool, char, short, int, long long, long double>);
    }
 }

@@ -136,15 +136,14 @@ namespace {
       static_assert(result == holo::make_pair(holo::type_list_t<int, char, float, short, bool>, holo::type_list_t<long long, double, long double>));
    }
 
-   template <typename T> struct S;
    TEST_CASE("sort") {
-      constexpr auto result = holo::type_list_t<int, long long, short, char> |
+      constexpr auto result = holo::type_list_t<long double, int, long long, bool, short, char> |
          holo::sort([](auto l, auto r) {
             return holo::sizeof_c<typename std::decay_t<decltype(l)>::type> <
                    holo::sizeof_c<typename std::decay_t<decltype(r)>::type>;
          });
 
-      static_assert(result == holo::type_list_t<char, short, int, long long>);
+      static_assert(result == holo::type_list_t<bool, char, short, int, long long, long double>);
    }
 
    TEST_CASE("unique") {

@@ -131,8 +131,9 @@ namespace {
    }
 
    TEST_CASE("tuple contains") {
-      constexpr auto xs = holo::tuple(2.3, X{}, 2);
-      static_assert(holo::contains(2, xs) == holo::true_type{});
+      constexpr auto xs = holo::tuple(holo::size_c<3>, X{}, holo::size_c<2>);
+      static_assert(holo::contains(holo::size_c<2>, xs) == holo::true_c);
+      static_assert(holo::contains(holo::size_c<1>, xs) == holo::false_c);
    }
 
    TEST_CASE("tuple_element") {

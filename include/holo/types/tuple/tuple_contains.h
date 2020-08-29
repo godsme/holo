@@ -15,7 +15,7 @@ struct contains_algo<tuple_tag> {
 private:
    template<typename X, typename ... Xs, std::size_t ... Xn>
    constexpr static auto tuple_contains(X const& x, tuple<Xs...> const& xs, std::index_sequence<Xn...>) {
-      return ((get<Xn>(xs) == x) || ...);
+      return (std::is_same_v<decltype(get<Xn>(xs) == x), true_type> || ...);
    }
 
 public:

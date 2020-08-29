@@ -10,6 +10,7 @@
 #include <holo/algo/contains.h>
 #include <holo/algo/filter.h>
 #include <holo/algo/remove_if.h>
+#include <holo/algo/transform.h>
 
 namespace {
    TEST_CASE("construct an empty tuple") {
@@ -147,5 +148,18 @@ namespace {
          return holo::bool_c<std::is_same_v<std::decay_t<decltype(elem)>, X>>;
       }, xs);
       static_assert(ys == holo::tuple{2.3, 3});
+   }
+
+   TEST_CASE("tuple transform") {
+      constexpr auto xs = holo::tuple(2.3, X{}, 2, X{});
+      constexpr auto ys = holo::transform([](auto elem) {
+         if constexpr (std::is_arithmetic_v<decltype(elem)>) {
+            return elem + 1;
+         } else {
+            return 0;
+         }
+      }, xs);
+
+      static_assert(ys == holo::tuple{3.3, 0, 4, 0});
    }
 }

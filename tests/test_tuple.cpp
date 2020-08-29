@@ -247,4 +247,31 @@ namespace {
 
       static_assert(result == holo::tuple_t<bool, char, short, int, long long, long double>);
    }
+
+   TEST_CASE("tuple empty sort") {
+      constexpr auto result = holo::sort([](auto l, auto r) {
+         return holo::sizeof_c<typename decltype(l)::type> <
+                holo::sizeof_c<typename decltype(r)::type>;
+      }, holo::tuple_t<>);
+
+      static_assert(result == holo::tuple_t<>);
+   }
+
+   TEST_CASE("tuple single sort") {
+      constexpr auto result = holo::sort([](auto l, auto r) {
+         return holo::sizeof_c<typename decltype(l)::type> <
+                holo::sizeof_c<typename decltype(r)::type>;
+      }, holo::tuple_t<int>);
+
+      static_assert(result == holo::tuple_t<int>);
+   }
+
+   TEST_CASE("tuple double sort") {
+      constexpr auto result = holo::sort([](auto l, auto r) {
+         return holo::sizeof_c<typename decltype(l)::type> <
+                holo::sizeof_c<typename decltype(r)::type>;
+      }, holo::tuple_t<int, char>);
+
+      static_assert(result == holo::tuple_t<char, int>);
+   }
 }

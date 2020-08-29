@@ -133,25 +133,11 @@ namespace tuple_detail {
          std::index_sequence<R0, Rn...>>::type;
    };
 
-   template
-      < typename TUPLE
-      , typename LT
-      , std::size_t ... Rn>
-   struct merge_sort_impl<TUPLE, LT, std::index_sequence<>, std::index_sequence<Rn...>> {
-      using type = std::index_sequence<Rn...>;
-   };
-
-   template
-      < typename TUPLE
-      , typename LT
-      , std::size_t ... Ln>
-   struct merge_sort_impl<TUPLE, LT, std::index_sequence<Ln...>, std::index_sequence<>> {
-      using type = std::index_sequence<Ln...>;
-   };
-
+   ////////////////////////////////////////////////////////////////////////
    template<std::size_t Start, std::size_t ... Xn>
    auto make_sequence(std::index_sequence<Xn...>) -> std::index_sequence<Start+Xn...>;
 
+   ////////////////////////////////////////////////////////////////////////
    template<typename TUPLE, typename LT, typename Xn>
    struct merge_sort {
       using type = Xn;

@@ -166,7 +166,7 @@ namespace {
             holo::flatten();
 
 
-      S<decltype(result)> s;
+//      S<decltype(result)> s;
       static_assert(result == holo::type_list_t<int, char, long, char, float, double, long long, short, long double, float>);
    }
 

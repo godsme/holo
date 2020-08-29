@@ -21,7 +21,7 @@ namespace detail {
       constexpr static auto lt = [](auto elem){ return decltype(std::declval<LT>()(elem, H{})){}; };
       using PRED = decltype(lt);
       template<typename ... TS> using sort_more = typename sort_impl<LT, TS...>::type;
-      using parts = partition_t<PRED, Ts...>;
+      using parts = TL_partition_t<PRED, Ts...>;
       using lesser  = typename parts::first::template export_to<sort_more>;
       using greater = typename parts::second::template export_to<sort_more>;
       using type = typename lesser::template append_type<H>::template append_list<greater>;

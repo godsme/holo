@@ -2,6 +2,9 @@
 // Created by Darwin Yuan on 2020/8/26.
 //
 
+#ifndef HOLO_TYPE_LIST_H
+#define HOLO_TYPE_LIST_H
+
 #include <holo/types/type_list/type_list_t.h>
 #include <holo/types/type_list/type_list_elem.h>
 #include <holo/types/type_list/type_list_head.h>
@@ -21,3 +24,5 @@
 #include <holo/types/type_list/type_list_reverse.h>
 #include <holo/types/type_list/type_list_unique.h>
 #include <holo/types/type_list/type_list_product.h>
+
+#endif

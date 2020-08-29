@@ -180,7 +180,7 @@ namespace {
          }
       }, xs);
 
-      REQUIRE(matches(ys, holo::tuple{3.3, 0, 4, 0}));
+      REQUIRE(matches(ys, holo::tuple{3.3, 0, 3, 0}));
    }
 
    TEST_CASE("find if") {
@@ -242,8 +242,8 @@ namespace {
          holo::tuple_t<char, short, int>,
          holo::tuple_t<float, double>);
 
-//      static_assert(result == holo::tuple(holo::pair_t<char, float>, holo::pair_t<char, double>,
-//                                          holo::pair_t<short, float>, holo::pair_t<short, double>,
-//                                          holo::pair_t<int, float>, holo::pair_t<int, double>));
+      static_assert(result == holo::tuple(holo::pair_t<char, float>, holo::pair_t<char, double>,
+                                          holo::pair_t<short, float>, holo::pair_t<short, double>,
+                                          holo::pair_t<int, float>, holo::pair_t<int, double>));
    }
 }

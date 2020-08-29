@@ -6,7 +6,7 @@
 #define HOLO_TYPE_LIST_UNIQUE_H
 
 #include <holo/types/type_list/type_list_t.h>
-#include <holo/algo/contains.h>
+#include <holo/algo/detail/pred.h>
 
 HOLO_NS_BEGIN
 

@@ -16,6 +16,7 @@
 #include <holo/algo/remove_if.h>
 #include <holo/algo/reverse.h>
 #include <holo/algo/head.h>
+#include <holo/algo/tail.h>
 #include <holo/algo/partition.h>
 #include <holo/algo/sort.h>
 #include <holo/types/sizeof_c.h>

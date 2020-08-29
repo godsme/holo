@@ -5,64 +5,18 @@
 #ifndef GRAPH_HEAD_H
 #define GRAPH_HEAD_H
 
-#include <holo/holo_ns.h>
-#include <holo/types/type_list/type_list.h>
-#include <holo/types/size_c.h>
-#include <holo/types/integral_c.h>
 #include <holo/algo/apply_operator.h>
+#include <holo/types/size_c.h>
 
 HOLO_NS_BEGIN
 
-template <typename TUPLE>
-constexpr auto empty(const TUPLE& tuple) {
-   return bool_c<std::tuple_size_v<TUPLE> == 0>;
+template <typename T>
+constexpr auto size(T const& container) {
+   return size_c<T::size>;
 }
 
-template <typename ... Ts>
-constexpr auto size(type_list<Ts...>) {
-   return holo::size_c<sizeof...(Ts)>;
-}
-
-//////////////////////////////////////////////////////////////////////////
-struct head_c {
-private:
-   template <typename ... Ts>
-   constexpr static auto invoke(type_list<Ts...>) {
-      return typename type_list<Ts...>::head{};
-   }
-
-public:
-   template <typename ... Ts>
-   constexpr auto operator()(type_list<Ts...> stream) const {
-      return invoke(stream);
-   }
-
-   constexpr auto operator()() const {
-      return [](auto stream) { return invoke(stream); };
-   }
-};
-
-constexpr head_c head{};
-
-//////////////////////////////////////////////////////////////////////////
-struct tail_c {
-private:
-   template <typename ... Ts>
-   constexpr static auto invoke(type_list<Ts...>) {
-      return typename type_list<Ts...>::tail{};
-   }
-
-public:
-   template <typename ... Ts>
-   constexpr auto operator()(type_list<Ts...> stream) const {
-      return invoke(stream);
-   }
-   constexpr auto operator()() const {
-      return [](auto stream) { return invoke(stream); };
-   }
-};
-
-constexpr tail_c tail{};
+struct head_t : apply_operator_1_t<head_algo> {};
+constexpr head_t head{};
 
 HOLO_NS_END
 

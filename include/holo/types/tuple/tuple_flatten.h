@@ -20,7 +20,7 @@ private:
    template<typename X>
    constexpr static auto tuple_flatten(X const& x) {
       if constexpr (Is_Tuple_v<X>) {
-         return do_tuple_flatten(x, std::make_index_sequence<X::size>{});
+         return do_tuple_flatten(x, std::make_index_sequence<X::Size>{});
       } else {
          return x;
       }

@@ -37,7 +37,7 @@ template<typename ... Xs>
 struct tuple final {
    using tag_type = tuple_tag;
 
-    constexpr static std::size_t size = sizeof...(Xs);
+    constexpr static std::size_t Size = sizeof...(Xs);
 
     constexpr tuple() = default;
     constexpr tuple(tuple const& rhs) = default;

@@ -35,8 +35,8 @@ namespace {
    TEST_CASE("construct a tuple with class") {
       constexpr auto xs = holo::tuple(X{}, Y{});
       constexpr auto ys = holo::tuple(X{}, Y{});
-        static_assert(decltype(xs)::size == 2);
-        static_assert(decltype(ys)::size == 2);
+        static_assert(decltype(xs)::Size == 2);
+        static_assert(decltype(ys)::Size == 2);
         static_assert(holo::get<0>(xs) == holo::get<0>(ys));
         static_assert(holo::get<1>(xs) == holo::get<1>(ys));
         static_assert(xs == ys);

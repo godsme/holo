@@ -165,7 +165,7 @@ namespace tuple_detail {
 }
 
 template<typename TUPLE, typename LT>
-using merge_sort_t = typename tuple_detail::merge_sort<TUPLE, LT, std::make_index_sequence<TUPLE::size>>::type;
+using merge_sort_t = typename tuple_detail::merge_sort<TUPLE, LT, std::make_index_sequence<TUPLE::Size>>::type;
 
 template<> struct sort_algo<tuple_tag> {
 private:

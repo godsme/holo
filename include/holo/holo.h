@@ -31,5 +31,6 @@
 #include <holo/algo/product.h>
 #include <holo/algo/first.h>
 #include <holo/algo/second.h>
+#include <holo/algo/length.h>
 
 #endif //HOLO_HOLO_H

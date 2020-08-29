@@ -19,5 +19,6 @@
 #include <holo/types/type_list/type_list_flatten.h>
 #include <holo/types/type_list/type_list_fold_left.h>
 #include <holo/types/type_list/type_list_partition.h>
+#include <holo/types/type_list/type_list_reverse.h>
 
 #endif //GRAPH_TUPLE_H

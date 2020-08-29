@@ -54,6 +54,9 @@ struct drop_algo;
 template<typename Tag>
 struct partition_algo;
 
+template<typename Tag>
+struct reverse_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_H

@@ -5,7 +5,7 @@
 #ifndef HOLO_TUPLE_CONTAINS_H
 #define HOLO_TUPLE_CONTAINS_H
 
-#include <holo/types/tuple/tuple.h>
+#include <holo/types/tuple/tuple_t.h>
 #include <holo/types/non_comparable.h>
 
 HOLO_NS_BEGIN

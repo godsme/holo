@@ -237,13 +237,13 @@ namespace {
       static_assert(result == holo::tuple_t<int, short, long long, char>);
    }
 
-//   TEST_CASE("tuple product") {
-//      constexpr auto result = holo::product(
-//         holo::tuple_t<char, short, int>,
-//         holo::tuple_t<float, double>);
-//
-////      static_assert(result == holo::tuple(holo::pair_t<char, float>, holo::pair_t<char, double>,
-////                                          holo::pair_t<short, float>, holo::pair_t<short, double>,
-////                                          holo::pair_t<int, float>, holo::pair_t<int, double>));
-//   }
+   TEST_CASE("tuple product") {
+      constexpr auto result = holo::product(
+         holo::tuple_t<char, short, int>,
+         holo::tuple_t<float, double>);
+
+//      static_assert(result == holo::tuple(holo::pair_t<char, float>, holo::pair_t<char, double>,
+//                                          holo::pair_t<short, float>, holo::pair_t<short, double>,
+//                                          holo::pair_t<int, float>, holo::pair_t<int, double>));
+   }
 }

@@ -2,6 +2,8 @@
 // Created by Darwin Yuan on 2020/8/28.
 //
 
+#ifndef __HOLO_TUPLE_H_
+#define __HOLO_TUPLE_H_
 
 #include <holo/types/tuple/tuple_t.h>
 #include <holo/types/tuple/tuple_head.h>
@@ -23,3 +25,6 @@
 #include <holo/types/tuple/tuple_reverse.h>
 #include <holo/types/tuple/tuple_unique.h>
 #include <holo/types/tuple/tuple_product.h>
+
+#endif
+

@@ -5,7 +5,6 @@
 #ifndef HOLO_APPLY_OPERATOR_H
 #define HOLO_APPLY_OPERATOR_H
 
-#include <holo/holo_ns.h>
 #include <holo/algo/detail/tag_of.h>
 #include <holo/concept/algo.h>
 #include <utility>

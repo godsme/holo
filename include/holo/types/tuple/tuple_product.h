@@ -8,7 +8,7 @@
 #include <holo/types/tuple/tuple_t.h>
 #include <holo/algo/detail/pred.h>
 #include <holo/types/pair.h>
-//#include <holo/algo/flatten.h>
+#include <holo/algo/flatten.h>
 
 HOLO_NS_BEGIN
 

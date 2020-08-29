@@ -9,6 +9,7 @@
 #include <holo/algo/concat.h>
 #include <holo/algo/contains.h>
 #include <holo/algo/filter.h>
+#include <holo/algo/remove_if.h>
 
 namespace {
    TEST_CASE("construct an empty tuple") {
@@ -135,6 +136,15 @@ namespace {
       constexpr auto xs = holo::tuple(2.3, X{}, 2, X{});
       constexpr auto ys = holo::filter([](auto elem) {
          return holo::bool_c<!std::is_same_v<std::decay_t<decltype(elem)>, X>>;
+      }, xs);
+      static_assert(ys == holo::tuple{2.3, 3});
+   }
+
+   template<typename T> struct S;
+   TEST_CASE("tuple remove_if") {
+      constexpr auto xs = holo::tuple(2.3, X{}, 2, X{});
+      constexpr auto ys = holo::remove_if([](auto elem) {
+         return holo::bool_c<std::is_same_v<std::decay_t<decltype(elem)>, X>>;
       }, xs);
       static_assert(ys == holo::tuple{2.3, 3});
    }

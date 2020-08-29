@@ -11,6 +11,7 @@
 #include <holo/types/tuple/tuple_prepend.h>
 #include <holo/types/tuple/tuple_append.h>
 #include <holo/types/tuple/tuple_filter.h>
+#include <holo/types/tuple/tuple_remove_if.h>
 
 HOLO_NS_BEGIN
 

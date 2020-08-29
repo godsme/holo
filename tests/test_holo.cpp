@@ -23,7 +23,7 @@
 #include <holo/algo/unique.h>
 #include <holo/algo/flatten.h>
 #include <holo/algo/pipeline.h>
-#include <holo/algo/ap.h>
+#include <holo/algo/product.h>
 
 namespace {
    TEST_CASE("holo fold left") {
@@ -166,8 +166,8 @@ namespace {
       static_assert(result == holo::type_list_t<int, char, long, char, float, double, long long, short, long double, float>);
    }
 
-   TEST_CASE("ap") {
-      constexpr auto result = holo::ap(
+   TEST_CASE("product") {
+      constexpr auto result = holo::product(
          holo::type_list_t<char, short, int>,
          holo::type_list_t<float, double>);
 

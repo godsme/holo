@@ -22,5 +22,6 @@
 #include <holo/types/type_list/type_list_partition.h>
 #include <holo/types/type_list/type_list_reverse.h>
 #include <holo/types/type_list/type_list_unique.h>
+#include <holo/types/type_list/type_list_product.h>
 
 #endif //HOLO_TYPE_LIST_H

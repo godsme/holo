@@ -21,6 +21,6 @@
 #include <holo/algo/unique.h>
 #include <holo/algo/flatten.h>
 #include <holo/algo/pipeline.h>
-#include <holo/algo/ap.h>
+#include <holo/algo/product.h>
 
 #endif //HOLO_HOLO_H

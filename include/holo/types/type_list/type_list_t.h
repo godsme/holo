@@ -6,6 +6,7 @@
 #define HOLO_TYPE_LIST_T_H
 
 #include <holo/types/type_c.h>
+#include <holo/concept/algo.h>
 #include <type_traits>
 
 HOLO_NS_BEGIN

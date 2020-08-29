@@ -6,7 +6,7 @@
 #define GRAPH_HEAD_H
 
 #include <holo/holo_ns.h>
-#include <holo/types/type_list.h>
+#include <holo/types/type_list/type_list.h>
 #include <holo/types/size_c.h>
 #include <holo/types/integral_c.h>
 #include <holo/algo/partial_apply.h>

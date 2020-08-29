@@ -5,7 +5,7 @@
 #ifndef GRAPH_FLATTEN_H
 #define GRAPH_FLATTEN_H
 
-#include <holo/types/type_list.h>
+#include <holo/types/type_list/type_list.h>
 #include <holo/algo/partial_apply.h>
 
 HOLO_NS_BEGIN

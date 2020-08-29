@@ -4,7 +4,7 @@
 
 #include <catch.hpp>
 #include <holo/algo/fold_left.h>
-#include <holo/types/type_list.h>
+#include <holo/types/type_list/type_list.h>
 #include <optional>
 #include <holo/algo/find_if.h>
 #include <holo/algo/transform.h>

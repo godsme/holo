@@ -5,7 +5,7 @@
 #ifndef HOLO_PARTIAL_APPLY_H
 #define HOLO_PARTIAL_APPLY_H
 
-#include <holo/types/type_list.h>
+#include <holo/types/type_list/type_list.h>
 
 HOLO_NS_BEGIN
 

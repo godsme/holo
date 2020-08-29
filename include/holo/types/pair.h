@@ -5,7 +5,7 @@
 #ifndef GRAPH_PAIR_H
 #define GRAPH_PAIR_H
 
-#include <holo/types/type_list.h>
+#include <holo/types/type_list/type_list.h>
 #include <type_traits>
 
 HOLO_NS_BEGIN

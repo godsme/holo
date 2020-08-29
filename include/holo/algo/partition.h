@@ -5,7 +5,7 @@
 #ifndef GRAPH_PARTITION_H
 #define GRAPH_PARTITION_H
 
-#include <holo/types/type_list.h>
+#include <holo/types/type_list/type_list.h>
 #include <type_traits>
 #include <holo/types/pair.h>
 #include <holo/algo/detail/pred.h>

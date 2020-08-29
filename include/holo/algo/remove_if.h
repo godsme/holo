@@ -5,7 +5,7 @@
 #ifndef GRAPH_REMOVE_IF_H
 #define GRAPH_REMOVE_IF_H
 
-#include <holo/types/type_list.h>
+#include <holo/types/type_list/type_list.h>
 #include <holo/algo/partial_apply.h>
 
 HOLO_NS_BEGIN

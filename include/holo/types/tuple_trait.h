@@ -7,7 +7,7 @@
 
 #include <holo/holo_ns.h>
 #include <holo/types/type_c.h>
-#include <holo/types/type_list.h>
+#include <holo/types/type_list/type_list.h>
 #include <type_traits>
 
 HOLO_NS_BEGIN

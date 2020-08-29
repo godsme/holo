@@ -67,6 +67,9 @@ constexpr auto operator!=(tuple<Xs...> const& lhs, tuple<Ys...> const& rhs) noex
    return !operator==(lhs, rhs);
 }
 
+template<std::size_t I, typename Xs>
+using tuple_element = std::decay_t<decltype(detail::ebo_get<I>(std::declval<Xs>()))>;
+
 template<typename ... Xs>
 constexpr auto tuple_size(tuple<Xs...> const& lhs) {
    return size_c<sizeof...(Xs)>;

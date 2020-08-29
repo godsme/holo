@@ -8,6 +8,7 @@
 #include <holo/algo/prepend.h>
 #include <holo/algo/concat.h>
 #include <holo/algo/contains.h>
+#include <holo/algo/filter.h>
 
 namespace {
    TEST_CASE("construct an empty tuple") {
@@ -119,5 +120,22 @@ namespace {
    TEST_CASE("contains") {
       constexpr auto xs = holo::tuple(2.3, X{}, 2);
       static_assert(holo::contains(2, xs) == holo::true_type{});
+   }
+
+   TEST_CASE("tuple_element") {
+      constexpr auto xs = holo::tuple(2.3, X{}, 2);
+      static_assert(std::is_same_v<double, holo::tuple_element<0, decltype(xs)>>);
+      static_assert(std::is_same_v<X, holo::tuple_element<1, decltype(xs)>>);
+      static_assert(std::is_same_v<int, holo::tuple_element<2, decltype(xs)>>);
+      //holo::tuple_element<3, decltype(xs)>;
+   }
+
+   template<typename T> struct S;
+   TEST_CASE("tuple filter") {
+      constexpr auto xs = holo::tuple(2.3, X{}, 2, X{});
+      constexpr auto ys = holo::filter([](auto elem) {
+         return holo::bool_c<!std::is_same_v<std::decay_t<decltype(elem)>, X>>;
+      }, xs);
+      static_assert(ys == holo::tuple{2.3, 3});
    }
 }

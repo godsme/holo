@@ -10,6 +10,7 @@
 #include <holo/types/tuple/tuple_concat.h>
 #include <holo/types/tuple/tuple_prepend.h>
 #include <holo/types/tuple/tuple_append.h>
+#include <holo/types/tuple/tuple_filter.h>
 
 HOLO_NS_BEGIN
 

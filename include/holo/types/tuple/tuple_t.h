@@ -5,6 +5,7 @@
 #ifndef HOLO_TUPLE_T_H
 #define HOLO_TUPLE_T_H
 
+#include <holo/types/type_c.h>
 #include <holo/types/integral_c.h>
 #include <holo/types/detail/ebo.h>
 #include <holo/types/size_c.h>
@@ -31,8 +32,9 @@ namespace detail {
    };
 }
 
+// must be final
 template<typename ... Xs>
-struct tuple : detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...> {
+struct tuple final : detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...> {
    using tag_type = tuple_tag;
    using base = detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...>;
    using base::base;
@@ -41,8 +43,25 @@ struct tuple : detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...> {
 template<typename ... Xs>
 tuple(Xs&& ...) -> tuple<std::decay_t<Xs>...>;
 
-template<std::size_t N, typename ... Xs>
-constexpr auto get(tuple<Xs...> const& xs) noexcept -> decltype(auto) {
+template<typename ... Xs>
+constexpr tuple<type_c_t<Xs>...> tuple_t{};
+
+template<typename T>
+struct Is_Tuple : false_type {};
+
+template<typename ... Xs>
+struct Is_Tuple<tuple<Xs...>> : true_type {};
+
+template<typename T>
+constexpr bool Is_Tuple_v = Is_Tuple<std::decay_t<T>>::value();
+
+template<typename T>
+constexpr bool is_tuple(T const&) {
+   return bool_c<Is_Tuple_v<T>>;
+}
+
+template<std::size_t N, typename Xs>
+constexpr auto get(Xs const& xs) noexcept -> decltype(auto) {
    return detail::ebo_get<N>(xs);
 }
 
@@ -100,6 +119,36 @@ constexpr auto tuple_cat(tuple<Xs...> const& xs, tuple<Ys...> const& ys) {
                                std::index_sequence_for<Xs...>{},
                                std::index_sequence_for<Ys...>{});
    }
+}
+
+namespace detail {
+   template<typename ... Xs, typename X, std::size_t ... Xn>
+   constexpr auto tuple_append(X const& x, tuple<Xs...> const& xs, std::index_sequence<Xn...>) {
+      if constexpr (Is_Empty_Class<tuple<Xs...>>) {
+         return tuple{Xs{}..., x};
+      } else {
+         return tuple{get<Xn>(xs)..., x};
+      }
+   }
+}
+
+template <typename X, typename ... Xs>
+constexpr static auto tuple_append(X const& x, tuple<Xs...> const& xs) {
+   if constexpr (Is_Empty_Class<tuple<Xs...>, X>) {
+      return tuple<Xs..., X>{};
+   } else {
+      return detail::tuple_append(x, xs, std::index_sequence_for<Xs...>{});
+   }
+}
+
+template<typename ... Xs, typename ... Ys>
+constexpr auto operator+(tuple<Xs...> const& xs, tuple<Ys...> const& ys) {
+   return tuple_cat(xs, ys);
+}
+
+template<typename ... Xs, typename X>
+constexpr auto operator+(tuple<Xs...> const& xs, X const& x) {
+   return tuple_append(x, xs);
 }
 
 HOLO_NS_END

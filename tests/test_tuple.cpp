@@ -12,6 +12,7 @@
 #include <holo/algo/remove_if.h>
 #include <holo/algo/find_if.h>
 #include <holo/algo/transform.h>
+#include <holo/algo/flatten.h>
 
 namespace {
    TEST_CASE("construct an empty tuple") {
@@ -177,5 +178,14 @@ namespace {
       static_assert(holo::is_nothing(holo::find_if(pred, xs)));
       static_assert(holo::size_c<11> == holo::find_if(pred,
               holo::tuple{holo::size_c<2>, X{}, 10.2, Y{}, holo::size_c<11>, X{}}));
+   }
+
+   TEST_CASE("flatten") {
+      constexpr auto list = holo::tuple(holo::type_c<int>, holo::type_c<char>,
+                                        holo::tuple{holo::type_c<long>, holo::tuple(holo::type_c<char>), holo::type_c<float>},
+                                        holo::type_c<double>, holo::type_c<long long>,
+                                        holo::tuple(holo::type_c<short>, holo::tuple(holo::type_c<long double>), holo::type_c<float>));
+      constexpr auto result = holo::flatten(list);
+      static_assert(result == holo::tuple_t<int, char, long, char, float, double, long long, short, long double, float>);
    }
 }

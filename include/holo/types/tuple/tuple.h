@@ -14,6 +14,7 @@
 #include <holo/types/tuple/tuple_remove_if.h>
 #include <holo/types/tuple/tuple_transform.h>
 #include <holo/types/tuple/tuple_find_if.h>
+#include <holo/types/tuple/tuple_flatten.h>
 
 HOLO_NS_BEGIN
 

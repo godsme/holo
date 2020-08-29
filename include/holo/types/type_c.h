@@ -12,9 +12,6 @@ HOLO_NS_BEGIN
 
 template <typename T>
 struct type_c_t {
-   constexpr type_c_t() noexcept = default;
-   constexpr type_c_t(const type_c_t&) noexcept = default;
-   constexpr type_c_t(type_c_t&&) noexcept = default;
    using type = T;
 };
 

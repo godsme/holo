@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/29.
 //
 
-#ifndef HOLO_PAIR_H
-#define HOLO_PAIR_H
+#ifndef HOLO_TUPLE_PAIR_H
+#define HOLO_TUPLE_PAIR_H
 
 #include <holo/types/tuple/tuple_t.h>
 #include <type_traits>
@@ -74,4 +74,4 @@ constexpr pair<type_c_t<FIRST>, type_c_t<SECOND>> pair_t{};
 
 HOLO_NS_END
 
-#endif //HOLO_PAIR_H
+#endif //HOLO_TUPLE_PAIR_H

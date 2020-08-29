@@ -6,6 +6,7 @@
 #define HOLO_SORT_H
 
 #include <holo/algo/partition.h>
+#include <holo/types/type_list/type_list.h>
 #include <holo/algo/apply_operator.h>
 
 HOLO_NS_BEGIN

@@ -34,10 +34,25 @@ namespace detail {
 
 // must be final
 template<typename ... Xs>
-struct tuple final : detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...> {
+struct tuple final {
    using tag_type = tuple_tag;
-   using base = detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...>;
-   using base::base;
+
+    constexpr static std::size_t size = sizeof...(Xs);
+
+    constexpr tuple() = default;
+    constexpr tuple(tuple const& rhs) = default;
+
+    template<typename ... Ys, typename = std::enable_if_t<sizeof...(Ys) == sizeof...(Xs)>>
+    constexpr tuple(Ys const& ... args): storage_{args...} {}
+
+    template<std::size_t N>
+    constexpr auto get() const noexcept -> decltype(auto) {
+        return detail::ebo_get<N>(storage_);
+    }
+
+private:
+    using storage_type = detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...>;
+    storage_type storage_;
 };
 
 template<typename ... Xs>
@@ -62,24 +77,38 @@ constexpr bool is_tuple(T const&) {
 
 template<std::size_t N, typename Xs>
 constexpr auto get(Xs const& xs) noexcept -> decltype(auto) {
-   return detail::ebo_get<N>(xs);
+   return xs.template get<N>();
 }
 
 namespace detail {
    template<std::size_t ... I, typename Xs, typename Ys>
-   constexpr auto tuple_equals(Xs const& xs, Ys const& ys) noexcept {
+   constexpr auto tuple_equals(std::index_sequence<I...>, Xs const& xs, Ys const& ys) noexcept {
       return bool_c<(Is_True_V<decltype(get<I>(xs) == get<I>(ys))> && ...)>;
    }
+
+    template<std::size_t ... I, typename Xs, typename Ys>
+    constexpr auto tuple_matches(std::index_sequence<I...>, Xs const& xs, Ys const& ys) noexcept {
+        return ((get<I>(xs) == get<I>(ys)) && ...);
+    }
 }
 
 template<typename ... Xs, typename ... Ys>
 constexpr auto operator==(tuple<Xs...> const& lhs, tuple<Ys...> const& rhs) noexcept {
    if constexpr (std::is_same_v<tuple<Xs...>, tuple<Ys...>>) {
-      return detail::tuple_equals(lhs, rhs);
+      return detail::tuple_equals(std::index_sequence_for<Xs...>{}, lhs, rhs);
    } else {
       return false_c;
    }
 }
+
+    template<typename ... Xs, typename ... Ys>
+    constexpr auto matches(tuple<Xs...> const& lhs, tuple<Ys...> const& rhs) noexcept {
+        if constexpr (std::is_same_v<tuple<Xs...>, tuple<Ys...>>) {
+            return detail::tuple_matches(std::index_sequence_for<Xs...>{}, lhs, rhs);
+        } else {
+            return false;
+        }
+    }
 
 template<typename ... Xs, typename ... Ys>
 constexpr auto operator!=(tuple<Xs...> const& lhs, tuple<Ys...> const& rhs) noexcept {
@@ -87,7 +116,7 @@ constexpr auto operator!=(tuple<Xs...> const& lhs, tuple<Ys...> const& rhs) noex
 }
 
 template<std::size_t I, typename Xs>
-using tuple_element_t = std::decay_t<decltype(detail::ebo_get<I>(std::declval<Xs>()))>;
+using tuple_element_t = std::decay_t<decltype(get<I>(std::declval<Xs>()))>;
 
 template<typename ... Xs>
 constexpr auto tuple_size(tuple<Xs...> const& lhs) {

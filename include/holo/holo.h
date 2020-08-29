@@ -5,8 +5,12 @@
 #ifndef HOLO_HOLO_H
 #define HOLO_HOLO_H
 
+#include <holo/algo/tail.h>
 #include <holo/algo/fold_left.h>
-#include <holo/types/type_list/type_list.h>
+#include <holo/algo/take.h>
+#include <holo/algo/drop.h>
+#include <holo/algo/append.h>
+#include <holo/algo/prepend.h>
 #include <holo/algo/find_if.h>
 #include <holo/algo/transform.h>
 #include <holo/algo/filter.h>

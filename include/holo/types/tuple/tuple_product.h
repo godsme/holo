@@ -6,10 +6,9 @@
 #define HOLO_TUPLE_PRODUCT_H
 
 #include <holo/types/tuple/tuple_t.h>
-#include <holo/types/detail/filter_result.h>
 #include <holo/algo/detail/pred.h>
 #include <holo/types/pair.h>
-#include <holo/algo/flatten.h>
+//#include <holo/algo/flatten.h>
 
 HOLO_NS_BEGIN
 

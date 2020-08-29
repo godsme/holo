@@ -6,7 +6,7 @@
 #define GRAPH_SORT_H
 
 #include <holo/algo/partition.h>
-#include <holo/algo/partial_apply.h>
+#include <holo/algo/apply_operator.h>
 
 HOLO_NS_BEGIN
 
@@ -44,9 +44,9 @@ public:
       return invoke<F>(stream);
    }
 
-   template <typename F>
+   template<typename F>
    constexpr auto operator()(F&&) const {
-      __return_invoke(F);
+      return [](auto stream) { return invoke<F>(stream); };
    }
 };
 

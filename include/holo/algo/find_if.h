@@ -9,7 +9,7 @@
 #include <type_traits>
 #include <holo/types/maybe.h>
 #include <holo/algo/detail/pred.h>
-#include <holo/algo/partial_apply.h>
+#include <holo/algo/apply_operator.h>
 
 HOLO_NS_BEGIN
 
@@ -48,7 +48,7 @@ public:
 
    template<typename F>
    constexpr auto operator()(F&&) const {
-      __return_invoke(F);
+      return [](auto stream) { return invoke<F>(stream); };
    }
 };
 

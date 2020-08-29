@@ -9,7 +9,7 @@
 #include <holo/types/type_list/type_list.h>
 #include <holo/types/size_c.h>
 #include <holo/types/integral_c.h>
-#include <holo/algo/partial_apply.h>
+#include <holo/algo/apply_operator.h>
 
 HOLO_NS_BEGIN
 
@@ -38,7 +38,7 @@ public:
    }
 
    constexpr auto operator()() const {
-      __return_invoke_0();
+      return [](auto stream) { return invoke(stream); };
    }
 };
 
@@ -57,9 +57,8 @@ public:
    constexpr auto operator()(type_list<Ts...> stream) const {
       return invoke(stream);
    }
-
    constexpr auto operator()() const {
-      __return_invoke_0();
+      return [](auto stream) { return invoke(stream); };
    }
 };
 

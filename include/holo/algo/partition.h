@@ -9,7 +9,7 @@
 #include <type_traits>
 #include <holo/types/pair.h>
 #include <holo/algo/detail/pred.h>
-#include <holo/algo/partial_apply.h>
+#include <holo/algo/apply_operator.h>
 
 HOLO_NS_BEGIN
 
@@ -44,9 +44,9 @@ struct partition_c {
       return invoke<F>(stream);
    }
 
-   template <typename F>
-   constexpr auto operator()(F&& f) const {
-      __return_invoke(F);
+   template<typename F>
+   constexpr auto operator()(F&&) const {
+      return [](auto stream) { return invoke<F>(stream); };
    }
 };
 

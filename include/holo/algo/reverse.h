@@ -6,7 +6,7 @@
 #define GRAPH_REVERSE_H
 
 #include <holo/holo_ns.h>
-#include <holo/algo/partial_apply.h>
+#include <holo/algo/apply_operator.h>
 
 HOLO_NS_BEGIN
 
@@ -39,7 +39,7 @@ public:
    }
 
    constexpr auto operator()() const {
-      __return_invoke_0();
+      return [](auto stream) { return invoke(stream); };
    }
 };
 

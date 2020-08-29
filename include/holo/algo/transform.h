@@ -5,50 +5,12 @@
 #ifndef GRAPH_TRANSFORM_H
 #define GRAPH_TRANSFORM_H
 
-#include <holo/types/type_c.h>
-#include <holo/algo/partial_apply.h>
-#include <type_traits>
+#include <holo/algo/apply_operator.h>
 
 HOLO_NS_BEGIN
 
-namespace detail {
-   template<typename F, typename RESULT, typename ... Ts>
-   struct transform_impl {
-      using type = RESULT;
-   };
-
-   template<typename F, typename RESULT, typename H, typename ... Ts>
-   struct transform_impl<F, RESULT, H, Ts...> {
-      using type =
-         typename transform_impl<F
-            , typename RESULT::template append_type<std::invoke_result_t<F, H>>
-            , Ts...>::type;
-   };
-}
-
-template<typename F, typename ... Ts>
-using transform_t = typename detail::transform_impl<std::decay_t<F>, type_list<>, Ts...>::type;
-
-struct transform_c {
-private:
-   template <typename F, typename ... Ts>
-   constexpr static auto invoke(type_list<Ts...>) {
-      return transform_t<F, Ts...>{};
-   }
-
-public:
-   template <typename F, typename ... Ts>
-   constexpr auto operator()(F&&, type_list<Ts...> stream) const {
-      return invoke<F>(stream);
-   }
-
-   template <typename F>
-   constexpr auto operator()(F&&) const {
-      __return_invoke(F);
-   }
-};
-
-constexpr transform_c transform{};
+struct transform_t : apply_operator_2_t<transform_algo> {};
+constexpr transform_t transform{};
 
 HOLO_NS_END
 

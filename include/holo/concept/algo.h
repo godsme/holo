@@ -27,6 +27,9 @@ struct filter_algo;
 template<typename Tag>
 struct remove_if_algo;
 
+template<typename Tag>
+struct transform_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_H

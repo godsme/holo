@@ -22,6 +22,7 @@
 #include <holo/algo/pipeline.h>
 #include <holo/types/sizeof_c.h>
 #include <holo/algo/reverse.h>
+#include <holo/algo/unique.h>
 
 namespace {
    TEST_CASE("construct an empty tuple") {
@@ -219,5 +220,13 @@ namespace {
 
    TEST_CASE("tuple reverse") {
       static_assert(holo::tuple_t<float, double, int> == holo::reverse(holo::tuple_t<int, double, float>));
+   }
+
+   TEST_CASE("tuple unique") {
+      constexpr auto result =
+         holo::tuple_t<int, short, long long, short, char, int, long long, char, short> |
+         holo::unique();
+
+      static_assert(result == holo::tuple_t<int, short, long long, char>);
    }
 }

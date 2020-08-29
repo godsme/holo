@@ -12,29 +12,34 @@
 HOLO_NS_BEGIN
 
 namespace tuple_detail {
-   template<typename H, typename RESULT>
-   constexpr bool Contains = std::is_same_v<bool_c_t<true>, decltype(contains(std::declval<H>(), RESULT{}))>;
+   template<typename H, typename TUPLE, std::size_t ... Xn>
+   constexpr bool Contains = (Is_True_V<decltype(get<Xn>(std::declval<TUPLE>()) == std::declval<H>())> || ...);
 
-   template<typename RESULT, std::size_t N, typename ... Ts>
+   template<typename TUPLE, typename RESULT, std::size_t N, typename ... Ts>
       struct unique_impl {
          using type = RESULT;
       };
 
-      template<std::size_t ... Xn, std::size_t N, typename H, typename ... Ts>
-      struct unique_impl<std::index_sequence<Xn...>, N, H, Ts...> {
+      template<typename TUPLE, std::size_t ... Xn, std::size_t N, typename H, typename ... Ts>
+      struct unique_impl<TUPLE, std::index_sequence<Xn...>, N, H, Ts...> {
       using type = std::conditional_t<
-         true,
-         typename unique_impl<std::index_sequence<Xn...>, N+1, Ts...>::type,
-         typename unique_impl<std::index_sequence<Xn..., N>, N+1, Ts...>::type>;
+         Contains<H, TUPLE, Xn...>,
+         typename unique_impl<TUPLE, std::index_sequence<Xn...>, N+1, Ts...>::type,
+         typename unique_impl<TUPLE, std::index_sequence<Xn..., N>, N+1, Ts...>::type>;
    };
 }
 
 template<> struct unique_algo<tuple_tag> {
 private:
+   template<typename  Xs, std::size_t ... Xn>
+   constexpr static auto tuple_unique(Xs const& xs, std::index_sequence<Xn...>) {
+      return tuple{get<Xn>(xs)...};
+   }
 public:
    template<typename ... Xs>
    constexpr static auto apply(tuple<Xs...> const& xs) {
-      return tuple_transform(xs, std::index_sequence_for<Xs...>{});
+      using indices = typename tuple_detail::unique_impl<tuple<Xs...>, std::index_sequence<>, 0, Xs...>::type;
+      return tuple_unique(xs, indices{});
    }
 };
 

@@ -22,6 +22,7 @@
 #include <holo/types/tuple/tuple_fold_left.h>
 #include <holo/types/tuple/tuple_partition.h>
 #include <holo/types/tuple/tuple_reverse.h>
+#include <holo/types/tuple/tuple_unique.h>
 
 HOLO_NS_BEGIN
 

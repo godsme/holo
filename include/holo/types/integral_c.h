@@ -36,6 +36,9 @@ template<typename T>
 constexpr bool Is_Integral_Const_V = bool_c<Is_Integral_Const<T>::value()>;
 
 template<typename T>
+constexpr bool Is_True_V = bool_c<std::is_same_v<true_type, T>>;
+
+template<typename T>
 constexpr bool is_integral_const(T const& v) {
    return Is_Integral_Const_V<std::decay_t<T>>;
 }

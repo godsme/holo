@@ -26,9 +26,6 @@ namespace detail {
 
 template<typename ... Ts>
 struct type_list : detail::type_list_impl<type_list, Ts...> {
-   template<typename ... Xs>
-   constexpr type_list(Xs&&...) {}
-
    using tag_type = type_list_tag;
    constexpr static std::size_t Size = sizeof...(Ts);
 
@@ -48,8 +45,10 @@ struct type_list : detail::type_list_impl<type_list, Ts...> {
    using append_list = typename TUPLE::template export_to<append>;
 };
 
-template<typename ... Xs>
-type_list(Xs&&...) -> type_list<std::decay_t<Xs>...>;
+template<typename ... Ts>
+constexpr auto make_type_list(Ts&& ... args) -> type_list<std::decay_t<Ts>...> {
+    return {};
+}
 
 template<typename ... Ts1, typename ... Ts2>
 constexpr auto operator==(type_list<Ts1...> const& lhs, type_list<Ts2...> const& rhs) {

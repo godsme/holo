@@ -10,10 +10,10 @@
 
 HOLO_NS_BEGIN
 
-template <typename T>
-constexpr auto size(T const&) {
-   return size_c<T::size>;
-}
+//template <typename T>
+//constexpr auto size(T const&) {
+//   return size_c<T::size>;
+//}
 
 struct head_t : apply_operator_1_t<head_algo> {};
 constexpr head_t head{};

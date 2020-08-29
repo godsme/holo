@@ -28,10 +28,10 @@ struct pair {
       return get<1>(storage_);
    }
 
-   template<std::size_t I>
-   constexpr auto get() const -> decltype(auto) {
-      return get<I>(storage_);
-   }
+//   template<std::size_t I>
+//   constexpr auto get() const -> decltype(auto) {
+//      return get<I>(storage_);
+//   }
 
    template<typename  X2, typename Y2>
    constexpr auto operator==(pair<X2, Y2> const& rhs) const {
@@ -70,14 +70,14 @@ pair(X&&, Y&&) -> pair<std::decay_t<X>, std::decay_t<Y>>;
 template<> struct first_algo<pair_tag> {
    template<typename Pair>
    constexpr static auto apply(Pair const& p) {
-      return p.template get<0>();
+      return p.first();
    }
 };
 
 template<> struct second_algo<pair_tag> {
    template<typename Pair>
    constexpr static auto apply(Pair const& p) {
-      return p.template get<1>();
+      return p.second();
    }
 };
 

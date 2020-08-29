@@ -117,7 +117,7 @@ namespace {
       static_assert(holo::concat(xs, holo::tuple{Y{}, 4}) == holo::tuple(2.3, X{}, 2, Y{}, 4));
    }
 
-   TEST_CASE("contains") {
+   TEST_CASE("tuple contains") {
       constexpr auto xs = holo::tuple(2.3, X{}, 2);
       static_assert(holo::contains(2, xs) == holo::true_type{});
    }

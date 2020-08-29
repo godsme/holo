@@ -24,5 +24,9 @@ struct contains_algo;
 template<typename Tag>
 struct filter_algo;
 
+template<typename Tag>
+struct remove_if_algo;
+
 HOLO_NS_END
+
 #endif //HOLO_ALGO_H

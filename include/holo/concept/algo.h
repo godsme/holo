@@ -75,6 +75,9 @@ struct first_algo;
 template<typename Tag>
 struct second_algo;
 
+template<typename Tag>
+struct length_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_DEFS_H

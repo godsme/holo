@@ -20,7 +20,7 @@ namespace detail {
 
 template<typename ... Ts1, typename ... Ts2>
 constexpr auto ap(type_list<Ts1...> const&, type_list<Ts2...> const&) {
-   return flatten_t<typename detail::ap_impl<Ts1, Ts2...>::type ...>{};
+   return TL_flatten_t<typename detail::ap_impl<Ts1, Ts2...>::type ...>{};
 }
 
 HOLO_NS_END

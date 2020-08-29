@@ -14,5 +14,6 @@
 #include <holo/types/type_list/type_list_prepend.h>
 #include <holo/types/type_list/type_list_contains.h>
 #include <holo/types/type_list/type_list_transform.h>
+#include <holo/types/type_list/type_list_flatten.h>
 
 #endif //GRAPH_TUPLE_H

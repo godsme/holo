@@ -12,24 +12,22 @@
 HOLO_NS_BEGIN
 
 namespace detail {
-   template<typename PRED, typename RESULT, typename = void, typename ... Ts>
+   template<typename PRED, typename RESULT, typename ... Ts>
    struct remove_if_impl {
       using type = RESULT;
    };
 
-   template<typename PRED, typename RESULT, typename H, typename ... Ts>
-   struct remove_if_impl<PRED, RESULT, std::enable_if_t<!Is_Pred_Satisfied<PRED, H>>, H, Ts...> {
-      using type = typename remove_if_impl<PRED, typename RESULT::template append_type<H>, void, Ts...>::type;
-   };
-
-   template<typename PRED, typename RESULT, typename H, typename ... Ts>
-   struct remove_if_impl<PRED, RESULT, std::enable_if_t<Is_Pred_Satisfied <PRED, H>>, H, Ts...> {
-      using type = typename remove_if_impl<PRED, RESULT, void, Ts...>::type;
+   template<typename PRED, typename ... Xs, typename H, typename ... Ts>
+   struct remove_if_impl<PRED, type_list<Xs...>, H, Ts...> {
+      using type = std::conditional_t<
+            Is_Pred_Satisfied<PRED, H>,
+            typename remove_if_impl<PRED, type_list<Xs...>, Ts...>::type,
+            typename remove_if_impl<PRED, type_list<Xs..., H>, Ts...>::type>;
    };
 }
 
 template<typename F, typename ... Ts>
-using TL_remove_if_t = typename detail::remove_if_impl<F, type_list<>, void, Ts...>::type;
+using TL_remove_if_t = typename detail::remove_if_impl<F, type_list<>, Ts...>::type;
 
 template<>
 struct remove_if_algo<type_list_tag> {

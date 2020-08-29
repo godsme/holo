@@ -101,14 +101,14 @@ constexpr auto operator==(tuple<Xs...> const& lhs, tuple<Ys...> const& rhs) noex
    }
 }
 
-    template<typename ... Xs, typename ... Ys>
-    constexpr auto matches(tuple<Xs...> const& lhs, tuple<Ys...> const& rhs) noexcept {
-        if constexpr (std::is_same_v<tuple<Xs...>, tuple<Ys...>>) {
-            return detail::tuple_matches(std::index_sequence_for<Xs...>{}, lhs, rhs);
-        } else {
-            return false;
-        }
-    }
+template<typename ... Xs, typename ... Ys>
+constexpr auto matches(tuple<Xs...> const& lhs, tuple<Ys...> const& rhs) noexcept {
+   if constexpr (std::is_same_v<tuple<Xs...>, tuple<Ys...>>) {
+      return detail::tuple_matches(std::index_sequence_for<Xs...>{}, lhs, rhs);
+   } else {
+      return false;
+   }
+}
 
 template<typename ... Xs, typename ... Ys>
 constexpr auto operator!=(tuple<Xs...> const& lhs, tuple<Ys...> const& rhs) noexcept {
@@ -144,7 +144,8 @@ constexpr auto tuple_cat(tuple<Xs...> const& xs, tuple<Ys...> const& ys) {
    if constexpr (Is_Empty_Class<tuple<Xs...>, tuple<Ys...>>) {
       return tuple<Xs..., Ys...>{};
    } else {
-      return detail::tuple_cat(xs, ys,
+      return detail::tuple_cat(xs,
+                               ys,
                                std::index_sequence_for<Xs...>{},
                                std::index_sequence_for<Ys...>{});
    }

@@ -4,23 +4,8 @@
 
 #include <catch.hpp>
 #include <holo/types/tuple/tuple.h>
-
 #include <holo/holo.h>
-//#include <holo/algo/append.h>
-//#include <holo/algo/prepend.h>
-//#include <holo/algo/concat.h>
-//#include <holo/algo/contains.h>
-//#include <holo/algo/filter.h>
-//#include <holo/algo/remove_if.h>
-//#include <holo/algo/find_if.h>
-//#include <holo/algo/transform.h>
-//#include <holo/algo/flatten.h>
-//#include <holo/algo/fold_left.h>
-
-//#include <holo/algo/head.h>
-//#include <holo/algo/tail.h>
-//#include <holo/algo/partition.h>
-////#include <holo/algo/pipeline.h>
+#include <holo/algo/pipeline.h>
 //#include <holo/types/sizeof_c.h>
 //#include <holo/algo/reverse.h>
 //#include <holo/algo/unique.h>
@@ -245,5 +230,21 @@ namespace {
       static_assert(result == holo::tuple(holo::pair_t<char, float>, holo::pair_t<char, double>,
                                           holo::pair_t<short, float>, holo::pair_t<short, double>,
                                           holo::pair_t<int, float>, holo::pair_t<int, double>));
+   }
+
+   template<std::size_t Start, std::size_t ... Xn>
+   auto make_sequence(std::index_sequence<Xn...>) -> std::index_sequence<Start+Xn...>;
+
+   TEST_CASE("make_sequence") {
+      using type = decltype(make_sequence<0>(std::make_index_sequence<0>{}));
+      static_assert(std::is_same_v<std::index_sequence<>, type>);
+   }
+   TEST_CASE("tuple sort") {
+      constexpr auto result = holo::sort([](auto l, auto r) {
+                                 return holo::sizeof_c<typename decltype(l)::type> <
+                                        holo::sizeof_c<typename decltype(r)::type>;
+                              }, holo::tuple_t<int, long long, short, char>);
+
+      static_assert(result == holo::tuple_t<char, short, int, long long>);
    }
 }

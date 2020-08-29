@@ -25,6 +25,7 @@
 #include <holo/types/tuple/tuple_reverse.h>
 #include <holo/types/tuple/tuple_unique.h>
 #include <holo/types/tuple/tuple_product.h>
+#include <holo/types/tuple/tuple_sort.h>
 
 #endif
 

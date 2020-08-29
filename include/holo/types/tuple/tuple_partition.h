@@ -33,11 +33,13 @@ template<typename F, typename ... Xs>
 using tuple_partition_t = typename tuple_detail::partition_impl<F, std::index_sequence<>, std::index_sequence<>, 0, Xs...>::type;
 
 template<> struct partition_algo<tuple_tag> {
+private:
    template<typename Xs, std::size_t ... Xn>
    constexpr static auto select(Xs const& xs, std::index_sequence<Xn...>) {
       return tuple{get<Xn>(xs)...};
    }
 
+public:
    template<typename F, typename ... Xs>
    constexpr static auto apply(F&&, tuple<Xs...> const& xs) {
       using first  = typename tuple_partition_t<F, Xs...>::first;

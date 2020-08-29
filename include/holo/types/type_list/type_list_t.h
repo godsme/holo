@@ -46,12 +46,12 @@ struct type_list : detail::type_list_impl<type_list, Ts...> {
 };
 
 template<typename ... Ts>
-constexpr auto make_type_list(Ts&& ... args) -> type_list<std::decay_t<Ts>...> {
+constexpr auto make_type_list(Ts&& ...) -> type_list<std::decay_t<Ts>...> {
     return {};
 }
 
 template<typename ... Ts1, typename ... Ts2>
-constexpr auto operator==(type_list<Ts1...> const& lhs, type_list<Ts2...> const& rhs) {
+constexpr auto operator==(type_list<Ts1...> const&, type_list<Ts2...> const&) {
    return bool_c<std::is_same_v<type_list<Ts1...>, type_list<Ts2...>>>;
 }
 

@@ -39,7 +39,7 @@ template<typename T>
 constexpr bool Is_True_V = bool_c<std::is_same_v<true_type, T>>;
 
 template<typename T>
-constexpr bool is_integral_const(T const& v) {
+constexpr bool is_integral_const(T const&) {
    return Is_Integral_Const_V<std::decay_t<T>>;
 }
 
@@ -57,32 +57,32 @@ auto operator&&(bool_c_t<X>, bool_c_t<Y>) {
 }
 
 template<typename T, T V1, T V2>
-inline constexpr auto operator==(integral_c<T, V1> const& lhs, integral_c<T, V2> const& rhs) {
+inline constexpr auto operator==(integral_c<T, V1> const&, integral_c<T, V2> const&) {
    return bool_c<V1 == V2>;
 }
 
 template<typename T, T V1, T V2>
-inline constexpr auto operator!=(integral_c<T, V1> const& lhs, integral_c<T, V2> const& rhs) {
+inline constexpr auto operator!=(integral_c<T, V1> const&, integral_c<T, V2> const&) {
    return bool_c<V1 != V2>;
 }
 
 template<typename T, T V1, T V2>
-inline constexpr auto operator<(integral_c<T, V1> const& lhs, integral_c<T, V2> const& rhs) {
+inline constexpr auto operator<(integral_c<T, V1> const&, integral_c<T, V2> const&) {
    return bool_c<V1 < V2>;
 }
 
 template<typename T, T V1, T V2>
-inline constexpr auto operator<=(integral_c<T, V1> const& lhs, integral_c<T, V2> const& rhs) {
+inline constexpr auto operator<=(integral_c<T, V1> const&, integral_c<T, V2> const&) {
    return bool_c<V1 <= V2>;
 }
 
 template<typename T, T V1, T V2>
-inline constexpr auto operator>(integral_c<T, V1> const& lhs, integral_c<T, V2> const& rhs) {
+inline constexpr auto operator>(integral_c<T, V1> const&, integral_c<T, V2> const&) {
    return bool_c<(V1 > V2)>;
 }
 
 template<typename T, T V1, T V2>
-inline constexpr auto operator>=(integral_c<T, V1> const& lhs, integral_c<T, V2> const& rhs) {
+inline constexpr auto operator>=(integral_c<T, V1> const&, integral_c<T, V2> const&) {
    return bool_c<(V1 >= V2)>;
 }
 

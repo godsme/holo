@@ -13,7 +13,7 @@ HOLO_NS_BEGIN
 
 template<> struct filter_algo<tuple_tag> {
    template<typename PRED, typename ... Xs>
-   constexpr static auto apply(PRED const& pred, tuple<Xs...> const& xs) {
+   constexpr static auto apply(PRED&&, tuple<Xs...> const& xs) {
       using Indices = detail::filter_indices<detail::Is_Pred_Satisfied<PRED, Xs>...>;
       return detail::filter_result<Indices>(xs, std::make_index_sequence<Indices::cached_indices.size()>{});
    }

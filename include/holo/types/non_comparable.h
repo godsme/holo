@@ -13,12 +13,12 @@ template<typename X, typename Y>
 constexpr bool Non_Comparable = !std::is_same_v<X, Y> && !std::is_constructible_v<X, Y> && !std::is_constructible_v<Y, X>;
 
 template<typename X, typename Y, typename = std::enable_if_t<Non_Comparable<X, Y>>>
-constexpr auto operator==(X const& lhs, Y const& rhs) {
+constexpr auto operator==(X const&, Y const&) {
    return false_c;
 }
 
 template<typename X, typename Y, typename = std::enable_if_t<Non_Comparable<X, Y>>>
-constexpr auto operator!=(X const& lhs, Y const& rhs) {
+constexpr auto operator!=(X const&, Y const&) {
    return true_c;
 }
 

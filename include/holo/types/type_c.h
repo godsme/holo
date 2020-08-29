@@ -16,12 +16,12 @@ struct type_c_t {
 };
 
 template <typename U, typename V>
-inline constexpr auto operator==(type_c_t<U> const& lhs, type_c_t<V> const& rhs) noexcept {
+inline constexpr auto operator==(type_c_t<U> const&, type_c_t<V> const&) noexcept {
    return bool_c<std::is_same_v<U, V>>;
 }
 
 template <typename U, typename V>
-inline constexpr auto operator!=(type_c_t<U> const& lhs, type_c_t<V> const& rhs) noexcept {
+inline constexpr auto operator!=(type_c_t<U> const&, type_c_t<V> const&) noexcept {
    return bool_c<!std::is_same_v<U, V>>;
 }
 

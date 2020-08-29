@@ -11,7 +11,7 @@
 HOLO_NS_BEGIN
 
 template <typename T>
-constexpr auto size(T const& container) {
+constexpr auto size(T const&) {
    return size_c<T::size>;
 }
 

@@ -6,10 +6,6 @@
 #include <holo/types/tuple/tuple.h>
 #include <holo/holo.h>
 #include <holo/algo/pipeline.h>
-//#include <holo/types/sizeof_c.h>
-//#include <holo/algo/reverse.h>
-//#include <holo/algo/unique.h>
-//#include <holo/algo/product.h>
 
 namespace {
    TEST_CASE("construct an empty tuple") {
@@ -27,13 +23,13 @@ namespace {
    }
 
    struct X {
-      constexpr auto operator==(X const& rhs) const { return holo::true_c; }
-      constexpr auto operator!=(X const& rhs) const { return holo::false_c; }
+      constexpr auto operator==(X const&) const { return holo::true_c; }
+      constexpr auto operator!=(X const&) const { return holo::false_c; }
    };
 
    struct Y {
-      constexpr auto operator==(Y const& rhs) const { return holo::true_c; }
-      constexpr auto operator!=(Y const& rhs) const { return holo::false_c; }
+      constexpr auto operator==(Y const&) const { return holo::true_c; }
+      constexpr auto operator!=(Y const&) const { return holo::false_c; }
    };
 
    TEST_CASE("construct a tuple with class") {

@@ -27,7 +27,7 @@ namespace detail {
 
 template<> struct find_if_algo<tuple_tag> {
    template<typename PRED, typename ... Xs>
-   constexpr static auto apply(PRED const& pred, tuple<Xs...> const& xs) {
+   constexpr static auto apply(PRED&&, tuple<Xs...> const& xs) {
       constexpr auto N = detail::find_helper<0, PRED, Xs...>::type::value();
       if constexpr (N >= sizeof...(Xs)) {
          return nothing;

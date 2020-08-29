@@ -3,6 +3,11 @@ project(holo)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wnon-virtual-dtor \
+      -Wcast-align -Wunused -Woverloaded-virtual -Wconversion \
+      -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2 \
+      -Wno-invalid-offsetof  ")
+
 include_directories(
         "${CMAKE_CURRENT_SOURCE_DIR}/include"
         "${CMAKE_CURRENT_SOURCE_DIR}/third_party"

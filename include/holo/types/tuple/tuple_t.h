@@ -119,7 +119,7 @@ template<std::size_t I, typename Xs>
 using tuple_element_t = std::decay_t<decltype(get<I>(std::declval<Xs>()))>;
 
 template<typename ... Xs>
-constexpr auto tuple_size(tuple<Xs...> const& lhs) {
+constexpr auto tuple_size(tuple<Xs...> const&) {
    return size_c<sizeof...(Xs)>;
 }
 

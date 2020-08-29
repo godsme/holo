@@ -20,7 +20,7 @@ namespace type_list_detail {
    };
 
    template<typename ... Ts1, typename ... Ts2>
-   constexpr auto operator+(flatten_helper<type_list<Ts1...>> acc, type_list<Ts2...> elem) {
+   constexpr auto operator+(flatten_helper<type_list<Ts1...>>, type_list<Ts2...>) {
       return flatten_helper{type_list<Ts1..., Ts2...>{}};
    }
 

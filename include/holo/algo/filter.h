@@ -10,7 +10,6 @@
 HOLO_NS_BEGIN
 
 struct filter_t : apply_operator_2_t<filter_algo> {};
-
 constexpr filter_t filter{};
 
 HOLO_NS_END

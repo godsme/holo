@@ -6,6 +6,9 @@
 #define HOLO_TUPLE_H
 
 #include <holo/types/tuple/tuple_t.h>
+#include <holo/types/tuple/tuple_head.h>
+#include <holo/types/tuple/tuple_tail.h>
+#include <holo/types/tuple/tuple_drop.h>
 #include <holo/types/tuple/tuple_contains.h>
 #include <holo/types/tuple/tuple_concat.h>
 #include <holo/types/tuple/tuple_prepend.h>
@@ -37,35 +40,9 @@ constexpr auto take(tuple<Xs...> const& xs) {
    }
 }
 
-namespace detail {
-   template<std::size_t N, typename ... Xs, std::size_t ... Xn>
-   constexpr auto drop(tuple<Xs...> const& xs, std::index_sequence<Xn...>) {
-      return tuple{get<Xn+N>(xs)...};
-   }
-}
-
-template<std::size_t N, typename ... Xs, typename = std::enable_if_t<(sizeof...(Xs) >= N)>>
-constexpr auto drop(tuple<Xs...> const& xs) {
-   if constexpr (sizeof...(Xs) == N) {
-      return tuple{};
-   } else {
-      return detail::drop<N>(xs, std::make_index_sequence<sizeof...(Xs) - N>{});
-   }
-}
-
 template<std::size_t N, typename ... Xs>
 constexpr auto elem(tuple<Xs...> const& xs) {
    return get<N>(xs);
-}
-
-template<typename ... Xs>
-constexpr auto head(tuple<Xs...> const& xs) {
-   return get<0>(xs);
-}
-
-template<typename ... Xs>
-constexpr auto tail(tuple<Xs...> const& xs) {
-   return drop<1>(xs);
 }
 
 HOLO_NS_END

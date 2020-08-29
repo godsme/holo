@@ -45,6 +45,9 @@ struct head_algo;
 template<typename Tag>
 struct tail_algo;
 
+template<typename Tag>
+struct drop_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_H

@@ -14,6 +14,9 @@
 #include <holo/algo/transform.h>
 #include <holo/algo/flatten.h>
 #include <holo/algo/fold_left.h>
+#include <holo/algo/drop.h>
+#include <holo/algo/head.h>
+#include <holo/algo/tail.h>
 
 namespace {
    TEST_CASE("construct an empty tuple") {
@@ -89,9 +92,9 @@ namespace {
 
    TEST_CASE("drop from a tuple") {
       constexpr auto xs = holo::tuple(2.3, X{});
-      static_assert(holo::drop<2>(xs) == holo::tuple{});
-      static_assert(holo::drop<1>(xs) == holo::tuple{X{}});
-      static_assert(holo::drop<0>(xs) == xs);
+      static_assert(holo::drop(holo::size_c<2>, xs) == holo::tuple{});
+      static_assert(holo::drop(holo::size_c<1>, xs) == holo::tuple{X{}});
+      static_assert(holo::drop(holo::size_c<0>, xs) == xs);
       //static_assert(holo::drop<3>(xs) == xs);
    }
 

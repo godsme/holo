@@ -31,17 +31,17 @@ struct pair {
    }
 
    template<typename X1, typename Y1, typename  X2, typename Y2>
-   friend constexpr auto operator==(pair<X1, Y1> const& lhs, pair<X2, Y2> const& rhs) noexcept {
+   friend inline constexpr auto operator==(pair<X1, Y1> const& lhs, pair<X2, Y2> const& rhs) noexcept {
       return lhs.storage_ == rhs.storage_;
    }
 
    template<typename X1, typename Y1, typename ... Xs>
-   friend constexpr auto operator==(pair<X1, Y1> const& lhs, tuple<Xs...> const& rhs) noexcept {
+   friend inline constexpr auto operator==(pair<X1, Y1> const& lhs, tuple<Xs...> const& rhs) noexcept {
       return lhs.storage_ == rhs;
    }
 
    template<typename ... Xs, typename  X2, typename Y2>
-   friend constexpr auto operator==(tuple<Xs...> const& lhs, pair<X2, Y2> const& rhs) noexcept {
+   friend inline constexpr auto operator==(tuple<Xs...> const& lhs, pair<X2, Y2> const& rhs) noexcept {
       return lhs == rhs.storage_;
    }
 
@@ -68,6 +68,9 @@ template<typename ... Xs, typename  X2, typename Y2>
 constexpr auto operator!=(tuple<Xs...> const& lhs, pair<X2, Y2> const& rhs) noexcept {
    return !operator==(lhs, rhs);
 }
+
+template<typename FIRST, typename SECOND>
+constexpr pair<type_c_t<FIRST>, type_c_t<SECOND>> pair_t{};
 
 HOLO_NS_END
 

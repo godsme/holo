@@ -171,8 +171,9 @@ namespace {
          holo::type_list_t<char, short, int>,
          holo::type_list_t<float, double>);
 
-      static_assert(result == holo::type_list(holo::pair_t<char, float>, holo::pair_t<char, double>,
-         holo::pair_t<short, float>, holo::pair_t<short, double>,
-            holo::pair_t<int, float>, holo::pair_t<int, double>));
+      static_assert(result == holo::type_list(
+         holo::type_pair_t<char, float>, holo::type_pair_t<char, double>,
+         holo::type_pair_t<short, float>, holo::type_pair_t<short, double>,
+         holo::type_pair_t<int, float>, holo::type_pair_t<int, double>));
    }
 }

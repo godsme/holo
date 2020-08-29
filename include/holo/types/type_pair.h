@@ -17,7 +17,7 @@ struct type_pair : type_list<T1, T2> {
 };
 
 template<typename T1, typename T2>
-constexpr type_pair<type_c_t < T1>, type_c_t<T2>> pair_t{};
+constexpr type_pair<type_c_t< T1>, type_c_t<T2>> type_pair_t{};
 
 template<typename T1, typename T2>
 constexpr auto make_pair(T1 const&, T2 const&) {

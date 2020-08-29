@@ -10,8 +10,11 @@
 
 HOLO_NS_BEGIN
 
+struct pair_tag{};
+
 template<typename X, typename Y>
 struct pair {
+   using tag_type = pair_tag;
    constexpr pair() = default;
    template<typename X1, typename Y1>
    constexpr pair(X1&& x, Y1&& y) : storage_{x, y} {}
@@ -63,6 +66,20 @@ pair(X&&, Y&&) -> pair<std::decay_t<X>, std::decay_t<Y>>;
 //constexpr auto operator!=(tuple<Xs...> const& lhs, pair<X2, Y2> const& rhs) noexcept {
 //   return !operator==(lhs, rhs);
 //}
+
+template<> struct first_algo<pair_tag> {
+   template<typename Pair>
+   constexpr static auto apply(Pair const& p) {
+      return p.template get<0>();
+   }
+};
+
+template<> struct second_algo<pair_tag> {
+   template<typename Pair>
+   constexpr static auto apply(Pair const& p) {
+      return p.template get<1>();
+   }
+};
 
 template<typename FIRST, typename SECOND>
 constexpr pair<type_c_t<FIRST>, type_c_t<SECOND>> pair_t{};

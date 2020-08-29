@@ -5,6 +5,9 @@
 #ifndef HOLO_HOLO_H
 #define HOLO_HOLO_H
 
+#include <holo/types/char_c.h>
+#include <holo/types/tuple_trait.h>
+#include <holo/types/pair.h>
 #include <holo/algo/tail.h>
 #include <holo/algo/fold_left.h>
 #include <holo/algo/take.h>
@@ -26,5 +29,7 @@
 #include <holo/algo/flatten.h>
 #include <holo/algo/pipeline.h>
 #include <holo/algo/product.h>
+#include <holo/algo/first.h>
+#include <holo/algo/second.h>
 
 #endif //HOLO_HOLO_H

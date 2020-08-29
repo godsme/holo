@@ -69,6 +69,12 @@ struct product_algo;
 template<typename Tag>
 struct sort_algo;
 
+template<typename Tag>
+struct first_algo;
+
+template<typename Tag>
+struct second_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_DEFS_H

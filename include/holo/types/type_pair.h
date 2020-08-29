@@ -10,8 +10,11 @@
 
 HOLO_NS_BEGIN
 
+struct type_pair_tag{};
+
 template<typename T1, typename T2>
 struct type_pair : type_list<T1, T2> {
+   using tag_type = type_pair_tag;
    using first  = T1;
    using second = T2;
 };
@@ -24,15 +27,19 @@ constexpr auto make_pair(T1 const&, T2 const&) {
    return type_pair < std::decay_t<T1>, std::decay_t<T2>>{};
 }
 
-template<typename T1, typename T2>
-constexpr auto first(type_pair < T1, T2 > const&) {
-   return T1{};
-}
+template<> struct first_algo<type_pair_tag> {
+   template<typename T1, typename T2>
+   constexpr static auto apply(type_pair < T1, T2 >) {
+      return T1{};
+   }
+};
 
-template<typename T1, typename T2>
-constexpr auto second(type_pair < T1, T2 > const&) {
-   return T2{};
-}
+template<> struct second_algo<type_pair_tag> {
+   template<typename T1, typename T2>
+   constexpr static auto apply(type_pair < T1, T2 >) {
+      return T2{};
+   }
+};
 
 HOLO_NS_END
 

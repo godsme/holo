@@ -50,6 +50,9 @@ struct tuple final {
         return detail::ebo_get<N>(storage_);
     }
 
+//    template<template<typename ...> typename C>
+//    using export_type_c_to = C<typename Xs::type...>;
+
 private:
     using storage_type = detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...>;
     storage_type storage_;

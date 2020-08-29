@@ -21,6 +21,7 @@
 #include <holo/algo/partition.h>
 #include <holo/algo/pipeline.h>
 #include <holo/types/sizeof_c.h>
+#include <holo/algo/reverse.h>
 
 namespace {
    TEST_CASE("construct an empty tuple") {
@@ -213,5 +214,9 @@ namespace {
                                  return holo::sizeof_c<typename decltype(elem)::type> < holo::sizeof_c<size_t>;
                               });
       static_assert(result == holo::pair(holo::tuple_t<int, char, float, short, bool>, holo::tuple_t<long long, double, long double>));
+   }
+
+   TEST_CASE("tuple reverse") {
+      static_assert(holo::tuple_t<float, double, int> == holo::reverse(holo::tuple_t<int, double, float>));
    }
 }

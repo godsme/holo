@@ -36,6 +36,9 @@ struct find_if_algo;
 template<typename Tag>
 struct flatten_algo;
 
+template<typename Tag>
+struct fold_left_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_H

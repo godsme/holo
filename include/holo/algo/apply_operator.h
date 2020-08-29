@@ -51,6 +51,26 @@ public:
    }
 };
 
+   template<template<typename> typename ALGO>
+   struct apply_operator_3_t {
+   private:
+      template <typename ARG1, typename F, typename Xs>
+      constexpr static auto apply(ARG1&& arg1, F&& f, Xs&& xs) {
+         return ALGO<typename holo::tag_of<Xs>::type>::template apply(arg1, f, xs);
+      }
+
+   public:
+      template <typename ARG1, typename F, typename Xs>
+      constexpr auto operator()(ARG1&& arg1, F&& f, Xs&& xs) const {
+         return apply(std::forward<ARG1>(arg1), std::forward<F>(f), std::forward<Xs>(xs));
+      }
+
+      template <typename ARG1, typename F>
+      constexpr auto operator()(ARG1&& arg1, F&& f) const {
+         return [=](auto xs) { return apply(arg1, f, xs); };
+      }
+   };
+
 HOLO_NS_END
 
 #endif //HOLO_APPLY_OPERATOR_H

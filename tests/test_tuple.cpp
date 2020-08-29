@@ -180,7 +180,7 @@ namespace {
               holo::tuple{holo::size_c<2>, X{}, 10.2, Y{}, holo::size_c<11>, X{}}));
    }
 
-   TEST_CASE("flatten") {
+   TEST_CASE("tuple flatten") {
       constexpr auto list = holo::tuple(holo::type_c<int>, holo::type_c<char>,
                                         holo::tuple{holo::type_c<long>, holo::tuple(holo::type_c<char>), holo::type_c<float>},
                                         holo::type_c<double>, holo::type_c<long long>,

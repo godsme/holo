@@ -7,6 +7,7 @@
 
 #include <holo/types/tuple/tuple_t.h>
 #include <holo/types/tuple/tuple_head.h>
+#include <holo/types/tuple/tuple_elem.h>
 #include <holo/types/tuple/tuple_tail.h>
 #include <holo/types/tuple/tuple_take.h>
 #include <holo/types/tuple/tuple_drop.h>
@@ -23,14 +24,5 @@
 #include <holo/types/tuple/tuple_partition.h>
 #include <holo/types/tuple/tuple_reverse.h>
 #include <holo/types/tuple/tuple_unique.h>
-
-HOLO_NS_BEGIN
-
-template<std::size_t N, typename ... Xs>
-constexpr auto elem(tuple<Xs...> const& xs) {
-   return get<N>(xs);
-}
-
-HOLO_NS_END
 
 #endif //HOLO_TUPLE_H

@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/26.
 //
 
-#ifndef GRAPH_INTEGRAL_C_H
-#define GRAPH_INTEGRAL_C_H
+#ifndef HOLO_INTEGRAL_C_H
+#define HOLO_INTEGRAL_C_H
 
 #include <holo/holo_ns.h>
 #include <type_traits>

@@ -60,6 +60,9 @@ struct reverse_algo;
 template<typename Tag>
 struct unique_algo;
 
+template<typename Tag>
+struct elem_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_H

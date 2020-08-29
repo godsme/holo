@@ -6,6 +6,7 @@
 #define HOLO_TYPE_LIST_H
 
 #include <holo/types/type_list/type_list_t.h>
+#include <holo/types/type_list/type_list_elem.h>
 #include <holo/types/type_list/type_list_head.h>
 #include <holo/types/type_list/type_list_tail.h>
 #include <holo/types/type_list/type_list_filter.h>

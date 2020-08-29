@@ -6,8 +6,6 @@
 #define HOLO_TUPLE_UNIQUE_H
 
 #include <holo/types/tuple/tuple_t.h>
-#include <holo/types/detail/filter_result.h>
-#include <holo/algo/detail/pred.h>
 
 HOLO_NS_BEGIN
 

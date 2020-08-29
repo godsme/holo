@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/17.
 //
 
-#ifndef GRAPH_TYPE_C_H
-#define GRAPH_TYPE_C_H
+#ifndef HOLO_TYPE_C_H
+#define HOLO_TYPE_C_H
 
 #include <holo/types/integral_c.h>
 #include <type_traits>

@@ -19,11 +19,26 @@ struct integral_c {
 template<bool V>
 using bool_c_t = integral_c<bool, V>;
 
+template<bool V>
+constexpr bool_c_t<V> bool_c{};
+
 using true_type  = integral_c<bool, true>;
 using false_type = integral_c<bool, false>;
 
-template<bool V>
-constexpr bool_c_t<V> bool_c{};
+
+template<typename T>
+struct Is_Integral_Const : false_type {};
+
+template<typename T, T V>
+struct Is_Integral_Const<integral_c<T, V>> : true_type {};
+
+template<typename T>
+constexpr bool Is_Integral_Const_V = bool_c<Is_Integral_Const<T>::value()>;
+
+template<typename T>
+constexpr bool is_integral_const(T const& v) {
+   return Is_Integral_Const_V<std::decay_t<T>>;
+}
 
 constexpr bool_c_t<true> true_c{};
 constexpr bool_c_t<false> false_c{};

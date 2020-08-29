@@ -10,6 +10,7 @@
 #include <holo/algo/contains.h>
 #include <holo/algo/filter.h>
 #include <holo/algo/remove_if.h>
+#include <holo/algo/find_if.h>
 #include <holo/algo/transform.h>
 
 namespace {
@@ -126,9 +127,9 @@ namespace {
 
    TEST_CASE("tuple_element") {
       constexpr auto xs = holo::tuple(2.3, X{}, 2);
-      static_assert(std::is_same_v<double, holo::tuple_element<0, decltype(xs)>>);
-      static_assert(std::is_same_v<X, holo::tuple_element<1, decltype(xs)>>);
-      static_assert(std::is_same_v<int, holo::tuple_element<2, decltype(xs)>>);
+      static_assert(std::is_same_v<double, holo::tuple_element_t<0, decltype(xs)>>);
+      static_assert(std::is_same_v<X, holo::tuple_element_t<1, decltype(xs)>>);
+      static_assert(std::is_same_v<int, holo::tuple_element_t<2, decltype(xs)>>);
       //holo::tuple_element<3, decltype(xs)>;
    }
 
@@ -161,5 +162,20 @@ namespace {
       }, xs);
 
       static_assert(ys == holo::tuple{3.3, 0, 4, 0});
+   }
+
+   TEST_CASE("find if") {
+      constexpr auto pred = [](auto elem) {
+         if constexpr (holo::is_integral_const(elem)) {
+            return elem > holo::size_c<10>;
+         } else {
+            return holo::false_c;
+         }
+      };
+
+      constexpr auto xs = holo::tuple(2.3, X{}, 2, X{});
+      static_assert(holo::is_nothing(holo::find_if(pred, xs)));
+      static_assert(holo::size_c<11> == holo::find_if(pred,
+              holo::tuple{holo::size_c<2>, X{}, 10.2, Y{}, holo::size_c<11>, X{}}));
    }
 }

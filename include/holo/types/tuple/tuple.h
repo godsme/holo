@@ -13,6 +13,7 @@
 #include <holo/types/tuple/tuple_filter.h>
 #include <holo/types/tuple/tuple_remove_if.h>
 #include <holo/types/tuple/tuple_transform.h>
+#include <holo/types/tuple/tuple_find_if.h>
 
 HOLO_NS_BEGIN
 

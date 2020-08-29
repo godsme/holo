@@ -13,24 +13,21 @@
 HOLO_NS_BEGIN
 
 namespace detail {
-   template <typename PRED, typename = void, typename ... Xs>
+   template <typename PRED, typename ... Xs>
    struct find_if_impl {
       using type = nothing_t;
    };
 
    template <typename PRED, typename X, typename ... Xs>
-   struct find_if_impl<PRED, std::enable_if_t<Is_Pred_Satisfied<PRED, X>>, X, Xs...> {
-      using type = X;
-   };
-
-   template <typename PRED, typename X, typename ... Xs>
-   struct find_if_impl<PRED, std::enable_if_t<!Is_Pred_Satisfied<PRED, X>>, X, Xs...> {
-      using type = typename find_if_impl<PRED, void, Xs...>::type;
+   struct find_if_impl<PRED, X, Xs...> {
+      using type = std::conditional_t<Is_Pred_Satisfied<PRED, X>,
+         X,
+         typename find_if_impl<PRED, Xs...>::type>;
    };
 }
 
 template<typename F, typename ... Xs>
-using TL_find_if_t = typename detail::find_if_impl<F, void, Xs...>::type;
+using TL_find_if_t = typename detail::find_if_impl<F, Xs...>::type;
 
 template <> struct find_if_algo<type_list_tag> {
    template<typename F, typename ... Xs>

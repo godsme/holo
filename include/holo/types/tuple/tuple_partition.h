@@ -12,7 +12,7 @@
 HOLO_NS_BEGIN
 
 namespace tuple_detail {
-   template<typename PRED, typename FIRST, typename SECOND, size_t N, typename ... Ts>
+   template<typename PRED, typename FIRST, typename SECOND, std::size_t N, typename ... Ts>
    struct partition_impl {
       using type = struct {
          using first = FIRST;
@@ -20,7 +20,7 @@ namespace tuple_detail {
       };
    };
 
-   template<typename PRED, std::size_t ... Xn, std::size_t ... Yn, size_t N, typename H, typename ... Ts>
+   template<typename PRED, std::size_t ... Xn, std::size_t ... Yn, std::size_t N, typename H, typename ... Ts>
    struct partition_impl<PRED, std::index_sequence<Xn...>, std::index_sequence<Yn...>, N, H, Ts...> {
       using type = std::conditional_t<
          HOLO_NS::detail::Is_Pred_Satisfied<PRED, H>,

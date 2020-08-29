@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/26.
 //
 
-#ifndef GRAPH_CHAR_C_H
-#define GRAPH_CHAR_C_H
+#ifndef HOLO_CHAR_C_H
+#define HOLO_CHAR_C_H
 
 #include <holo/types/integral_c.h>
 
@@ -14,4 +14,4 @@ constexpr integral_c<char, V> char_c{};
 
 HOLO_NS_END
 
-#endif //GRAPH_CHAR_C_H
+#endif //HOLO_CHAR_C_H

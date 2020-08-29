@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/29.
 //
 
-#ifndef HOLO_ALGO_H
-#define HOLO_ALGO_H
+#ifndef HOLO_ALGO_DEFS_H
+#define HOLO_ALGO_DEFS_H
 
 #include <holo/holo_ns.h>
 
@@ -68,4 +68,4 @@ struct product_algo;
 
 HOLO_NS_END
 
-#endif //HOLO_ALGO_H
+#endif //HOLO_ALGO_DEFS_H

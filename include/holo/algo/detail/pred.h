@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/26.
 //
 
-#ifndef GRAPH_PRED_H
-#define GRAPH_PRED_H
+#ifndef HOLO_PRED_H
+#define HOLO_PRED_H
 
 #include <holo/types/type_c.h>
 #include <type_traits>
@@ -22,4 +22,4 @@ namespace detail {
 
 HOLO_NS_END
 
-#endif //GRAPH_PRED_H
+#endif //HOLO_PRED_H

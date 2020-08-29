@@ -6,6 +6,7 @@
 #define HOLO_TAG_OF_H
 
 #include <holo/holo_ns.h>
+#include <type_traits>
 
 HOLO_NS_BEGIN
 

@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/18.
 //
 
-#ifndef GRAPH_TRANSFORM_H
-#define GRAPH_TRANSFORM_H
+#ifndef HOLO_TRANSFORM_H
+#define HOLO_TRANSFORM_H
 
 #include <holo/algo/apply_operator.h>
 
@@ -14,4 +14,4 @@ constexpr transform_t transform{};
 
 HOLO_NS_END
 
-#endif //GRAPH_TRANSFORM_H
+#endif //HOLO_TRANSFORM_H

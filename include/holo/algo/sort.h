@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/26.
 //
 
-#ifndef GRAPH_SORT_H
-#define GRAPH_SORT_H
+#ifndef HOLO_SORT_H
+#define HOLO_SORT_H
 
 #include <holo/algo/partition.h>
 #include <holo/algo/apply_operator.h>
@@ -54,4 +54,4 @@ constexpr sort_c sort{};
 
 HOLO_NS_END
 
-#endif //GRAPH_SORT_H
+#endif //HOLO_SORT_H

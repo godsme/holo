@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/26.
 //
 
-#ifndef GRAPH_MAYBE_H
-#define GRAPH_MAYBE_H
+#ifndef HOLO_MAYBE_H
+#define HOLO_MAYBE_H
 
 #include <holo/types/integral_c.h>
 #include <type_traits>
@@ -48,4 +48,4 @@ constexpr auto is_nothing(T const& v) {
 
 HOLO_NS_END
 
-#endif //GRAPH_MAYBE_H
+#endif //HOLO_MAYBE_H

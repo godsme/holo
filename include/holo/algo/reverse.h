@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/26.
 //
 
-#ifndef GRAPH_REVERSE_H
-#define GRAPH_REVERSE_H
+#ifndef HOLO_REVERSE_H
+#define HOLO_REVERSE_H
 
 #include <holo/algo/apply_operator.h>
 
@@ -14,4 +14,4 @@ constexpr reverse_t reverse{};
 
 HOLO_NS_END
 
-#endif //GRAPH_REVERSE_H
+#endif //HOLO_REVERSE_H

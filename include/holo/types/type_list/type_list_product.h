@@ -7,7 +7,7 @@
 
 #include <holo/types/type_list/type_list.h>
 #include <holo/types/type_pair.h>
-#include <holo/algo/flatten.h>
+#include <holo/types/type_list/type_list_flatten.h>
 
 HOLO_NS_BEGIN
 

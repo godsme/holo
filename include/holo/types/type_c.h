@@ -30,4 +30,4 @@ constexpr type_c_t<T> type_c{};
 
 HOLO_NS_END
 
-#endif //GRAPH_TYPE_C_H
+#endif //HOLO_TYPE_C_H

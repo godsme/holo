@@ -2,10 +2,10 @@
 // Created by Darwin Yuan on 2020/8/26.
 //
 
-#ifndef GRAPH_PAIR_H
-#define GRAPH_PAIR_H
+#ifndef HOLO_TYPE_PAIR_H
+#define HOLO_TYPE_PAIR_H
 
-#include <holo/types/type_list/type_list.h>
+#include <holo/types/type_list/type_list_t.h>
 #include <type_traits>
 
 HOLO_NS_BEGIN
@@ -36,4 +36,4 @@ constexpr auto second(type_pair < T1, T2 > const&) {
 
 HOLO_NS_END
 
-#endif //GRAPH_PAIR_H
+#endif //HOLO_TYPE_PAIR_H

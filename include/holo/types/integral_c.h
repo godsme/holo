@@ -88,4 +88,4 @@ inline constexpr auto operator>=(integral_c<T, V1> const& lhs, integral_c<T, V2>
 
 HOLO_NS_END
 
-#endif //GRAPH_INTEGRAL_C_H
+#endif //HOLO_INTEGRAL_C_H

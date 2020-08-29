@@ -30,7 +30,7 @@ struct type_list : detail::type_list_impl<type_list, Ts...> {
    constexpr type_list(Xs&&...) {}
 
    using tag_type = type_list_tag;
-   constexpr static size_t Size = sizeof...(Ts);
+   constexpr static std::size_t Size = sizeof...(Ts);
 
    template<typename T>
    using append_type = type_list<Ts..., T>;

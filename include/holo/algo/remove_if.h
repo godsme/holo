@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/26.
 //
 
-#ifndef GRAPH_REMOVE_IF_H
-#define GRAPH_REMOVE_IF_H
+#ifndef HOLO_REMOVE_IF_H
+#define HOLO_REMOVE_IF_H
 
 #include <holo/algo/apply_operator.h>
 
@@ -14,4 +14,4 @@ constexpr remove_if_t remove_if{};
 
 HOLO_NS_END
 
-#endif //GRAPH_REMOVE_IF_H
+#endif //HOLO_REMOVE_IF_H

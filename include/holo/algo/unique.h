@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/14.
 //
 
-#ifndef GRAPH_UNIQUE_H
-#define GRAPH_UNIQUE_H
+#ifndef HOLO_UNIQUE_H
+#define HOLO_UNIQUE_H
 
 #include <holo/algo/apply_operator.h>
 
@@ -14,4 +14,4 @@ constexpr unique_t unique{};
 
 HOLO_NS_END
 
-#endif //GRAPH_UNIQUE_H
+#endif //HOLO_UNIQUE_H

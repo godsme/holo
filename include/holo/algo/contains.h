@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/26.
 //
 
-#ifndef GRAPH_CONTAINS_H
-#define GRAPH_CONTAINS_H
+#ifndef HOLO_CONTAINS_H
+#define HOLO_CONTAINS_H
 
 #include <holo/algo/apply_operator.h>
 
@@ -14,4 +14,4 @@ constexpr contains_t contains{};
 
 HOLO_NS_END
 
-#endif //GRAPH_CONTAINS_H
+#endif //HOLO_CONTAINS_H

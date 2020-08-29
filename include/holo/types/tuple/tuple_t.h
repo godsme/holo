@@ -68,7 +68,7 @@ constexpr auto get(Xs const& xs) noexcept -> decltype(auto) {
 namespace detail {
    template<std::size_t ... I, typename Xs, typename Ys>
    constexpr auto tuple_equals(Xs const& xs, Ys const& ys) noexcept {
-      return bool_c<((get<I>(xs) == get<I>(ys)) && ...)>;
+      return bool_c<(Is_True_V<decltype(get<I>(xs) == get<I>(ys))> && ...)>;
    }
 }
 

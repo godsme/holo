@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/18.
 //
 
-#ifndef GRAPH_FIND_IF_H
-#define GRAPH_FIND_IF_H
+#ifndef HOLO_FIND_IF_H
+#define HOLO_FIND_IF_H
 
 #include <holo/algo/apply_operator.h>
 
@@ -14,4 +14,4 @@ constexpr find_if_t find_if{};
 
 HOLO_NS_END
 
-#endif //GRAPH_FIND_IF_H
+#endif //HOLO_FIND_IF_H

@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/26.
 //
 
-#ifndef GRAPH_FLATTEN_H
-#define GRAPH_FLATTEN_H
+#ifndef HOLO_FLATTEN_H
+#define HOLO_FLATTEN_H
 
 #include <holo/algo/apply_operator.h>
 

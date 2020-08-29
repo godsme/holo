@@ -155,6 +155,8 @@ namespace {
       static_assert(result == holo::type_list_t<int, short, long long, char>);
    }
 
+    template<typename T> struct S;
+
    TEST_CASE("flatten") {
       constexpr auto result =
          holo::type_list(holo::type_c<int>, holo::type_c<char>,
@@ -163,6 +165,8 @@ namespace {
             holo::type_list(holo::type_c<short>, holo::type_list(holo::type_c<long double>), holo::type_c<float>)) |
             holo::flatten();
 
+
+      S<decltype(result)> s;
       static_assert(result == holo::type_list_t<int, char, long, char, float, double, long long, short, long double, float>);
    }
 

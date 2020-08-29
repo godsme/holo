@@ -2,8 +2,8 @@
 // Created by Darwin Yuan on 2020/8/17.
 //
 
-#ifndef GRAPH_FOLD_LEFT_H
-#define GRAPH_FOLD_LEFT_H
+#ifndef HOLO_FOLD_LEFT_H
+#define HOLO_FOLD_LEFT_H
 
 #include <holo/algo/apply_operator.h>
 
@@ -14,4 +14,4 @@ constexpr fold_left_t fold_left{};
 
 HOLO_NS_END
 
-#endif //GRAPH_FOLD_LEFT_H
+#endif //HOLO_FOLD_LEFT_H

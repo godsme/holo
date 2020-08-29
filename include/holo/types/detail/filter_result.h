@@ -28,7 +28,7 @@ struct filter_indices {
       constexpr std::size_t N = count(result, result + sizeof...(B), true);
       std::array<std::size_t, N> indices{};
       std::size_t* keep = &indices[0];
-      for(size_t i=0; i<sizeof...(B); i++) {
+      for(std::size_t i=0; i<sizeof...(B); i++) {
          if(result[i]) *keep++ = i;
       }
       return indices;

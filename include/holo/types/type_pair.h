@@ -22,10 +22,10 @@ struct type_pair : type_list<T1, T2> {
 template<typename T1, typename T2>
 constexpr type_pair<type_c_t< T1>, type_c_t<T2>> type_pair_t{};
 
-//template<typename T1, typename T2>
-//constexpr auto make_pair(T1 const&, T2 const&) {
-//   return type_pair < std::decay_t<T1>, std::decay_t<T2>>{};
-//}
+template<typename T1, typename T2>
+constexpr auto make_type_pair(T1 const&, T2 const&) {
+   return type_pair < std::decay_t<T1>, std::decay_t<T2>>{};
+}
 
 template<> struct first_algo<type_pair_tag> {
    template<typename T1, typename T2>

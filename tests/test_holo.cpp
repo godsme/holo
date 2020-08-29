@@ -133,7 +133,7 @@ namespace {
             return holo::sizeof_c<typename std::decay_t<decltype(elem)>::type> < holo::sizeof_c<size_t>;
          });
 
-      static_assert(result == holo::make_pair(holo::type_list_t<int, char, float, short, bool>, holo::type_list_t<long long, double, long double>));
+      static_assert(result == holo::make_type_pair(holo::type_list_t<int, char, float, short, bool>, holo::type_list_t<long long, double, long double>));
    }
 
    TEST_CASE("sort") {

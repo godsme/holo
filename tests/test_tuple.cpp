@@ -270,4 +270,10 @@ namespace {
 
       static_assert(result == holo::tuple_t<char, int>);
    }
+
+   TEST_CASE("get first") {
+      constexpr auto p1 = holo::pair(holo::size_c<19>, X{});
+      static_assert(holo::first(p1) == holo::size_c<19>);
+      static_assert(holo::second(p1) == X{});
+   }
 }

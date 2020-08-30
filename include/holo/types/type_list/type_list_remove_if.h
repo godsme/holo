@@ -32,8 +32,8 @@ using TL_remove_if_t = typename detail::remove_if_impl<F, type_list<>, Ts...>::t
 template<>
 struct remove_if_algo<type_list_tag> {
    template <typename Pred, typename ... Xs>
-   constexpr static auto apply(Pred, type_list<Xs...>) {
-      return TL_remove_if_t<Pred, Xs...>{};
+   constexpr static auto apply(Pred, type_list<Xs...>) -> TL_remove_if_t<Pred, Xs...> {
+      return {};
    }
 };
 

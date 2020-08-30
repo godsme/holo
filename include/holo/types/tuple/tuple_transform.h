@@ -15,7 +15,7 @@ template<> struct transform_algo<tuple_tag> {
 private:
    template<typename F, typename Xs, std::size_t ... Xn>
    constexpr static auto tuple_transform(F const& f, Xs const& xs, std::index_sequence<Xn...>) {
-      return tuple{f(get<Xn>(xs))...};
+      return holo::make_tuple(f(get<Xn>(xs))...);
    }
 
 public:

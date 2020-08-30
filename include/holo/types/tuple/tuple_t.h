@@ -25,7 +25,7 @@ namespace detail {
       constexpr static std::size_t size = sizeof...(Xs);
 
       constexpr tuple_impl() = default;
-      constexpr tuple_impl(tuple_impl const& rhs) = default;
+//      constexpr tuple_impl(tuple_impl const& rhs) = default;
       template<typename ... Ys>
       constexpr tuple_impl(Ys const& ... args)
          : ebo<I, Xs>{static_cast<Xs const&>(args)}... {}
@@ -39,7 +39,7 @@ struct tuple final {
     constexpr static std::size_t Size = sizeof...(Xs);
 
     constexpr tuple() = default;
-    constexpr tuple(tuple const& rhs) = default;
+    //constexpr tuple(tuple const& rhs) = delete;
 
     template<typename ... Ys, typename = std::enable_if_t<sizeof...(Ys) == sizeof...(Xs)>>
     constexpr tuple(Ys const& ... args): storage_{args...} {}
@@ -57,14 +57,6 @@ private:
 template<typename ... Xs>
 tuple(Xs&& ...) -> tuple<std::decay_t<Xs>...>;
 
-template<typename ... Xs>
-constexpr auto make_tuple(Xs&& ... xs) -> tuple<std::decay_t<Xs>...> {
-   return tuple{std::forward<Xs>(xs) ...};
-}
-
-template<typename ... Xs>
-constexpr tuple<type_c_t<Xs>...> tuple_t{};
-
 template<typename T>
 struct Is_Tuple : false_type {};
 
@@ -78,6 +70,20 @@ template<typename T>
 constexpr bool is_tuple(T const&) {
    return bool_c<Is_Tuple_v<T>>;
 }
+
+template<typename ... Xs>
+constexpr auto make_tuple(Xs&& ... xs) -> tuple<std::decay_t<Xs>...> {
+   if constexpr (sizeof...(Xs) == 1 && (Is_Tuple_v<std::decay_t<Xs>> && ...)) {
+      constexpr auto result = tuple<std::decay_t<Xs>...>{};
+      static_assert(Is_Tuple_v<std::decay_t<decltype(result.template get<0>())>>);
+   }
+   return tuple<std::decay_t<Xs>...>{std::forward<Xs>(xs) ...};
+}
+
+template<typename ... Xs>
+constexpr tuple<type_c_t<Xs>...> tuple_t{};
+
+
 
 template<std::size_t N, typename Xs>
 constexpr auto get(Xs const& xs) noexcept -> decltype(auto) {

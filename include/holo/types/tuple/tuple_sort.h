@@ -109,7 +109,7 @@ template<> struct sort_algo<tuple_tag> {
 private:
    template<typename Xs, std::size_t ... Xn>
    constexpr static auto create(Xs const& xs, std::index_sequence<Xn...>) {
-      return tuple{get<Xn>(xs) ...};
+      return holo::make_tuple(get<Xn>(xs) ...);
    }
 
 public:

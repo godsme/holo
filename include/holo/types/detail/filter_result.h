@@ -46,7 +46,7 @@ struct filter_indices {
 
 template<typename Indices, std::size_t ... Yn, typename Xs>
 constexpr auto filter_result(Xs const& xs, std::index_sequence<Yn...>) {
-   return tuple{get<Indices::cached_indices[Yn]>(xs)...};
+   return holo::make_tuple(get<Indices::cached_indices[Yn]>(xs)...);
 }
 
 } HOLO_NS_END

@@ -15,9 +15,9 @@ private:
    template<typename ... Xs, typename X, std::size_t ... Xn>
    constexpr static auto tuple_prepend(X const& x, tuple<Xs...> const& xs, std::index_sequence<Xn...>) {
       if constexpr (Is_Empty_Class<tuple<Xs...>>) {
-         return tuple{x, Xs{}...};
+         return holo::make_tuple(x, Xs{}...);
       } else {
-         return tuple{x, get<Xn>(xs)...};
+         return holo::make_tuple(x, get<Xn>(xs)...);
       }
    }
 

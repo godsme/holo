@@ -31,8 +31,8 @@ using TL_transform_t = typename detail::transform_impl<std::decay_t<F>, type_lis
 template<>
 struct transform_algo<type_list_tag> {
    template <typename F, typename ... Xs>
-   constexpr static auto apply(F, type_list<Xs...>) {
-      return TL_transform_t<F, Xs...>{};
+   constexpr static auto apply(F, type_list<Xs...>) -> TL_transform_t<F, Xs...> {
+      return {};
    }
 };
 

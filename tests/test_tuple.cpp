@@ -290,4 +290,22 @@ namespace {
    TEST_CASE("tuple length") {
       static_assert(holo::length(holo::tuple_t<char, bool, short, int, long long>) == 5);
    }
+
+//   TEST_CASE("tuple tuple transform") {
+//      constexpr auto xs = holo::tuple_t<char, bool>;
+//      constexpr auto ys = xs | holo::transform([](auto elem) {
+//         return holo::make_tuple(elem);
+//      });
+//
+//      static_assert(ys == holo::tuple{holo::tuple{holo::type_c<char>}, holo::tuple{holo::type_c<bool>}});
+//   }
+
+   TEST_CASE("tuple tuple transform 1") {
+      constexpr auto xs = holo::tuple_t<char>;
+      auto ys = xs | holo::transform([](auto elem) {
+         return holo::make_tuple(elem);
+      });
+
+      static_assert(ys == holo::make_tuple(holo::tuple{holo::type_c<char>}));
+   }
 }

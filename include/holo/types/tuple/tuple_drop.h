@@ -14,7 +14,7 @@ template<> struct drop_algo<tuple_tag> {
 private:
    template<std::size_t N, typename ... Xs, std::size_t ... Xn>
    constexpr static auto tuple_drop(tuple<Xs...> const& xs, std::index_sequence<Xn...>) {
-      return tuple{get<Xn+N>(xs)...};
+      return holo::make_tuple(get<Xn+N>(xs)...);
    }
 
 public:

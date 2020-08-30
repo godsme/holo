@@ -14,7 +14,7 @@ template<> struct reverse_algo<tuple_tag> {
 private:
    template<typename Xs, std::size_t ... Xn>
    constexpr static auto tuple_reverse(Xs const& xs, std::index_sequence<Xn...>) {
-      return tuple{get<sizeof...(Xn) - 1 - Xn>(xs)...};
+      return holo::make_tuple(get<sizeof...(Xn) - 1 - Xn>(xs)...);
    }
 
 public:

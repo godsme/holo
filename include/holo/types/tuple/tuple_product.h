@@ -15,7 +15,7 @@ template<> struct product_algo<tuple_tag> {
 private:
    template<typename X, typename Ys, std::size_t ... Yn>
    constexpr static auto product_2(X const& x, Ys const& ys, std::index_sequence<Yn...>) {
-      return tuple{ pair{x, get<Yn>(ys)}... };
+      return holo::make_tuple( pair{x, get<Yn>(ys)}... );
    }
 
    template<typename Xs, typename ... Ys, std::size_t ... Xn>

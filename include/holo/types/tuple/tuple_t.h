@@ -165,9 +165,9 @@ namespace detail {
    template<typename ... Xs, typename X, std::size_t ... Xn>
    constexpr auto tuple_append(X const& x, tuple<Xs...> const& xs, std::index_sequence<Xn...>) {
       if constexpr (Is_Empty_Class<tuple<Xs...>>) {
-         return tuple{Xs{}..., x};
+         return tuple<Xs..., X>{Xs{}..., x};
       } else {
-         return tuple{get<Xn>(xs)..., x};
+         return tuple<Xs..., X>{get<Xn>(xs)..., x};
       }
    }
 }

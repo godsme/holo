@@ -40,6 +40,9 @@ template<typename Tag>
 struct fold_left_algo;
 
 template<typename Tag>
+struct fold_left_1_algo;
+
+template<typename Tag>
 struct head_algo;
 
 template<typename Tag>

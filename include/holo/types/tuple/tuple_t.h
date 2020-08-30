@@ -21,47 +21,32 @@ constexpr bool Is_Empty_Class = (std::is_empty_v<Ts> && ...);
 struct tuple_tag {};
 
 namespace detail {
-   template<typename Indices, typename ... Xs>
-   struct tuple_impl;
+   template<typename Xn, typename ... Xs>
+   struct tuple_env;
 
-   template<std::size_t ... I, typename ... Xs>
-   struct tuple_impl<std::index_sequence<I...>, Xs...> : ebo<I, Xs>... {
-      constexpr static std::size_t size = sizeof...(Xs);
+   template<std::size_t ... Xn, typename ... Xs>
+   struct tuple_env<std::index_sequence<Xn...>, Xs...> {
+      template<std::size_t I> struct EBI {};
+      struct instance : ebo<EBI<Xn>, Xs>... {
+         constexpr static std::size_t Size = sizeof...(Xn);
+         template<std::size_t I> using ebi = EBI<I>;
+         constexpr instance() = default;
+         template<typename ... Ys>
+         constexpr instance(Ys&& ... ys) : ebo<ebi<Xn>, Xs>{ys} ...
+         {}
 
-      constexpr tuple_impl() = default;
-//      constexpr tuple_impl(tuple_impl const& rhs) = default;
-      template<typename ... Ys>
-      constexpr tuple_impl(Ys const& ... args)
-         : ebo<I, Xs>{static_cast<Xs const&>(args)}... {}
+      };
    };
+
+   template<typename ... Xs>
+   using tuple_env_t = typename detail::tuple_env<std::index_sequence_for<Xs...>, Xs...>::instance;
 }
 
 template<typename ... Xs>
-struct tuple final {
+struct tuple  : detail::tuple_env_t<Xs...> {
    using tag_type = tuple_tag;
-
-    constexpr static std::size_t Size = sizeof...(Xs);
-
-    constexpr tuple() = default;
-    //constexpr tuple(tuple const& rhs) = delete;
-
-    template<typename ... Ys, typename = std::enable_if_t<sizeof...(Ys) == sizeof...(Xs)>>
-    constexpr tuple(Ys const& ... args): storage_{args...} {}
-
-    template<std::size_t N>
-    constexpr auto get() const noexcept -> decltype(auto) {
-        return detail::ebo_get<N>(storage_);
-    }
-
-private:
-    using storage_type = detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...>;
-
-public:
-    constexpr static bool Is_Empty = Is_Empty_Class<storage_type>;
-
-private:
-
-    storage_type storage_;
+   using base = detail::tuple_env_t<Xs...>;
+   using base::base;
 };
 
 template<typename ... Xs>
@@ -83,31 +68,18 @@ constexpr bool is_tuple(T const&) {
 
 template<typename ... Xs>
 constexpr auto make_tuple(Xs&& ... xs) -> tuple<std::decay_t<Xs>...> {
-   if constexpr (sizeof...(Xs) == 1 && (Is_Tuple_v<std::decay_t<Xs>> && ...)) {
-      constexpr auto result = tuple<std::decay_t<Xs>...>{};
-      static_assert(Is_Tuple_v<std::decay_t<decltype(result.template get<0>())>>);
-   }
    return tuple<std::decay_t<Xs>...>{std::forward<Xs>(xs) ...};
 }
 
 template<typename ... Xs>
 constexpr tuple<type_c_t<Xs>...> tuple_t{};
 
-template<typename T, typename = void>
-struct Empty : false_type {};
-
 template<typename ... Ts>
-struct Empty<tuple<Ts...>, std::enable_if_t<tuple<Ts...>::Is_Empty>> : true_type {};
+constexpr bool Is_Empty_Object = (std::is_empty_v<std::decay_t<Ts>> && ...);
 
-template<typename T>
-struct Empty<T, std::enable_if_t<std::is_empty_v<T>>> : true_type {};
-
-template<typename ... Ts>
-constexpr bool Is_Empty_Object = (Empty<std::decay_t<Ts>>::value() && ...);
-
-template<std::size_t N, typename Xs>
-constexpr auto get(Xs const& xs) noexcept -> decltype(auto) {
-   return xs.template get<N>();
+template<std::size_t N, typename ... Xs>
+constexpr auto get(tuple<Xs...> const& xs) noexcept -> decltype(auto) {
+   return detail::ebo_get<typename tuple<Xs...>::template ebi<N>>(xs);
 }
 
 namespace detail {

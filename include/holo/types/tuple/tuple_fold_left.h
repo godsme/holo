@@ -25,8 +25,8 @@ template<> struct fold_left_algo<tuple_tag> {
 
    template<typename INIT, typename F, typename ... Xs>
    constexpr static auto apply(INIT&& init, F&& f, tuple<Xs...> const& xs) {
-      //return tuple_fold_left(std::forward<INIT>(init), std::forward<F>(f), xs, std::index_sequence_for<Xs...>{});
-      return tuple_fold_left_1(std::forward<INIT>(init), std::forward<F>(f), xs, std::index_sequence_for<Xs...>{});
+      return tuple_fold_left(std::forward<INIT>(init), std::forward<F>(f), xs, std::index_sequence_for<Xs...>{});
+      //return tuple_fold_left_1(std::forward<INIT>(init), std::forward<F>(f), xs, std::index_sequence_for<Xs...>{});
    }
 };
 

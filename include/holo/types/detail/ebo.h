@@ -13,12 +13,12 @@ HOLO_NS_BEGIN namespace detail {
 template<typename T>
 constexpr bool Is_Non_Final_Class = std::is_class_v<T> && !std::is_final_v<T>;
 
-template<std::size_t K, typename V,
+template<typename K, typename V,
    bool = Is_Non_Final_Class<V>,
    typename = std::enable_if_t<std::is_copy_constructible_v<V> && std::is_default_constructible_v<V>>>
 struct ebo;
 
-template<std::size_t K, typename V>
+template<typename K, typename V>
 struct ebo<K, V, true> : V {
    constexpr ebo() = default;
    constexpr explicit ebo(V const &v) : V{v} {}
@@ -28,7 +28,7 @@ struct ebo<K, V, true> : V {
    constexpr ebo(T const &rhs) : V{rhs} {}
 };
 
-template<std::size_t K, typename V>
+template<typename K, typename V>
 struct ebo<K, V, false> {
    constexpr ebo() = default;
    constexpr explicit ebo(V const &v) : data_{v} {}
@@ -39,12 +39,12 @@ struct ebo<K, V, false> {
    V data_;
 };
 
-template<std::size_t K, typename V>
+template<typename K, typename V>
 constexpr auto ebo_get(ebo<K, V, true> const &x) -> V const & {
    return x;
 }
 
-template<std::size_t K, typename V>
+template<typename K, typename V>
 constexpr auto ebo_get(ebo<K, V, false> const &x) -> V const & {
    return x.data_;
 }

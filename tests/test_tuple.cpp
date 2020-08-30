@@ -3,9 +3,7 @@
 //
 
 #include <catch.hpp>
-#include <holo/types/tuple/tuple.h>
 #include <holo/holo.h>
-#include <holo/algo/pipeline.h>
 
 namespace {
    TEST_CASE("construct an empty tuple") {
@@ -287,5 +285,9 @@ namespace {
       constexpr auto p1 = holo::pair(holo::size_c<19>, X{});
       static_assert(holo::first(p1) == holo::size_c<19>);
       static_assert(holo::second(p1) == X{});
+   }
+
+   TEST_CASE("tuple length") {
+      static_assert(holo::length(holo::tuple_t<char, bool, short, int, long long>) == 5);
    }
 }

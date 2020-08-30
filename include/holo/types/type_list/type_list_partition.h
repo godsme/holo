@@ -33,8 +33,8 @@ using TL_partition_t = typename detail::partition_impl<std::decay_t<F>, type_lis
 template<>
 struct partition_algo<type_list_tag> {
    template <typename F, typename ... Xs>
-   constexpr static auto apply(F&&, type_list<Xs...>) {
-      return TL_partition_t<F, Xs...>{};
+   constexpr static auto apply(F&&, type_list<Xs...>) -> TL_partition_t<F, Xs...> {
+      return {};
    }
 };
 

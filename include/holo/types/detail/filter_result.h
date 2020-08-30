@@ -21,13 +21,21 @@ constexpr auto count(T const* begin, T const* end, T value) -> std::size_t {
    return c;
 }
 
+template<typename T, std::size_t Size>
+struct array {
+   constexpr array() = default;
+   constexpr auto size() const -> std::size_t { return Size; }
+   constexpr auto operator[](std::size_t i) const -> T const& { return data_[i]; }
+   T data_[Size];
+};
+
 template<bool ... B>
 struct filter_indices {
    constexpr static auto compute() {
       constexpr bool result[] = { B..., false};
       constexpr std::size_t N = count(result, result + sizeof...(B), true);
-      std::array<std::size_t, N> indices{};
-      std::size_t* keep = &indices[0];
+      array<std::size_t, N> indices{};
+      std::size_t* keep = indices.data_;
       for(std::size_t i=0; i<sizeof...(B); i++) {
          if(result[i]) *keep++ = i;
       }

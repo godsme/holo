@@ -32,7 +32,6 @@ namespace detail {
    };
 }
 
-// must be final
 template<typename ... Xs>
 struct tuple final {
    using tag_type = tuple_tag;
@@ -50,9 +49,6 @@ struct tuple final {
         return detail::ebo_get<N>(storage_);
     }
 
-//    template<template<typename ...> typename C>
-//    using export_type_c_to = C<typename Xs::type...>;
-
 private:
     using storage_type = detail::tuple_impl<std::index_sequence_for<Xs...>, Xs...>;
     storage_type storage_;
@@ -60,6 +56,11 @@ private:
 
 template<typename ... Xs>
 tuple(Xs&& ...) -> tuple<std::decay_t<Xs>...>;
+
+template<typename ... Xs>
+constexpr auto make_tuple(Xs&& ... xs) -> tuple<std::decay_t<Xs>...> {
+   return tuple{std::forward<Xs>(xs) ...};
+}
 
 template<typename ... Xs>
 constexpr tuple<type_c_t<Xs>...> tuple_t{};

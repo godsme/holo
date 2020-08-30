@@ -20,18 +20,18 @@ struct pair {
    constexpr pair(X1&& x, Y1&& y) : storage_{x, y} {}
    constexpr pair(pair const& rhs) = default;
 
-   constexpr auto first() const {
-      return get<0>(storage_);
+   constexpr auto first() const -> decltype(auto) {
+      return holo::get<0>(storage_);
    }
 
-   constexpr auto second() const {
-      return get<1>(storage_);
+   constexpr auto second() const -> decltype(auto) {
+      return holo::get<1>(storage_);
    }
 
-//   template<std::size_t I>
-//   constexpr auto get() const -> decltype(auto) {
-//      return get<I>(storage_);
-//   }
+   template<std::size_t I>
+   constexpr auto get() const -> decltype(auto) {
+      return holo::get<I>(storage_);
+   }
 
    template<typename  X2, typename Y2>
    constexpr auto operator==(pair<X2, Y2> const& rhs) const {
@@ -81,8 +81,8 @@ template<> struct second_algo<pair_tag> {
    }
 };
 
-template<typename FIRST, typename SECOND>
-constexpr pair<type_c_t<FIRST>, type_c_t<SECOND>> pair_t{};
+template<typename T1, typename T2>
+constexpr pair<type_c_t<T1>, type_c_t<T2>> pair_t{};
 
 HOLO_NS_END
 

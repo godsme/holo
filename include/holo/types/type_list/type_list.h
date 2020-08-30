@@ -9,6 +9,7 @@
 #include <holo/types/type_list/type_list_elem.h>
 #include <holo/types/type_list/type_list_head.h>
 #include <holo/types/type_list/type_list_tail.h>
+#include <holo/types/type_list/type_list_length.h>
 #include <holo/types/type_list/type_list_filter.h>
 #include <holo/types/type_list/type_list_remove_if.h>
 #include <holo/types/type_list/type_list_find_if.h>

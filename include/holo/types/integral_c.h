@@ -33,10 +33,10 @@ template<typename T, T V>
 struct Is_Integral_Const<integral_c<T, V>> : true_type {};
 
 template<typename T>
-constexpr bool Is_Integral_Const_V = bool_c<Is_Integral_Const<T>::value()>;
+constexpr auto Is_Integral_Const_V = Is_Integral_Const<T>::value();
 
 template<typename T>
-constexpr bool Is_True_V = bool_c<std::is_same_v<true_type, T>>;
+constexpr auto Is_True_V = std::is_same_v<true_type, T>;
 
 template<typename T>
 constexpr bool is_integral_const(T const&) {

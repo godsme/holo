@@ -16,7 +16,7 @@ private:
    template<typename X, typename ... Xs, std::size_t ... Xn>
    constexpr static auto tuple_contains(X const& x, tuple<Xs...> const& xs, std::index_sequence<Xn...>) {
       static_assert((Is_Integral_Const_V<decltype(get<Xn>(xs) == x)> || ...), "'==' should return an integral constant");
-      return (Is_True_V<decltype(get<Xn>(xs) == x)> || ...);
+      return bool_c<(Is_True_V<decltype(get<Xn>(xs) == x)> || ...)>;
    }
 
 public:

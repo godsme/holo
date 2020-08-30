@@ -56,6 +56,11 @@ private:
 template<typename X, typename Y>
 pair(X&&, Y&&) -> pair<std::decay_t<X>, std::decay_t<Y>>;
 
+template<typename X, typename Y>
+constexpr auto make_pair(X&& x, Y&& y) -> pair<std::decay_t<X>, std::decay_t<Y>> {
+   return pair{x, y};
+}
+
 //
 //template<typename X1, typename Y1, typename ... Xs>
 //constexpr auto operator!=(pair<X1, Y1> const& lhs, tuple<Xs...> const& rhs) noexcept {

@@ -20,6 +20,11 @@ struct tuple_trait<tuple<Ts...>, C> {
    using type = C<typename Ts::type...>;
 };
 
+template <template<typename ...> typename C, typename ... Ts>
+struct tuple_trait<type_list<Ts...>, C> {
+   using type = C<typename Ts::type...>;
+};
+
 template<typename T, template<typename ...> typename C>
 using tuple_trait_t = typename tuple_trait<std::decay_t<T>, C>::type;
 

@@ -1,315 +1,284 @@
 ////
 //// Created by Darwin Yuan on 2020/8/30.
 ////
-//
-//#include <holo/holo.h>
-//#include <catch.hpp>
-//#include <optional>
-//
-//struct device_info {
-//   const uint8_t device_id;
-//   const bool is_preview;
-//
-//   inline constexpr auto tie() const noexcept {
-//      return std::tie(device_id, is_preview);
-//   }
-//};
-//
-//inline constexpr auto operator==(device_info const& lhs, device_info const& rhs) noexcept -> bool {
-//   return lhs.tie() == rhs.tie();
-//}
-//
-//inline constexpr auto operator!=(device_info const& lhs, device_info const& rhs) noexcept -> bool {
-//   return !operator==(lhs, rhs);
-//}
-//
-//inline constexpr auto operator<(device_info const& lhs, device_info const& rhs) noexcept -> bool {
-//   return lhs.tie() < rhs.tie();
-//}
-//
-//inline constexpr auto operator<=(device_info const& lhs, device_info const& rhs) noexcept -> bool {
-//   return lhs.tie() <= rhs.tie();
-//}
-//
-//inline constexpr auto operator>(device_info const& lhs, device_info const& rhs) noexcept -> bool {
-//   return lhs.tie() > rhs.tie();
-//}
-//
-//inline constexpr auto operator>=(device_info const& lhs, device_info const& rhs) noexcept -> bool {
-//   return lhs.tie() >= rhs.tie();
-//}
-//
-//
-//struct root_state {
-//   device_info const* device_info_{};
-//   size_t size_{};
-//
-//   constexpr auto get_device_info(uint8_t device_id) const -> struct device_info const* {
-//      for(size_t i=0; i < size_; i++) {
-//         if(device_info_[i].device_id == device_id) {
-//            return device_info_ + i;
-//         }
-//      }
-//      return nullptr;
-//   }
-//
-//   auto cleanup() {
-//      device_info_ = nullptr;
-//      size_ = 0;
-//   }
-//};
-//
-//inline constexpr auto operator==(root_state const& lhs, root_state const& rhs) noexcept -> bool {
-//   if(lhs.size_ != rhs.size_) return false;
-//   for(size_t i=0; i<lhs.size_; i++) {
-//      if(lhs.device_info_[i] != rhs.device_info_[i]) return false;
-//   }
-//   return true;
-//}
-//
-//inline constexpr auto operator!=(root_state const& lhs, root_state const& rhs) noexcept -> bool {
-//   return !operator==(lhs, rhs);
-//}
-//
-//
-/////////////////////////////////////////////////////////////////////////////////
-//template<typename DEVICE>
-//struct preview_tag {
-//   constexpr static auto Device_Id = DEVICE::Device_Id;
-//   constexpr static auto Is_Preview = true;
-//};
-//
-//namespace detail {
-//   template<typename DEVICE, typename = void>
-//   struct device_trait {
-//      constexpr static auto Device_Id = DEVICE::Device_Id;
-//      constexpr static auto Is_Preview = false;
-//   };
-//
-//   template<typename DEVICE>
-//   struct device_trait<DEVICE, std::enable_if_t<DEVICE::Is_Preview>> : DEVICE {};
-//}
-//
-/////////////////////////////////////////////////////////////////////////////////
-//template<typename ... DEVICEs>
-//struct device_state {
-//   constexpr static size_t Num_Of_Devices = sizeof...(DEVICEs);
-//   constexpr static auto Sorted_Devices =
-//      holo::sort([](auto l, auto r) {
-//         return holo::char_c<decltype(l)::type::Device_Id>
-//                <
-//                holo::char_c<decltype(r)::type::Device_Id>;
-//      }, holo::tuple_t<detail::device_trait<DEVICEs>...>);
-//
-//   template<typename ... Ts>
-//   struct devices_type {
-//      constexpr static device_info Devices[] = {
-//         {Ts::Device_Id, Ts::Is_Preview}...
-//      };
-//      constexpr static root_state Root_State { .device_info_ = Devices, .size_ = Num_Of_Devices };
-//   };
-//
-//   using devices = holo::tuple_trait_t<decltype(Sorted_Devices), devices_type>;
-//   constexpr static auto Devices = devices::Devices;
-//
-//   constexpr static auto Root_State = devices::Root_State;
-//
-//   template<typename DEVICE>
-//   inline static constexpr auto content_equal() -> bool {
-//      for(size_t i=0; i<Num_Of_Devices; i++) {
-//         if (Devices[i] != DEVICE::Devices[i]) {
-//            return false;
-//         }
-//      }
-//      return true;
-//   }
-//
-//   template<typename DEVICE>
-//   inline static constexpr auto equals() noexcept {
-//      if constexpr (Num_Of_Devices != DEVICE::Num_Of_Devices) {
-//         return holo::bool_c<false>;
-//      } else {
-//         if constexpr (content_equal<DEVICE>()) {
-//            return holo::bool_c<true>;
-//         } else {
-//            return holo::bool_c<false>;
-//         }
-//      }
-//   }
-//
-//   template<typename DEVICE>
-//   inline static constexpr auto content_less_than() -> bool {
-//      for(size_t i=0; i<Num_Of_Devices; i++) {
-//         if (Devices[i] >= DEVICE::Devices[i]) {
-//            return false;
-//         }
-//      }
-//      return true;
-//   }
-//
-//   template<typename DEVICE>
-//   inline static constexpr auto less_than() noexcept {
-//      if constexpr (Num_Of_Devices < DEVICE::Num_Of_Devices) {
-//         return holo::bool_c<true>;
-//      } else if constexpr(Num_Of_Devices > DEVICE::Num_Of_Devices) {
-//         return holo::bool_c<false>;
-//      } else {
-//         if constexpr (content_less_than<DEVICE>()) {
-//            return holo::bool_c<true>;
-//         } else {
-//            return holo::bool_c<false>;
-//         }
-//      }
-//   }
-//};
-//
-//#define __g_PREVIEW(device)     preview_tag<device>
-//#define __g_STATE(...)          std::decay_t<decltype(std::declval<device_state<__VA_ARGS__>>())>
-//
-//template<typename T> struct S;
-//
-//class state_transition_algo {
-//   template<typename FROM, typename TARGET, typename REST, typename TRANSITIONS>
-//   constexpr static auto
-//   search_next_layer(FROM const &from, TARGET const &target, TRANSITIONS const &transitions, REST const &rest) {
-//      auto all_non_empty_paths = transitions
-//         | holo::transform([&](auto elem) {
-//              auto result = find_shortcut(holo::second(elem), target, rest);
-//              static_assert(holo::Is_Tuple_v<decltype(result)>);
-//              return result; })
-//         | holo::remove_if([](auto elem) {
-//              return holo::length(elem) == holo::size_c<0>; });
-//
-//      if constexpr (holo::length(all_non_empty_paths) == holo::size_c<0>) {
-//         return holo::make_tuple();
-//      } else if constexpr (holo::length(all_non_empty_paths) == holo::size_c<1>) {
-//         return holo::prepend(from, holo::head(all_non_empty_paths));
-//      } else {
-//         S<decltype(all_non_empty_paths)> s;
-//         return all_non_empty_paths
-//                | holo::sort([](auto l, auto r) { return holo::length(l) < holo::length(r); })
-//                | holo::head()
-//                | holo::prepend(from);
-//      }
-//   }
-//
-//   template<typename FROM, typename TARGET, typename REST, typename TRANSITIONS>
-//   constexpr static auto
-//   find_shortcut_(FROM const &from, TARGET const &target, TRANSITIONS const& direct_transition, REST const &rest) {
-//      auto result = direct_transition
-//         | holo::find_if([&](auto elem) {
-//            using to = typename std::decay_t<decltype(holo::second(elem))>::type;
-//            return std::decay_t<decltype(target)>::type::template equals<to>(); });
-//
-//      if constexpr (!holo::is_nothing(result)) {
-//         // we got the shortcut
-//         return holo::make_tuple(from, holo::second(result));
-//      } else {
-//         return search_next_layer(from, target, direct_transition, rest);
-//      }
-//   }
-//
-//public:
-//   template<typename FROM, typename TARGET, typename REST>
-//   constexpr static auto find_shortcut(FROM const& from, TARGET const& target, REST const& rest) {
-//      auto parts = rest | holo::partition([&](auto elem) {
-//         using from_type = typename std::decay_t<decltype(from)>::type;
-//         return std::decay_t<decltype(holo::first(elem))>::type::template equals<from_type>();
-//      });
-//
-//      if constexpr (holo::Is_True_V<decltype(holo::length(holo::first(parts)) == holo::size_c<0>)>) {
-//         return holo::tuple_t<>;
-//      } else {
-//         return find_shortcut_(from, target, holo::first(parts), holo::second(parts));
-//      }
-//   }
-//
-//   template<typename TRANS_PAIR, typename REST>
-//   constexpr static auto find_shortcut(TRANS_PAIR const& trans, REST const& rest) {
-//      return find_shortcut(holo::first(trans), holo::second(trans), rest);
-//   }
-//};
-//
-//template<typename ... Ts> struct transition_trait;
-//
-//template<typename FROM, typename TO1, typename ... TOs>
-//struct transition_trait<auto (FROM) -> TO1, TOs...> {
-//   using from_state = FROM;
-//   using to_state = device_state<TO1, TOs...>;
-//};
-//
-//struct state_path {
-//   root_state const* state{nullptr};
-//   size_t size{0};
-//
-//   auto get_last() const noexcept -> std::optional<root_state> {
-//      if(size == 0) return std::nullopt;
-//      return state[size - 1];
-//   }
-//
-//   auto cleanup() {
-//      state = nullptr;
-//      size  = 0;
-//   }
-//};
-//
-//template<typename = void, typename ... TRANS>
-//struct state_transitions {
-//   constexpr static auto All_Direct_Transitions =
-//      holo::make_tuple(holo::pair_t<typename TRANS::from_state, typename TRANS::to_state>...);
-//
-//private:
-//   template<typename ... STATES>
-//   struct to_path {
-//      constexpr static auto Num_Of_States = sizeof...(STATES);
-//      constexpr static root_state States[] = {
-//         STATES::Root_State...
-//      };
-//      constexpr static state_path Path{States, Num_Of_States};
-//   };
-//
-//public:
-//   constexpr static auto get_All_Transitions_Paths() {
-//      return holo::product( holo::unique(holo::tuple_t<typename TRANS::from_state ...>),
-//                            holo::unique(holo::tuple_t<typename TRANS::to_state ...>))
-//      | holo::transform([](auto elem) {
-//         return state_transition_algo::find_shortcut(elem, All_Direct_Transitions); });
-//   }
-//};
-//
-//struct device_0 {
-//   constexpr static uint8_t Device_Id = 0;
-//};
-//
-//struct device_1 {
-//   constexpr static uint8_t Device_Id = 1;
-//};
-//
-//struct device_2 {
-//   constexpr static uint8_t Device_Id = 2;
-//};
-//
-//struct device_3 {
-//   constexpr static uint8_t Device_Id = 3;
-//};
-//
-//using trans = state_transitions<
-//   transition_trait<auto (device_state<device_0, __g_PREVIEW(device_1)>) -> __g_PREVIEW(device_2), device_1>,
-//   transition_trait<auto (device_state<device_2, __g_PREVIEW(device_1)>) -> __g_PREVIEW(device_1), device_0>,
-//   transition_trait<auto (device_state<device_1, __g_PREVIEW(device_0)>) -> __g_PREVIEW(device_1), device_2>>;
-//
-//namespace {
-//   template<typename T> struct S;
-//   TEST_CASE("test transition") {
-//      //S<decltype(trans::All_Direct_Transitions)> s;
-//
-//      using from_state = device_state<device_0, __g_PREVIEW(device_1)>;
-//      using to_state   = device_state<device_1, __g_PREVIEW(device_0)>;
-//      constexpr auto elem = holo::pair_t<from_state, to_state>;
-//      constexpr auto shortcut = state_transition_algo::find_shortcut(elem, trans::All_Direct_Transitions);
-//
-//      constexpr auto trans = trans::get_All_Transitions_Paths();
-//      //S<decltype(trans::All_Transitions_Paths)> s;
-//   }
-//}
-//
+
+#include <holo/holo.h>
+#include <catch.hpp>
+#include <optional>
+
+enum class node_category {
+   Root,
+   Intermediate,
+   Leaf
+};
+
+template <typename T, node_category CATEGORY>
+struct node_trait {
+   using node_type = T;
+   constexpr static node_category category = CATEGORY;
+};
+
+#define USING_TL 1
+
+#if USING_TL
+#define make_tuple_h make_type_list
+#define make_pair_h  make_type_pair
+#define tuple_t_h    type_list_t
+#else
+#define make_tuple_h make_tuple
+#define make_pair_h  make_pair
+#define tuple_t_h    tuple_t
+#endif
+
+template<typename NODE, typename = void>
+struct down_stream_trait;
+
+struct node_signature {};
+
+template <typename NODE>
+struct down_stream_node_ref {
+   constexpr static auto node_list = holo::tuple_t_h<NODE>;
+};
+
+
+//////////////////////////////////////////////////////////////////////////////
+template<typename COND, typename NODE_LIKE>
+struct down_stream_maybe {
+   using decorated_node = typename down_stream_trait<NODE_LIKE>::type;
+   constexpr static auto node_list = decorated_node::node_list;
+};
+
+template<typename COND, typename NODE_LIKE>
+struct down_stream_trait<down_stream_maybe<COND, NODE_LIKE>, void> {
+   using type = down_stream_maybe<COND, NODE_LIKE>;
+};
+
+template<typename ... NODEs_LIKE>
+struct down_stream_fork {
+   constexpr static auto node_list =
+      holo::make_tuple_h(down_stream_trait<NODEs_LIKE>::type::node_list...)
+      | holo::flatten();
+};
+
+template<typename ... NODEs_LIKE>
+struct down_stream_trait<down_stream_fork<NODEs_LIKE...>, void> {
+   using type = down_stream_fork<NODEs_LIKE...>;
+};
+
+
+template<typename NODE>
+struct down_stream_trait<NODE, std::enable_if_t<std::is_base_of_v<node_signature, NODE>>> {
+   using type = down_stream_node_ref<NODE>;
+};
+
+
+template<typename COND, typename NODE_LIKE_1, typename NODE_LIKE_2>
+struct down_stream_either {
+   using decorated_node_1 = typename down_stream_trait<NODE_LIKE_1>::type;
+   using decorated_node_2 = typename down_stream_trait<NODE_LIKE_2>::type;
+
+   constexpr static auto node_list = \
+      holo::concat( down_stream_trait<NODE_LIKE_1>::type::node_list
+      , down_stream_trait<NODE_LIKE_2>::type::node_list);
+};
+
+template<typename COND, typename NODE_LIKE_1, typename NODE_LIKE_2>
+struct down_stream_trait<down_stream_either<COND, NODE_LIKE_1, NODE_LIKE_2>, void> {
+   using type = down_stream_either<COND, NODE_LIKE_1, NODE_LIKE_2>;
+};
+
+template<typename T>
+struct graph_port;
+
+template<typename PORT, typename NODE_LIKE>
+struct graph_port<auto (PORT) -> NODE_LIKE> final {
+   using node_like_type = typename down_stream_trait<NODE_LIKE>::type;
+   constexpr static auto node_list = node_like_type::node_list;
+};
+
+struct root_signature {};
+
+template<typename NODE, typename ... PORTS>
+struct graph_node final {
+   constexpr static auto is_root = holo::bool_c<std::is_base_of_v<root_signature, NODE>>;
+   using node_type = NODE;
+   constexpr static auto direct_decedents =
+      holo::make_tuple_h(graph_port<PORTS>::node_list...)
+      | holo::flatten()
+      | holo::unique();
+};
+
+template<typename ... NODES>
+struct sub_graph_analyzer final {
+   constexpr static auto nodes_map = holo::make_tuple_h(
+      holo::make_pair_h(holo::type_c<typename NODES::node_type>, NODES::direct_decedents)...);
+
+   template<typename T>
+   constexpr static auto get_all_decedents(T list) {
+      return holo::fold_left(holo::make_tuple_h(), [](auto acc, auto elem) {
+         auto entry = holo::find_if([=](auto v){ return holo::first(v) == elem; }, nodes_map);
+         if constexpr(holo::is_nothing(entry)) {
+            return holo::append(elem, acc);
+         } else {
+            return holo::concat(acc, holo::append(elem, get_all_decedents(holo::second(entry))));
+         }
+      }, list);
+   }
+
+   constexpr static auto all_decedents_map =
+      nodes_map
+      | holo::transform([](auto elem) {
+            return holo::make_pair_h(holo::first(elem), holo::unique(get_all_decedents(holo::second(elem))));
+         });
+
+
+   constexpr static auto sorted_non_leaf_nodes =
+      all_decedents_map
+      | holo::sort([](auto l, auto r) {
+         return holo::contains(holo::first(l), holo::second(r)); })
+      | holo::transform([](auto elem) {
+         return holo::first(elem); })
+      | holo::reverse();
+
+
+   constexpr static auto root_nodes =
+      holo::tuple_t<NODES...>
+      | holo::filter([](auto elem){
+         return decltype(elem)::type::is_root == holo::bool_c<true>; })
+      | holo::transform([](auto elem){
+         return holo::type_c<typename decltype(elem)::type::node_type>;
+      });
+
+
+   constexpr static auto sorted_tagged_intermediate_nodes =
+      sorted_non_leaf_nodes
+      | holo::remove_if([](auto elem) {
+         return holo::contains(elem, root_nodes); })
+      | holo::transform([](auto elem) {
+         return holo::type_c<node_trait<typename decltype(elem)::type, node_category::Intermediate>>;
+      });
+
+
+   constexpr static auto leaf_tagged_nodes =
+      all_decedents_map
+      | holo::fold_left(holo::make_tuple_h(), [](auto acc, auto elem){
+         return holo::concat(acc, holo::second(elem)); })
+      | holo::unique()
+      | holo::remove_if([](auto elem) {
+         return holo::contains(elem, sorted_non_leaf_nodes); })
+      | holo::transform([](auto elem) {
+         return holo::type_c<node_trait<typename decltype(elem)::type, node_category::Leaf>>;
+      });
+
+public:
+   constexpr static auto all_sorted_sub_graph_nodes = holo::concat(sorted_tagged_intermediate_nodes, leaf_tagged_nodes);
+   constexpr static auto sorted_nodes_desc =
+      sorted_non_leaf_nodes
+      | holo::transform([](auto elem){
+         constexpr auto entry = holo::tuple_t<NODES...>
+                                | holo::find_if([=](auto v){
+            return holo::type_c<typename decltype(v)::type::node_type> == elem; });
+
+         static_assert(!holo::is_nothing(entry));
+         return entry;
+      });
+};
+
+
+struct root_1 : root_signature{
+   constexpr static auto root_id = 0;
+};
+
+struct root_2 : root_signature{
+   constexpr static auto root_id = 1;
+};
+
+struct node_3 : node_signature{
+   constexpr static auto id = 3;
+};
+
+struct node_4 : node_signature{
+   constexpr static auto id = 4;
+};
+
+
+
+struct node_5 : node_signature{
+   constexpr static auto id = 5;
+};
+struct node_6 : node_signature{
+   constexpr static auto id = 6;
+};
+struct node_7 : node_signature{
+   constexpr static auto id = 7;
+};
+struct node_8 : node_signature{
+   constexpr static auto id = 8;
+};
+
+struct port_1 {
+};
+struct port_2 {
+};
+struct port_3 {
+};
+struct port_4 {
+};
+struct port_5 {
+};
+struct port_6 {
+};
+struct port_7 {
+};
+struct port_8 {
+};
+struct port_9 {
+};
+
+struct cond_1 {
+};
+
+struct cond_2 {
+};
+
+using root_graph1 =
+graph_node<root_1,
+      auto (port_1) -> node_8,
+      auto (port_2) -> down_stream_maybe<cond_2, node_3>,
+      auto (port_3) -> down_stream_either<cond_1, node_8, node_3>,
+      auto (port_4) -> down_stream_fork<node_5, node_4, down_stream_maybe<cond_2, node_8>>>;
+
+using root_graph2 =
+   graph_node<root_2,
+      auto (port_1) -> node_7>;
+
+using root_graph3 =
+   graph_node<node_5,
+      auto (port_5) -> node_8,
+      auto (port_6) -> down_stream_fork<node_4, down_stream_maybe<cond_2, node_3>>>;
+
+using root_graph4 =
+   graph_node<node_3,
+      auto (port_7) -> node_4,
+      auto (port_8) -> down_stream_fork<node_8, node_6>,
+      auto (port_9) -> node_7>;
+
+namespace {
+
+   template<typename T> struct S;
+   struct U{};
+   struct V{bool c;};
+   TEST_CASE("test transition") {
+      using sub = sub_graph_analyzer<root_graph1, root_graph2, root_graph3, root_graph4>;
+      static_assert(holo::contains(holo::type_c<double>, holo::tuple_t<long, int, double>));
+      static_assert(!holo::contains(holo::type_c<char>, holo::tuple_t<long, int, double>));
+      static_assert(!holo::Is_True_V<decltype(holo::contains(holo::type_c<char>, holo::tuple_t<long, int, double>))>);
+      static_assert(holo::Is_True_V<decltype(holo::contains(holo::type_c<double>, holo::tuple_t<long, int, double>))>);
+
+//      auto v = holo::Is_True_V<decltype(holo::contains(holo::type_c<double>, holo::tuple_t<long, int, double>))>;
+//      S<decltype(v)> ss;
+
+      S<decltype(sub::leaf_tagged_nodes)> s;
+   }
+}
+

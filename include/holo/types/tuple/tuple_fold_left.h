@@ -8,6 +8,7 @@
 #include <holo/types/tuple/tuple_t.h>
 #include <holo/algo/detail/pred.h>
 #include <holo/types/detail/fold_helper.h>
+#include <holo/types/detail/foldl1.h>
 
 HOLO_NS_BEGIN
 
@@ -17,9 +18,15 @@ template<> struct fold_left_algo<tuple_tag> {
       return (detail::fold_helper{init, f} << ... << get<Xn>(xs)).result_;
    }
 
+   template<typename INIT, typename F, typename Xs, std::size_t ... Xn>
+   constexpr static auto tuple_fold_left_1(INIT&& init, F&& f, Xs const& xs, std::index_sequence<Xn...>) {
+      return detail::variadic::foldl(f, init, get<Xn>(xs)...);
+   }
+
    template<typename INIT, typename F, typename ... Xs>
    constexpr static auto apply(INIT&& init, F&& f, tuple<Xs...> const& xs) {
-      return tuple_fold_left(std::forward<INIT>(init), std::forward<F>(f), xs, std::index_sequence_for<Xs...>{});
+      //return tuple_fold_left(std::forward<INIT>(init), std::forward<F>(f), xs, std::index_sequence_for<Xs...>{});
+      return tuple_fold_left_1(std::forward<INIT>(init), std::forward<F>(f), xs, std::index_sequence_for<Xs...>{});
    }
 };
 

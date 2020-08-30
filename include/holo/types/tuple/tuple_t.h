@@ -10,6 +10,7 @@
 #include <holo/types/detail/ebo.h>
 #include <holo/types/size_c.h>
 #include <holo/concept/algo.h>
+#include <holo/types/tuple_trait.h>
 #include <utility>
 
 HOLO_NS_BEGIN
@@ -188,6 +189,11 @@ template<typename ... Xs, typename X>
 constexpr auto operator+(tuple<Xs...> const& xs, X const& x) {
    return tuple_append(x, xs);
 }
+
+template <template<typename ...> typename C, typename ... Ts>
+struct tuple_trait<tuple<Ts...>, C> {
+   using type = C<typename Ts::type...>;
+};
 
 HOLO_NS_END
 

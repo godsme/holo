@@ -116,7 +116,7 @@ public:
             return std::decay_t<decltype(holo::first(elem))>::type::template equals<from_type>();
          });
 
-      if constexpr (holo::length(holo::first(parts)) == holo::size_c<0>) {
+      if constexpr (holo::Is_True_V<decltype(holo::length(holo::first(parts)) == holo::size_c<0>)>) {
          return __HOLO_tuple_t<>;
       } else {
          return find_shortcut_(from, target, holo::first(parts), holo::second(parts));
@@ -411,7 +411,7 @@ namespace {
 
       //auto result = state_transition_algo::find_shortcut(from, to, trans::All_Direct_Transitions);
       auto result = trans::get_All_Transitions_Paths();
-      S<decltype(result)> s;
+//      S<decltype(result)> s;
    }
 }
 

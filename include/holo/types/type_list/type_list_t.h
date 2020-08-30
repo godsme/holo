@@ -7,6 +7,7 @@
 
 #include <holo/types/type_c.h>
 #include <holo/concept/algo.h>
+#include <holo/types/tuple_trait.h>
 #include <type_traits>
 
 HOLO_NS_BEGIN
@@ -62,6 +63,11 @@ constexpr auto operator!=(type_list<Ts1...> const& lhs, type_list<Ts2...> const&
 
 template <typename ... Ts>
 constexpr type_list<type_c_t <Ts>...> type_list_t{};
+
+template <template<typename ...> typename C, typename ... Ts>
+struct tuple_trait<type_list<Ts...>, C> {
+   using type = C<typename Ts::type...>;
+};
 
 HOLO_NS_END
 

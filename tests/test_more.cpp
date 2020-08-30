@@ -166,26 +166,34 @@
 //#define __g_PREVIEW(device)     preview_tag<device>
 //#define __g_STATE(...)          std::decay_t<decltype(std::declval<device_state<__VA_ARGS__>>())>
 //
+//template<typename T> struct S;
 //
 //class state_transition_algo {
 //   template<typename FROM, typename TARGET, typename REST, typename TRANSITIONS>
 //   constexpr static auto
 //   search_next_layer(FROM const &from, TARGET const &target, TRANSITIONS const &transitions, REST const &rest) {
-//      auto all_non_empty_paths = transitions
+//      auto all_paths = transitions
 //         | holo::transform([&](auto elem) {
-//              return find_shortcut(holo::second(elem), target, rest); })
-//         | holo::remove_if([](auto elem) {
-//            return holo::length(elem) == holo::size_c<0>; });
+//              return find_shortcut(holo::second(elem), target, rest); });
 //
-//      if constexpr (holo::length(all_non_empty_paths) == holo::size_c<0>) {
-//         return holo::make_tuple();
-//      } else if constexpr (holo::length(all_non_empty_paths) == holo::size_c<1>) {
-//         return holo::prepend(from, holo::head(all_non_empty_paths));
+//      if constexpr (holo::length(all_paths) > holo::size_c<0>) {
+//         S<decltype(all_paths)> s;
+//
+//         auto all_non_empty_paths = holo::remove_if([](auto elem) {
+//            return holo::length(elem) == holo::size_c<0>; }, all_paths);
+//
+//         if constexpr (holo::length(all_non_empty_paths) == holo::size_c<0>) {
+//            return holo::make_tuple();
+//         } else if constexpr (holo::length(all_non_empty_paths) == holo::size_c<1>) {
+//            return holo::prepend(from, holo::head(all_non_empty_paths));
+//         } else {
+//            return all_non_empty_paths
+//                   | holo::sort([](auto l, auto r) { return holo::length(l) < holo::length(r); })
+//                   | holo::head()
+//                   | holo::prepend(from);
+//         }
 //      } else {
-//         return all_non_empty_paths
-//                | holo::sort([](auto l, auto r) { return holo::length(l) < holo::length(r); })
-//                | holo::head()
-//                | holo::prepend(from);
+//         return holo::make_tuple();
 //      }
 //   }
 //

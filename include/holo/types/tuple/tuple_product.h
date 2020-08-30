@@ -8,7 +8,6 @@
 #include <holo/types/tuple/tuple_t.h>
 #include <holo/algo/detail/pred.h>
 #include <holo/types/pair.h>
-#include <holo/algo/flatten.h>
 
 HOLO_NS_BEGIN
 
@@ -16,18 +15,18 @@ template<> struct product_algo<tuple_tag> {
 private:
    template<typename X, typename Ys, std::size_t ... Yn>
    constexpr static auto product_2(X const& x, Ys const& ys, std::index_sequence<Yn...>) {
-      return tuple{pair{x, get<Yn>(ys)}...};
+      return tuple{ pair{x, get<Yn>(ys)}... };
    }
 
    template<typename Xs, typename ... Ys, std::size_t ... Xn>
    constexpr static auto product(Xs const& xs, tuple<Ys...> const& ys, std::index_sequence<Xn...>) {
-      return tuple{ product_2(get<Xn>(xs), ys, std::index_sequence_for<Ys...>{}) ...};
+      return (product_2(get<Xn>(xs), ys, std::index_sequence_for<Ys...>{}) + ...);
    }
 
 public:
    template<typename ... Xs, typename ... Ys>
    constexpr static auto apply(tuple<Xs...> const& xs, tuple<Ys...> const& ys) {
-      return flatten(product(xs, ys, std::index_sequence_for<Xs...>{}));
+      return product(xs, ys, std::index_sequence_for<Xs...>{});
    }
 };
 

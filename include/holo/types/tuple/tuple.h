@@ -28,5 +28,13 @@
 #include <holo/types/tuple/tuple_sort.h>
 #include <holo/types/tuple/tuple_length.h>
 
+
+HOLO_NS_BEGIN
+template<typename ... Ts, typename F, typename = std::enable_if_t<std::is_invocable_v<F, tuple<Ts...>>>>
+constexpr auto operator | (tuple<Ts...> stream, F&& f) {
+   return f(stream);
+}
+HOLO_NS_END
+
 #endif
 

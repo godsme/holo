@@ -7,7 +7,7 @@
 
 #include <holo/holo_ns.h>
 #include <holo/types/type_c.h>
-#include <holo/types/tuple/tuple.h>
+#include <holo/types/type_list/type_list_t.h>
 #include <type_traits>
 
 HOLO_NS_BEGIN
@@ -15,10 +15,10 @@ HOLO_NS_BEGIN
 template<typename T, template<typename ...> typename C>
 struct tuple_trait;
 
-template <template<typename ...> typename C, typename ... Ts>
-struct tuple_trait<tuple<Ts...>, C> {
-   using type = C<typename Ts::type...>;
-};
+//template <template<typename ...> typename C, typename ... Ts>
+//struct tuple_trait<tuple<Ts...>, C> {
+//   using type = C<typename Ts::type...>;
+//};
 
 template <template<typename ...> typename C, typename ... Ts>
 struct tuple_trait<type_list<Ts...>, C> {

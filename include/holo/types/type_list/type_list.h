@@ -26,4 +26,13 @@
 #include <holo/types/type_list/type_list_product.h>
 #include <holo/types/type_list/type_list_sort.h>
 
+HOLO_NS_BEGIN
+
+template<typename ... Ts, typename F, typename = std::enable_if_t<std::is_invocable_v<F, type_list<Ts...>>>>
+constexpr auto operator | (type_list<Ts...> stream, F&& f) {
+   return f(stream);
+}
+
+HOLO_NS_END
+
 #endif

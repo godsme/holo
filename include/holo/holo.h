@@ -33,4 +33,10 @@
 #include <holo/algo/second.h>
 #include <holo/algo/length.h>
 
+#define __HOLO_make_tuple holo::make_type_list
+#define __HOLO_make_pair  holo::make_type_pair
+#define __HOLO_tuple_t    holo::type_list_t
+#define __HOLO_tuple      holo::type_list
+#define __HOLO_pair      holo::type_pair
+
 #endif //HOLO_HOLO_H

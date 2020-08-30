@@ -18,10 +18,12 @@ namespace detail {
 
    template<typename ... Xs, typename H, typename ... Ts>
    struct unique_impl<type_list<Xs...>, H, Ts...> {
-      using type = std::conditional_t<
-         Contains<H, type_list<Xs...>>,
-         typename unique_impl<type_list<Xs...>, Ts...>::type,
-         typename unique_impl<type_list<Xs..., H>, Ts...>::type>;
+      using result = std::conditional_t<
+            Contains<H, type_list<Xs...>>,
+               type_list<Xs...>,
+               type_list<Xs..., H>>;
+
+      using type = typename unique_impl<result, Ts...>::type;
    };
 }
 

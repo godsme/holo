@@ -12,24 +12,24 @@
 HOLO_NS_BEGIN
 
 namespace detail {
-   template<typename PRED, typename RESULT, typename = void, typename ... Ts>
+   template<typename PRED, typename RESULT, typename ... Ts>
    struct filter_impl {
       using type = RESULT;
    };
 
    template<typename PRED, typename ... Ys, typename H, typename ... Ts>
-   struct filter_impl<PRED, type_list<Ys...>, std::enable_if_t<Is_Pred_Satisfied<PRED, H>>, H, Ts...> {
-      using type = typename filter_impl<PRED, type_list<Ys..., H>, void, Ts...>::type;
-   };
+   struct filter_impl<PRED, type_list<Ys...>, H, Ts...> {
+      using result = std::conditional_t
+            < Is_Pred_Satisfied<PRED, H>
+            , type_list<Ys..., H>
+            , type_list<Ys...>>;
 
-   template<typename PRED, typename RESULT, typename H, typename ... Ts>
-   struct filter_impl<PRED, RESULT, std::enable_if_t<!Is_Pred_Satisfied <PRED, H>>, H, Ts...> {
-      using type = typename filter_impl<PRED, RESULT, void, Ts...>::type;
+      using type = typename filter_impl<PRED, result, Ts...>::type;
    };
 }
 
 template<typename F, typename ... Xs>
-using TL_filter_t = typename detail::filter_impl<F, type_list<>, void, Xs...>::type;
+using TL_filter_t = typename detail::filter_impl<F, type_list<>, Xs...>::type;
 
 template<>
 struct filter_algo<type_list_tag> {

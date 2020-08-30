@@ -235,13 +235,25 @@ namespace {
       using type = decltype(make_sequence<0>(std::make_index_sequence<0>{}));
       static_assert(std::is_same_v<std::index_sequence<>, type>);
    }
+
+   template<typename T> struct S;
+
    TEST_CASE("tuple sort") {
       constexpr auto result = holo::sort([](auto l, auto r) {
                                  return holo::sizeof_c<typename decltype(l)::type> <
                                         holo::sizeof_c<typename decltype(r)::type>;
                               }, holo::tuple_t<long double, int, long long, bool, short, char>);
 
-      static_assert(result == holo::tuple_t<bool, char, short, int, long long, long double>);
+      static_assert(result == holo::tuple_t<char, bool, short, int, long long, long double>);
+   }
+
+   TEST_CASE("tuple sort 2") {
+      constexpr auto result = holo::sort([](auto l, auto r) {
+         return holo::sizeof_c<typename decltype(l)::type> <
+                holo::sizeof_c<typename decltype(r)::type>;
+      }, holo::tuple_t<int, long long, bool, short, char>);
+
+      static_assert(result == holo::tuple_t<char, bool, short, int, long long>);
    }
 
    TEST_CASE("tuple empty sort") {

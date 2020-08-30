@@ -11,112 +11,20 @@
 HOLO_NS_BEGIN
 
 namespace tuple_detail {
-   template<
-      typename TUPLE,
-      typename LT,
-      bool Take_Right,
-      typename Ln,
-      typename Rn,
-      std::size_t ... RESULT>
-   struct merge;
-
    template<typename TUPLE, typename LT, std::size_t L, std::size_t R>
-   constexpr bool Take_Right_V =
+   constexpr bool Take_Left_V =
       Is_True_V<decltype(std::declval<LT>()(
-         get<R>(std::declval<TUPLE>()),
-         get<L>(std::declval<TUPLE>())))>;
-
-   template
-      < typename TUPLE
-      , typename LT
-      , std::size_t L0
-      , std::size_t ... Ln
-      , std::size_t R0
-      , std::size_t R1
-      , std::size_t ... Rn
-      , std::size_t ... RESULT>
-   struct merge
-      < TUPLE
-      , LT
-      , true
-      , std::index_sequence<L0, Ln...>
-      , std::index_sequence<R0, R1, Rn...>
-      , RESULT...> {
-      using type = typename merge
-            < TUPLE
-            , LT
-            , Take_Right_V<TUPLE, LT, L0, R1>
-            , std::index_sequence<L0, Ln...>
-            , std::index_sequence<R1, Rn...>,
-            RESULT..., R0>::type;
-   };
-
-   template
-         < typename TUPLE
-         , typename LT
-         , std::size_t     L0
-         , std::size_t ... Ln
-         , std::size_t     R0
-         , std::size_t ... RESULT>
-   struct merge
-         < TUPLE
-         , LT
-         , true
-         , std::index_sequence<L0, Ln...>
-         , std::index_sequence<R0>
-         , RESULT...> {
-      using type = std::index_sequence<RESULT..., R0, L0, Ln...>;
-   };
-
-   template
-         < typename TUPLE
-         , typename LT
-         , std::size_t L0
-         , std::size_t L1
-         , std::size_t ... Ln
-         , std::size_t R0
-         , std::size_t ... Rn
-         , std::size_t ... RESULT>
-   struct merge
-      < TUPLE
-         , LT
-         , false
-         , std::index_sequence<L0, L1, Ln...>
-         , std::index_sequence<R0, Rn...>
-         , RESULT...> {
-      using type = typename merge
-            < TUPLE
-            , LT
-            , Take_Right_V<TUPLE, LT, L1, R0>
-            , std::index_sequence<L1, Ln...>
-            , std::index_sequence<R0, Rn...>,
-            RESULT..., L0>::type;
-   };
-
-   template
-      < typename TUPLE
-         , typename LT
-         , std::size_t L0
-         , std::size_t R0
-         , std::size_t ... Rn
-         , std::size_t ... RESULT>
-   struct merge
-         < TUPLE
-         , LT
-         , false
-         , std::index_sequence<L0>
-         , std::index_sequence<R0, Rn...>
-         , RESULT...> {
-      using type = std::index_sequence<RESULT..., L0, R0, Rn...>;
-   };
+         get<L>(std::declval<TUPLE>()),
+         get<R>(std::declval<TUPLE>())))>;
 
    ////////////////////////////////////////////////////////////////////////
    template
       < typename TUPLE
       , typename LT
       , typename Ln
-      , typename Rn>
-   struct merge_sort_impl;
+      , typename Rn
+      , std::size_t ... Result>
+   struct merge;
 
    template
       < typename TUPLE
@@ -124,13 +32,43 @@ namespace tuple_detail {
       , std::size_t L0
       , std::size_t ... Ln
       , std::size_t R0
-      , std::size_t ... Rn>
-   struct merge_sort_impl<TUPLE, LT, std::index_sequence<L0, Ln...>, std::index_sequence<R0, Rn...>> {
-      using type = typename merge<
+      , std::size_t ... Rn
+      , std::size_t ... Result>
+   struct merge<TUPLE, LT, std::index_sequence<L0, Ln...>, std::index_sequence<R0, Rn...>, Result...> {
+      using take_left = typename merge<
          TUPLE, LT,
-         Take_Right_V<TUPLE, LT, L0, R0>,
+         std::index_sequence<Ln...>,
+         std::index_sequence<R0, Rn...>,
+         Result..., L0>::type;
+
+      using take_right = typename merge<
+         TUPLE, LT,
          std::index_sequence<L0, Ln...>,
-         std::index_sequence<R0, Rn...>>::type;
+         std::index_sequence<Rn...>,
+         Result..., R0>::type;
+
+      using type = std::conditional_t
+         < Take_Left_V<TUPLE, LT, L0, R0>
+         , take_left
+         , take_right>;
+   };
+
+   template
+      < typename TUPLE
+         , typename LT
+         , std::size_t ... Rn
+         , std::size_t ... Result>
+   struct merge<TUPLE, LT, std::index_sequence<>, std::index_sequence<Rn...>, Result...> {
+      using type = std::index_sequence<Result..., Rn...>;
+   };
+
+   template
+      < typename TUPLE
+         , typename LT
+         , std::size_t ... Ln
+         , std::size_t ... Result>
+   struct merge<TUPLE, LT, std::index_sequence<Ln...>, std::index_sequence<>, Result...> {
+      using type = std::index_sequence<Result..., Ln...>;
    };
 
    ////////////////////////////////////////////////////////////////////////
@@ -150,7 +88,7 @@ namespace tuple_detail {
       using left  = decltype(make_sequence<X0>(std::make_index_sequence<half>{}));
       using right = decltype(make_sequence<X0 + half>(std::make_index_sequence<len - half>{}));
 
-      using type = typename merge_sort_impl
+      using type = typename merge
          < TUPLE
          , LT
          , typename merge_sort<TUPLE, LT, left>::type

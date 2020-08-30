@@ -22,7 +22,6 @@
 #include <holo/types/sizeof_c.h>
 #include <holo/algo/unique.h>
 #include <holo/algo/flatten.h>
-#include <holo/algo/pipeline.h>
 #include <holo/algo/product.h>
 
 namespace {

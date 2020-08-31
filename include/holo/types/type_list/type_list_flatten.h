@@ -12,18 +12,6 @@
 HOLO_NS_BEGIN
 
 namespace type_list_detail {
-   template <typename T>
-   struct flatten_helper {
-      constexpr flatten_helper(T value) : value_(value) {}
-      using type = T;
-      T value_;
-   };
-
-   template<typename ... Ts1, typename ... Ts2>
-   constexpr auto operator+(flatten_helper<type_list<Ts1...>>, type_list<Ts2...>) {
-      return flatten_helper{type_list<Ts1..., Ts2...>{}};
-   }
-
    template<typename T>
    struct flatten_trait {
       using type = type_list<T>;
@@ -31,9 +19,7 @@ namespace type_list_detail {
 
    template<typename ... Ts>
    struct flatten_impl {
-       constexpr static auto result =
-               (flatten_helper<type_list<>>{type_list<>{}} + ... + typename flatten_trait<Ts>::type{});
-      using type = typename decltype(result)::type;
+      using type = decltype(( ... + typename flatten_trait<Ts>::type{}));
    };
 
    template<typename ... Ts>
@@ -48,9 +34,7 @@ using TL_flatten_t = typename type_list_detail::flatten_impl<Ts...>::type;
 template<>
 struct flatten_algo<type_list_tag> {
    template<typename ... Ts>
-   constexpr static auto apply(type_list<Ts...>) {
-      return TL_flatten_t<Ts...>{};
-   }
+   constexpr static auto apply(type_list<Ts...>) -> TL_flatten_t<Ts...> { return {}; }
 };
 
 HOLO_NS_END

@@ -69,6 +69,25 @@ struct tuple_trait<type_list<Ts...>, C> {
    using type = C<typename Ts::type...>;
 };
 
+template<typename ... Ts1, typename ... Ts2>
+constexpr auto operator+(type_list<Ts1...>, type_list<Ts2...>) {
+   return type_list<Ts1..., Ts2...>{};
+}
+
+template<typename T>
+struct is_type_list : false_type {};
+
+template<typename ... Ts>
+struct is_type_list<type_list<Ts...>> : true_type {};
+
+template<typename T>
+constexpr bool is_type_list_v = is_type_list<T>::value();
+
+template<typename ... Ts, typename T, typename = std::enable_if_t<!is_type_list_v<T>>>
+constexpr auto operator+(type_list<Ts...>, T) {
+   return type_list<Ts..., T>{};
+}
+
 HOLO_NS_END
 
 #endif //HOLO_TYPE_LIST_T_H

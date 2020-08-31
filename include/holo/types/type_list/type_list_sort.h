@@ -29,12 +29,12 @@ namespace detail {
 }
 
 template<typename LT, typename ... Ts>
-using TL_sort_t = typename detail::sort_impl<LT, Ts...>::type;
+using TL_sort_t = typename detail::sort_impl<std::decay_t<LT>, Ts...>::type;
 
 template<> struct sort_algo<type_list_tag> {
    template<typename F, typename ... Ts>
-   constexpr static auto apply(F, type_list<Ts...>) {
-      return TL_sort_t<std::decay_t<F>, Ts...>{};
+   constexpr static auto apply(F, type_list<Ts...>) -> TL_sort_t<F, Ts...> {
+      return {};
    }
 };
 

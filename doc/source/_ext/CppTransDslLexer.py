@@ -17,7 +17,7 @@ class CppTransDslLexer(CppLexer):
                           '__bind_listener', '__listeners'))
     FUNC_KEYWORDS  = set(('exec', 'handleEvent', 'kill', 'WAIT_ON', 'onActionStarting', 'onActionEventConsumed'
                           'onActionDone', 'onActionStopped', 'onActionKilled'))
-    CONST_KEYWORDS  = set(('type_c', 'bool_c', 'size_c', 'type_list_t'))
+    CONST_KEYWORDS  = set(('type_c', 'bool_c', 'size_c', 'type_list_t', 'true_c', 'false_c'))
     TYPE_KEYWORDS = set(('holo', 'fold_left', 'remove_if', 'transform', 'reverse', 
                           'head', 'tail', 'unique', 'first', 'second', 'concat', 'append',
                           'contains', 'filter', 'sort', '__HOLO_make_tuple', '__HOLO_tuple_t'))

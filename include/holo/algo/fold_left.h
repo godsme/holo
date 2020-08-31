@@ -12,6 +12,9 @@ HOLO_NS_BEGIN
 struct fold_left_t : apply_operator_3_t<fold_left_algo> {};
 constexpr fold_left_t fold_left{};
 
+struct fold_left_1_t : apply_operator_2_t<fold_left_1_algo> {};
+constexpr fold_left_1_t fold_left_1{};
+
 HOLO_NS_END
 
 #endif //HOLO_FOLD_LEFT_H

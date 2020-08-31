@@ -15,9 +15,24 @@ HOLO_NS_BEGIN
 template<>
 struct fold_left_algo<type_list_tag> {
    template <typename INIT, typename F, typename ... Xs>
-   constexpr static auto apply(INIT&& init, F&& f,  type_list<Xs...>) {
+   constexpr static auto apply(INIT&& init, F&& f, type_list<Xs...>) {
       return (detail::fold_helper{init, std::forward<F>(f)} <<  ... << Xs{}).result_;
    }
+};
+
+
+template<>
+struct fold_left_1_algo<type_list_tag> {
+   template <typename F, typename X1, typename X2, typename ... Xs>
+   constexpr static auto apply(F&& f, type_list<X1, X2, Xs...>) {
+      return (detail::fold_helper{f(X1{}, X2{}), std::forward<F>(f)} <<  ... << Xs{}).result_;
+   }
+
+   template <typename F, typename X>
+   constexpr static auto apply(F&&, type_list<X>) -> type_list<X> { return {}; }
+
+   template <typename F>
+   constexpr static auto apply(F&&, type_list<>) -> type_list<> { return {}; }
 };
 
 HOLO_NS_END

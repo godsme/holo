@@ -35,6 +35,15 @@ namespace {
       static_assert(result == holo::type_list_t<int, float, double>);
    }
 
+   TEST_CASE("holo fold left 1") {
+      constexpr auto result =
+         holo::type_list<holo::type_list<int>, holo::type_list<float>, holo::type_list<double>>{} |
+         holo::fold_left_1([](auto const& acc, auto const& elem){
+            return holo::concat(acc, elem); });
+
+      static_assert(result == holo::type_list<int, float, double>{});
+   }
+
    template<int VALUE>
    struct value_holder { constexpr static auto value = VALUE; };
 

@@ -13,8 +13,8 @@ HOLO_NS_BEGIN
 
 template<> struct product_algo<type_list_tag> {
 private:
-   template<typename T, typename ... Ts>
-   using product = type_list<type_pair<T, Ts> ...>;
+   template<typename X, typename ... Ys>
+   using product = type_list<type_pair<X, Ys> ...>;
 
 public:
    template <typename ... Xs, typename ... Ys>

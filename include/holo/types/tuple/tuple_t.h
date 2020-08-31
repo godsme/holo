@@ -29,12 +29,13 @@ namespace detail {
       template<std::size_t I> struct EBI {};
       struct instance : ebo<EBI<Xn>, Xs>... {
          constexpr static std::size_t Size = sizeof...(Xn);
-         template<std::size_t I> using ebi = EBI<I>;
-         constexpr instance() = default;
-         template<typename ... Ys>
-         constexpr instance(Ys&& ... ys) : ebo<ebi<Xn>, Xs>{ys} ...
-         {}
 
+         template<std::size_t I> using ebi = EBI<I>;
+
+         constexpr instance() = default;
+
+         template<typename ... Ys>
+         constexpr instance(Ys&& ... ys) : ebo<ebi<Xn>, Xs>{ys} ... {}
       };
    };
 

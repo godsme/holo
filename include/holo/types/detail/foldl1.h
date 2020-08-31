@@ -10,7 +10,7 @@
 
 HOLO_NS_BEGIN namespace detail { namespace variadic {
 
-template <unsigned int n, typename = std::enable_if_t<true>>
+template <std::size_t n, typename = std::enable_if_t<true>>
 struct foldl1_impl;
 
 template <>
@@ -75,7 +75,7 @@ struct foldl1_impl<6> {
    }
 };
 
-template <unsigned int n>
+template <std::size_t n>
 struct foldl1_impl<n, std::enable_if_t<(n >= 7) && (n < 14)>> {
 template <typename F, typename X1, typename X2, typename X3, typename X4, typename X5, typename X6, typename X7, typename ...Xn>
    static constexpr decltype(auto)
@@ -96,7 +96,7 @@ template <typename F, typename X1, typename X2, typename X3, typename X4, typena
    }
 };
 
-template <unsigned int n>
+template <std::size_t n>
 struct foldl1_impl<n, std::enable_if_t<(n >= 14) && (n < 28)>> {
 template <
    typename F
@@ -120,7 +120,7 @@ template <
    }
 };
 
-template <unsigned int n>
+template <std::size_t n>
 struct foldl1_impl<n, std::enable_if_t<(n >= 28) && (n < 56)>> {
    template <
       typename F
@@ -149,7 +149,7 @@ struct foldl1_impl<n, std::enable_if_t<(n >= 28) && (n < 56)>> {
    }
 };
 
-template <unsigned int n>
+template <std::size_t n>
 struct foldl1_impl<n, std::enable_if_t<(n >= 56)>> {
 template <
    typename F

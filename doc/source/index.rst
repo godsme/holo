@@ -24,7 +24,8 @@ HOLO
 
 .. code-block:: c++
 
-   constexpr result = holo::append(holo::type_c<long>, holo::type_list_t<int, double, float>);
+   constexpr auto result = holo::append( holo::type_c<long>,
+                                         holo::type_list_t<int, double, float>);
    static_assert(result == holo::type_list_t<int, double, float, long>);
 
 

@@ -12,8 +12,8 @@ HOLO_NS_BEGIN
 
 template<>
 struct length_algo<type_list_tag> {
-   template<typename Xs>
-   constexpr static auto apply(Xs const&) -> size_c_t<Xs::Size> { return {}; }
+   template<typename ... Xs>
+   constexpr static auto apply(type_list<Xs...>) -> size_c_t<sizeof...(Xs)> { return {}; }
 };
 
 HOLO_NS_END

@@ -52,12 +52,12 @@ constexpr auto make_type_list(Ts&& ...) -> type_list<std::decay_t<Ts>...> {
 }
 
 template<typename ... Ts1, typename ... Ts2>
-constexpr auto operator==(type_list<Ts1...> const&, type_list<Ts2...> const&) {
+constexpr auto operator==(type_list<Ts1...>, type_list<Ts2...>) {
    return bool_c<std::is_same_v<type_list<Ts1...>, type_list<Ts2...>>>;
 }
 
 template<typename ... Ts1, typename ... Ts2>
-constexpr auto operator!=(type_list<Ts1...> const& lhs, type_list<Ts2...> const& rhs) {
+constexpr auto operator!=(type_list<Ts1...> lhs, type_list<Ts2...> rhs) {
    return !operator==(lhs, rhs);
 }
 

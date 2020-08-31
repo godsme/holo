@@ -47,12 +47,10 @@ namespace {
    template<int VALUE>
    struct value_holder { constexpr static auto value = VALUE; };
 
-   TEST_CASE("holo fold left 1") {
+   TEST_CASE("holo fold left 2") {
       constexpr auto result = holo::type_list_t<value_holder<1>, value_holder<2>, value_holder<3>> |
          holo::fold_left(0,
-             [](auto const& acc, auto elem){
-                      return decltype(elem)::type::value + acc;
-             });
+             [](auto const& acc, auto elem){ return decltype(elem)::type::value + acc; });
 
       REQUIRE(result == 6);
    }

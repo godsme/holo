@@ -11,16 +11,15 @@
 
 HOLO_NS_BEGIN
 
-namespace detail {
+template<> struct product_algo<type_list_tag> {
+private:
    template<typename T, typename ... Ts>
-   using product_impl = type_list<type_pair<T, Ts> ...>;
-}
+   using product = type_list<type_pair<T, Ts> ...>;
 
-template<>
-struct product_algo<type_list_tag> {
+public:
    template <typename ... Xs, typename ... Ys>
    constexpr static auto apply(type_list<Xs...>, type_list<Ys...>) {
-      return TL_flatten_t<detail::product_impl<Xs, Ys...> ...>{};
+      return TL_flatten_t<product<Xs, Ys...> ...>{};
    }
 };
 

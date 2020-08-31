@@ -20,7 +20,7 @@ class CppTransDslLexer(CppLexer):
     CONST_KEYWORDS  = set(('type_c', 'bool_c', 'size_c', 'type_list_t'))
     TYPE_KEYWORDS = set(('holo', 'fold_left', 'remove_if', 'transform', 'reverse', 
                           'head', 'tail', 'unique', 'first', 'second', 'concat', 'append',
-                          'contains', 'filter', 'sort', '__HOLO_make_tuple'))
+                          'contains', 'filter', 'sort', '__HOLO_make_tuple', '__HOLO_tuple_t'))
 
     def get_tokens_unprocessed(self, text):
         for index, token, value in CppLexer.get_tokens_unprocessed(self, text):

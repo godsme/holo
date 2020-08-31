@@ -33,9 +33,7 @@ using TL_sort_t = typename detail::sort_impl<std::decay_t<LT>, Ts...>::type;
 
 template<> struct sort_algo<type_list_tag> {
    template<typename F, typename ... Ts>
-   constexpr static auto apply(F, type_list<Ts...>) -> TL_sort_t<F, Ts...> {
-      return {};
-   }
+   constexpr static auto apply(F, type_list<Ts...>) -> TL_sort_t<F, Ts...> { return {}; }
 };
 
 HOLO_NS_END

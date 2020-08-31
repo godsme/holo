@@ -14,9 +14,7 @@ HOLO_NS_BEGIN
 template<>
 struct tail_algo<type_list_tag> {
    template <typename X, typename ... Xs>
-   constexpr static auto apply(type_list<X, Xs...>) {
-      return type_list<Xs...>{};
-   }
+   constexpr static auto apply(type_list<X, Xs...>) -> type_list<Xs...> { return {}; }
 };
 
 HOLO_NS_END

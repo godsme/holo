@@ -19,7 +19,7 @@ namespace detail {
    template<typename ... Xs, typename H, typename ... Ts>
    struct unique_impl<type_list<Xs...>, H, Ts...> {
       using result = std::conditional_t<
-            Contains<H, type_list<Xs...>>,
+               Contains<H, type_list<Xs...>>,
                type_list<Xs...>,
                type_list<Xs..., H>>;
 
@@ -32,9 +32,7 @@ using TL_unique_t = typename detail::unique_impl<type_list<>, Ts...>::type;
 
 template<> struct unique_algo<type_list_tag> {
    template<typename ... Ts>
-   constexpr static auto apply(type_list<Ts...>) {
-      return TL_unique_t<Ts...>{};
-   }
+   constexpr static auto apply(type_list<Ts...>) -> TL_unique_t<Ts...> { return {}; }
 };
 
 HOLO_NS_END

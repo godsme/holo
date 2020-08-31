@@ -26,9 +26,7 @@ using TL_reverse_t = typename detail::reverse_impl<type_list<>, Ts...>::type;
 
 template<> struct reverse_algo<type_list_tag> {
    template<typename ... Ts>
-   constexpr static auto apply(type_list<Ts...>) -> TL_reverse_t<Ts...> {
-      return {};
-   }
+   constexpr static auto apply(type_list<Ts...>) -> TL_reverse_t<Ts...> { return {}; }
 };
 
 HOLO_NS_END

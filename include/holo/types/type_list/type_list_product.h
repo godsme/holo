@@ -19,7 +19,7 @@ private:
 public:
    template <typename ... Xs, typename ... Ys>
    constexpr static auto apply(type_list<Xs...>, type_list<Ys...>) {
-      return TL_flatten_t<product<Xs, Ys...> ...>{};
+      return (type_list<>{} + ... + product<Xs, Ys...>{});
    }
 };
 

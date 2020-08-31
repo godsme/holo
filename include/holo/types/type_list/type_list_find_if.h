@@ -31,9 +31,7 @@ using TL_find_if_t = typename detail::find_if_impl<F, Xs...>::type;
 
 template <> struct find_if_algo<type_list_tag> {
    template<typename F, typename ... Xs>
-   constexpr static auto apply(F, type_list<Xs...>) {
-      return TL_find_if_t<F, Xs...>{};
-   }
+   constexpr static auto apply(F, type_list<Xs...>) -> TL_find_if_t<F, Xs...> { return {}; }
 };
 
 HOLO_NS_END

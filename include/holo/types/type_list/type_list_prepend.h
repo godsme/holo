@@ -12,9 +12,8 @@ HOLO_NS_BEGIN
 template<>
 struct prepend_algo<type_list_tag> {
    template <typename X, typename ... Xs>
-   constexpr static auto apply(X, type_list<Xs...>) {
-      return type_list<std::decay_t<X>, Xs...>{};
-   }
+   constexpr static auto apply(X, type_list<Xs...>)
+   -> type_list<std::decay_t<X>, Xs...> { return {}; }
 };
 
 HOLO_NS_END

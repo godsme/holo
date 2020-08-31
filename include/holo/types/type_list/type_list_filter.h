@@ -34,8 +34,8 @@ using TL_filter_t = typename detail::filter_impl<F, type_list<>, Xs...>::type;
 template<>
 struct filter_algo<type_list_tag> {
    template<typename F, typename ... Xs>
-   constexpr static auto apply(F, type_list<Xs...>) {
-      return TL_filter_t<F, Xs...>{};
+   constexpr static auto apply(F, type_list<Xs...>) -> TL_filter_t<F, Xs...> {
+      return {};
    }
 };
 

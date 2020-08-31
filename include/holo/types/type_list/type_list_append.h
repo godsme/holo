@@ -13,8 +13,8 @@ HOLO_NS_BEGIN
 template<>
 struct append_algo<type_list_tag> {
    template <typename T, typename ... Ts>
-   constexpr static auto apply(T, type_list<Ts...>) {
-      return type_list<Ts..., std::decay_t<T>>{};
+   constexpr static auto apply(T, type_list<Ts...>) -> type_list<Ts..., std::decay_t<T>> {
+      return {};
    }
 };
 

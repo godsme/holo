@@ -24,22 +24,16 @@ constexpr type_pair<type_c_t< T1>, type_c_t<T2>> type_pair_t{};
 
 template<typename T1, typename T2>
 constexpr auto make_type_pair(T1 const&, T2 const&)
-   -> type_pair<std::decay_t<T1>, std::decay_t<T2>> {
-   return {};
-}
+   -> type_pair<std::decay_t<T1>, std::decay_t<T2>> { return {}; }
 
 template<> struct first_algo<type_pair_tag> {
    template<typename T1, typename T2>
-   constexpr static auto apply(type_pair<T1, T2>) -> T1 {
-      return {};
-   }
+   constexpr static auto apply(type_pair<T1, T2>) -> T1 { return {}; }
 };
 
 template<> struct second_algo<type_pair_tag> {
    template<typename T1, typename T2>
-   constexpr static auto apply(type_pair<T1, T2>) -> T2 {
-      return {};
-   }
+   constexpr static auto apply(type_pair<T1, T2>) -> T2 { return {}; }
 };
 
 HOLO_NS_END

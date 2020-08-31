@@ -48,7 +48,7 @@ HOLO
    constexpr static auto root_nodes =
       __HOLO_tuple_t<NODES...>
       | holo::filter([](auto elem){
-         return decltype(elem)::type::is_root == holo::bool_c<true>; })
+         return decltype(elem)::type::is_root == holo::true_c; })
       | holo::transform([](auto elem){
          return holo::type_c<typename decltype(elem)::type::node_type>;
       });

@@ -15,18 +15,14 @@ struct fold_helper {
    constexpr fold_helper(T result, F& f) : result_(result), f_(f) {}
 
    template<typename ELEM>
-   constexpr auto fold(ELEM&& elem) const {
-      return f_(result_, elem);
+   constexpr auto operator<<(ELEM&& elem) const {
+      auto result = f_(result_, elem);
+      return fold_helper<decltype(result), F>{result, f_};
    }
 
    T result_;
    F& f_;
 };
-
-template<typename T, typename F, typename ELEM>
-constexpr auto operator<<(fold_helper<T, F> acc, ELEM&& elem) {
-   return fold_helper{acc.fold(std::forward<ELEM>(elem)), acc.f_};
-}
 
 } HOLO_NS_END
 

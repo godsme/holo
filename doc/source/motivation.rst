@@ -21,6 +21,17 @@
 
 .. code-block:: c++
 
+   constexpr result = holo::append(holo::type_c<long>, holo::type_list_t<int, double, float>);
+   static_assert(result == holo::type_list_t<int, double, float, long>);
+
+
+以下是来自于现实项目 graph-dsl_ 的例子。你可以看出，``holo`` 完全支持以 ``ranges`` 的 ``pipeline`` 语法
+对操作进行组合，在 **编译** 时，对 **类型** 进行各种计算和操作：
+
+.. _graph-dsl: https://github.com/godsme/graph-dsl
+
+.. code-block:: c++
+
    constexpr static auto sorted_non_leaf_nodes =
       all_decedents_map
       | holo::sort([](auto l, auto r) {

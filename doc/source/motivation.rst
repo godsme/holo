@@ -16,3 +16,46 @@
 2. 必须让编译时间处于一个可接受的水平（当然越快越好）；
 
 ``holo`` 正是为这两个目标而生。
+
+通过 ``holo`` ，你可以以如下方式操作类型：
+
+.. code-block:: c++
+
+   constexpr static auto sorted_non_leaf_nodes =
+      all_decedents_map
+      | holo::sort([](auto l, auto r) {
+         return holo::contains(holo::first(l), holo::second(r)); })
+      | holo::transform([](auto elem) {
+         return holo::first(elem); })
+      | holo::reverse();
+
+
+   constexpr static auto root_nodes =
+      __HOLO_tuple_t<NODES...>
+      | holo::filter([](auto elem){
+         return decltype(elem)::type::is_root == holo::bool_c<true>; })
+      | holo::transform([](auto elem){
+         return holo::type_c<typename decltype(elem)::type::node_type>;
+      });
+
+
+   constexpr static auto sorted_tagged_intermediate_nodes =
+      sorted_non_leaf_nodes
+      | holo::remove_if([](auto elem) {
+         return holo::contains(elem, root_nodes); })
+      | holo::transform([](auto elem) {
+         return holo::type_c<node_trait<typename decltype(elem)::type, node_category::Intermediate>>;
+      });
+
+
+   constexpr static auto leaf_tagged_nodes =
+      all_decedents_map
+      | holo::fold_left(__HOLO_make_tuple(), [](auto acc, auto elem){
+         return holo::concat(acc, holo::second(elem)); })
+      | holo::unique()
+      | holo::remove_if([](auto elem) {
+         return holo::contains(elem, sorted_non_leaf_nodes); })
+      | holo::transform([](auto elem) {
+         return holo::type_c<node_trait<typename decltype(elem)::type, node_category::Leaf>>;
+      });
+

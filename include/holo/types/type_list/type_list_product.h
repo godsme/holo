@@ -19,8 +19,14 @@ private:
 public:
    template <typename ... Xs, typename ... Ys>
    constexpr static auto apply(type_list<Xs...>, type_list<Ys...>) {
-      return (type_list<>{} + ... + product<Xs, Ys...>{});
+      return (product<Xs, Ys...>{} + ...);
    }
+
+   template <typename ... Ys>
+   constexpr static auto apply(type_list<>, type_list<Ys...>) -> type_list<> { return {}; }
+
+   template <typename ... Xs>
+   constexpr static auto apply(type_list<Xs...>, type_list<>) -> type_list<> { return {}; }
 };
 
 HOLO_NS_END

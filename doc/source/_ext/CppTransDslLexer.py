@@ -17,9 +17,10 @@ class CppTransDslLexer(CppLexer):
                           '__bind_listener', '__listeners'))
     FUNC_KEYWORDS  = set(('exec', 'handleEvent', 'kill', 'WAIT_ON', 'onActionStarting', 'onActionEventConsumed'
                           'onActionDone', 'onActionStopped', 'onActionKilled'))
-    TYPE_KEYWORDS  = set(('ActionThreadId', 'TimerId', 'ActionId', 'Status', 'TransactionInfo', 'Event', 'ObservedActionIdRegistry'))
-    CONST_KEYWORDS = set(('SUCCESS', 'CONTINUE', 'UNKNOWN_EVENT', 'FAILED', 
-                          'DEF_SIMPLE_ASYNC_ACTION'))
+    CONST_KEYWORDS  = set(('type_c', 'bool_c', 'size_c', 'type_list_t'))
+    TYPE_KEYWORDS = set(('holo', 'fold_left', 'remove_if', 'transform', 'reverse', 
+                          'head', 'tail', 'unique', 'first', 'second', 'concat', 'append',
+                          'contains', 'filter', 'sort', '__HOLO_make_tuple'))
 
     def get_tokens_unprocessed(self, text):
         for index, token, value in CppLexer.get_tokens_unprocessed(self, text):

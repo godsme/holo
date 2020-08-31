@@ -14,27 +14,27 @@ HOLO_NS_BEGIN
 namespace type_list_detail {
    template<typename T>
    struct flatten_trait {
-      using type = type_list<T>;
+      constexpr static auto value = type_list<T>{};
    };
 
    template<typename ... Ts>
    struct flatten_impl {
-      using type = decltype(( ... + typename flatten_trait<Ts>::type{}));
+      constexpr static auto value = ( ... + flatten_trait<Ts>::value);
    };
 
    template<typename ... Ts>
    struct flatten_trait<type_list<Ts...>> {
-      using type = typename flatten_impl<Ts...>::type;
+      constexpr static auto value = flatten_impl<Ts...>::value;
    };
 }
 
 template<typename ... Ts>
-using TL_flatten_t = typename type_list_detail::flatten_impl<Ts...>::type;
+constexpr auto TL_flatten_v = type_list_detail::flatten_impl<Ts...>::value;
 
 template<>
 struct flatten_algo<type_list_tag> {
    template<typename ... Ts>
-   constexpr static auto apply(type_list<Ts...>) -> TL_flatten_t<Ts...> { return {}; }
+   constexpr static auto apply(type_list<Ts...>) { return TL_flatten_v<Ts...>; }
 };
 
 HOLO_NS_END

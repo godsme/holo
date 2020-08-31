@@ -20,6 +20,8 @@ struct fold_helper {
       return fold_helper<decltype(result), F>{result, f_};
    }
 
+   constexpr auto operator()() const -> T const& { return result_; }
+
    T result_;
    F& f_;
 };

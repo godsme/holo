@@ -8,6 +8,8 @@
 *.obj
 .idea/*
 cmake-build-debug/*
+doc/build/
+doc/source/_ext/__pycache__/
 
 # Precompiled Headers
 *.gch

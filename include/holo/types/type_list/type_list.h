@@ -34,6 +34,7 @@
 #include <holo/types/type_list/type_list_all_of.h>
 #include <holo/types/type_list/type_list_none_of.h>
 #include <holo/types/type_list/type_list_take_right.h>
+#include <holo/types/type_list/type_list_drop_while.h>
 
 HOLO_NS_BEGIN
 

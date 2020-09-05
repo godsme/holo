@@ -5,7 +5,6 @@
 #include <catch.hpp>
 #include <holo/algo/fold_left.h>
 #include <holo/types/type_list/type_list.h>
-#include <optional>
 #include <holo/algo/find_if.h>
 #include <holo/algo/transform.h>
 #include <holo/algo/filter.h>
@@ -23,6 +22,7 @@
 #include <holo/algo/unique.h>
 #include <holo/algo/flatten.h>
 #include <holo/algo/product.h>
+#include <holo/algo/zip.h>
 
 namespace {
    TEST_CASE("holo fold left") {
@@ -182,5 +182,29 @@ namespace {
          holo::type_pair_t<char, float>, holo::type_pair_t<char, double>,
          holo::type_pair_t<short, float>, holo::type_pair_t<short, double>,
          holo::type_pair_t<int, float>, holo::type_pair_t<int, double>));
+   }
+
+   TEST_CASE("zip") {
+      constexpr auto result = holo::zip(
+         holo::type_list_t<char, short, int>,
+         holo::type_list_t<float, double, long>);
+
+      static_assert(result == holo::make_type_list(
+         holo::type_pair_t<char, float>,
+         holo::type_pair_t<short, double>,
+         holo::type_pair_t<int, long>));
+   }
+
+   TEST_CASE("zip with") {
+      constexpr auto result = holo::zip_with([](auto l, auto r){
+            return holo::bool_c<(holo::sizeof_type(l) > holo::sizeof_type(r))>;
+         },
+         holo::type_list_t<char, short, long>,
+         holo::type_list_t<float, double, int>);
+
+      static_assert(result == holo::make_type_list(
+         holo::bool_c<false>,
+         holo::bool_c<false>,
+         holo::bool_c<true>));
    }
 }

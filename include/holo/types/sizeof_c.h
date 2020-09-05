@@ -12,6 +12,7 @@ HOLO_NS_BEGIN
 template<typename T>
 constexpr integral_c<std::size_t, sizeof(T)> sizeof_c{};
 
+
 HOLO_NS_END
 
 #endif //HOLO_SIZEOF_C_H

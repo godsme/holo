@@ -6,6 +6,7 @@
 #define HOLO_TYPE_LIST_T_H
 
 #include <holo/types/type_c.h>
+#include <holo/types/size_c.h>
 #include <holo/concept/algo.h>
 #include <holo/types/tuple_trait.h>
 #include <type_traits>
@@ -86,6 +87,11 @@ constexpr bool is_type_list_v = is_type_list<T>::value();
 template<typename ... Ts, typename T, typename = std::enable_if_t<!is_type_list_v<T>>>
 constexpr auto operator+(type_list<Ts...>, T) {
    return type_list<Ts..., T>{};
+}
+
+template<typename T>
+constexpr auto sizeof_type(type_c_t<T>) -> size_c_t<sizeof(T)> {
+   return {};
 }
 
 HOLO_NS_END

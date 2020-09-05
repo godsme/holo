@@ -25,6 +25,7 @@
 #include <holo/types/type_list/type_list_unique.h>
 #include <holo/types/type_list/type_list_product.h>
 #include <holo/types/type_list/type_list_sort.h>
+#include <holo/types/type_list/type_list_zip.h>
 
 HOLO_NS_BEGIN
 

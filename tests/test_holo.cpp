@@ -197,7 +197,7 @@ namespace {
 
    TEST_CASE("zip with") {
       constexpr auto result = holo::zip_with([](auto l, auto r){
-            return holo::bool_c<(holo::sizeof_type(l) > holo::sizeof_type(r))>;
+            return holo::sizeof_type(l) > holo::sizeof_type(r);
          },
          holo::type_list_t<char, short, long>,
          holo::type_list_t<float, double, int>);

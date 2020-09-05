@@ -19,6 +19,15 @@ struct take_right_algo<type_list_tag> {
    }
 };
 
+template<>
+struct last_algo<type_list_tag> {
+   template<typename ... Xs>
+   constexpr static auto apply(type_list<Xs...>) -> TL_drop_t<sizeof...(Xs) - 1, Xs...> {
+      static_assert(sizeof...(Xs) > 0);
+      return {};
+   }
+};
+
 HOLO_NS_END
 
 #endif //HOLO_TYPE_LIST_TAKE_RIGHT_H

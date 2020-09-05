@@ -37,6 +37,9 @@
 #include <holo/algo/any_of.h>
 #include <holo/algo/all_of.h>
 #include <holo/algo/none_of.h>
+#include <holo/algo/take_right.h>
+#include <holo/algo/drop_right.h>
+#include <holo/algo/last.h>
 
 #define __HOLO_USE_TYPE_LIST 1
 

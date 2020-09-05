@@ -123,6 +123,9 @@ struct take_right_algo;
 template<typename Tag>
 struct drop_right_algo;
 
+template<typename Tag>
+struct last_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_DEFS_H

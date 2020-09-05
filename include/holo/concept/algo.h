@@ -99,6 +99,9 @@ struct zip_shortest_with_algo;
 template<typename Tag>
 struct zip3_with_algo;
 
+template<typename Tag>
+struct empty_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_DEFS_H

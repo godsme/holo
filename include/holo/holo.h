@@ -32,6 +32,7 @@
 #include <holo/algo/second.h>
 #include <holo/algo/length.h>
 #include <holo/algo/zip.h>
+#include <holo/algo/empty.h>
 
 #define __HOLO_USE_TYPE_LIST 1
 

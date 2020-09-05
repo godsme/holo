@@ -14,10 +14,12 @@ template<> struct zip_algo<type_list_tag> {
    template<typename ... Xs, typename ... Ys>
    constexpr static auto apply(type_list<Xs...>, type_list<Ys...>)
       -> type_list<type_pair<Xs, Ys>...> { return {}; }
+};
 
+template<> struct zip3_algo<type_list_tag> {
    template<typename ... Xs, typename ... Ys, typename ... Zs>
    constexpr static auto apply(type_list<Xs...>, type_list<Ys...>, type_list<Zs...>)
-      -> type_list<type_list<Xs, Ys, Zs>...> { return {}; }
+   -> type_list<type_list<Xs, Ys, Zs>...> { return {}; }
 };
 
 
@@ -25,7 +27,9 @@ template<> struct zip_with_algo<type_list_tag> {
    template<typename F, typename ... Xs, typename ... Ys>
    constexpr static auto apply(F, type_list<Xs...>, type_list<Ys...>)
    -> type_list<std::invoke_result_t<F, Xs, Ys>...> { return {}; }
+};
 
+template<> struct zip3_with_algo<type_list_tag> {
    template<typename F, typename ... Xs, typename ... Ys, typename ... Zs>
    constexpr static auto apply(type_list<Xs...>, type_list<Ys...>, type_list<Zs...>)
    -> type_list<std::invoke_result_t<Xs, Ys, Zs>...> { return {}; }

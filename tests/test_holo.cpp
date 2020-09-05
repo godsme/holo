@@ -202,9 +202,6 @@ namespace {
          holo::type_list_t<char, short, long>,
          holo::type_list_t<float, double, int>);
 
-      static_assert(result == holo::make_type_list(
-         holo::bool_c<false>,
-         holo::bool_c<false>,
-         holo::bool_c<true>));
+      static_assert(result == holo::bool_list_t<false, false, true>);
    }
 }

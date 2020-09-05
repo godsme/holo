@@ -94,6 +94,12 @@ constexpr auto sizeof_type(type_c_t<T>) -> size_c_t<sizeof(T)> {
    return {};
 }
 
+template <bool ... Vs>
+constexpr type_list<bool_c_t<Vs>...> bool_list_t{};
+
+template <std::size_t ... Vs>
+constexpr type_list<size_c_t<Vs>...> size_list_t{};
+
 HOLO_NS_END
 
 #endif //HOLO_TYPE_LIST_T_H

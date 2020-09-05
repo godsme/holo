@@ -117,6 +117,12 @@ struct all_of_algo;
 template<typename Tag>
 struct none_of_algo;
 
+template<typename Tag>
+struct take_right_algo;
+
+template<typename Tag>
+struct drop_right_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_DEFS_H

@@ -204,4 +204,24 @@ namespace {
 
       static_assert(result == holo::bool_list_t<false, false, true>);
    }
+
+   TEST_CASE("zip shortest") {
+      constexpr auto result = holo::zip_shortest(
+         holo::type_list_t<char, short, int>,
+         holo::type_list_t<float, double>);
+
+      static_assert(result == holo::make_type_list(
+         holo::type_pair_t<char, float>,
+         holo::type_pair_t<short, double>));
+   }
+
+   TEST_CASE("zip shortest with") {
+      constexpr auto result = holo::zip_shortest_with(
+         [](auto l, auto r){
+            return holo::sizeof_type(l) > holo::sizeof_type(r); },
+         holo::type_list_t<char, long>,
+         holo::type_list_t<float, short, int>);
+
+      static_assert(result == holo::bool_list_t<false, true>);
+   }
 }

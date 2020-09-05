@@ -26,6 +26,8 @@
 #include <holo/types/type_list/type_list_product.h>
 #include <holo/types/type_list/type_list_sort.h>
 #include <holo/types/type_list/type_list_zip.h>
+#include <holo/types/type_list/type_list_take.h>
+#include <holo/types/type_list/type_list_drop.h>
 
 HOLO_NS_BEGIN
 

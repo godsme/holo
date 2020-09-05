@@ -85,10 +85,16 @@ template<typename Tag>
 struct zip_algo;
 
 template<typename Tag>
+struct zip_shortest_algo;
+
+template<typename Tag>
 struct zip3_algo;
 
 template<typename Tag>
 struct zip_with_algo;
+
+template<typename Tag>
+struct zip_shortest_with_algo;
 
 template<typename Tag>
 struct zip3_with_algo;

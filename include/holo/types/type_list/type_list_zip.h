@@ -16,6 +16,50 @@ template<> struct zip_algo<type_list_tag> {
       -> type_list<type_pair<Xs, Ys>...> { return {}; }
 };
 
+
+namespace detail {
+   template<typename F, typename Xs, typename Ys, typename ... Rs>
+   struct zip_impl;
+
+   template<typename F, typename X, typename ... Xs, typename Y, typename ... Ys, typename ... Rs>
+   struct zip_impl<F, type_list<X, Xs...>, type_list<Y, Ys...>, Rs...> {
+      using type = typename zip_impl<F, type_list<Xs...>, type_list<Ys...>, Rs..., std::invoke_result_t<F, X, Y>>::type;
+   };
+
+   template<typename F, typename Y, typename ... Ys, typename ... Rs>
+   struct zip_impl<F, type_list<>, type_list<Y, Ys...>, Rs...> {
+      using type = type_list<Rs...>;
+   };
+
+   template<typename F, typename X, typename ... Xs, typename ... Rs>
+   struct zip_impl<F, type_list<X, Xs...>, type_list<>, Rs...> {
+      using type = type_list<Rs...>;
+   };
+
+   template<typename F, typename ... Rs>
+   struct zip_impl<F, type_list<>, type_list<>, Rs...> {
+      using type = type_list<Rs...>;
+   };
+}
+
+template<typename F, typename Xs, typename Ys>
+using TL_zip_t = typename detail::zip_impl<F, Xs, Ys>::type;
+
+
+template<> struct zip_shortest_algo<type_list_tag> {
+private:
+   template<typename F, typename Xs, typename Ys>
+   constexpr static auto type_list_zip(F, Xs, Ys) -> TL_zip_t<F, Xs, Ys> {
+      return {};
+   }
+
+public:
+   template<typename Xs, typename Ys>
+   constexpr static auto apply(Xs xs, Ys ys) {
+      return type_list_zip([](auto l, auto r) { return make_type_pair(l, r); }, xs, ys);
+   }
+};
+
 template<> struct zip3_algo<type_list_tag> {
    template<typename ... Xs, typename ... Ys, typename ... Zs>
    constexpr static auto apply(type_list<Xs...>, type_list<Ys...>, type_list<Zs...>)
@@ -27,6 +71,11 @@ template<> struct zip_with_algo<type_list_tag> {
    template<typename F, typename ... Xs, typename ... Ys>
    constexpr static auto apply(F, type_list<Xs...>, type_list<Ys...>)
    -> type_list<std::invoke_result_t<F, Xs, Ys>...> { return {}; }
+};
+
+template<> struct zip_shortest_with_algo<type_list_tag> {
+   template<typename F, typename Xs, typename Ys>
+   constexpr static auto apply(F, Xs, Ys) -> TL_zip_t<F, Xs, Ys> { return {}; }
 };
 
 template<> struct zip3_with_algo<type_list_tag> {

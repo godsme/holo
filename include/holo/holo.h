@@ -34,6 +34,9 @@
 #include <holo/algo/zip.h>
 #include <holo/algo/empty.h>
 #include <holo/algo/group.h>
+#include <holo/algo/any_of.h>
+#include <holo/algo/all_of.h>
+#include <holo/algo/none_of.h>
 
 #define __HOLO_USE_TYPE_LIST 1
 

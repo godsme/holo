@@ -24,6 +24,9 @@
 #include <holo/algo/product.h>
 #include <holo/algo/zip.h>
 #include <holo/algo/group.h>
+#include <holo/algo/any_of.h>
+#include <holo/algo/all_of.h>
+#include <holo/algo/none_of.h>
 
 namespace {
    TEST_CASE("holo fold left") {
@@ -252,5 +255,36 @@ namespace {
          holo::type_list_t<long, double, uint64_t>);
 
       static_assert(result == expected);
+   }
+
+   TEST_CASE("any of") {
+      constexpr auto result = holo::type_list_t<int, char, long, char, bool, double, uint64_t, uint32_t, float, bool>
+                              | holo::any_of([](auto l) {
+               return holo::sizeof_type(l) == holo::size_c<1>;
+      });
+
+      static_assert(result);
+   }
+
+   TEST_CASE("all of") {
+      constexpr auto list = holo::type_list_t<int, char, long, char, bool, double, uint64_t, uint32_t, float, bool>;
+      static_assert(!holo::all_of([](auto l) {
+               return holo::sizeof_type(l) == holo::size_c<1>;
+            }, list));
+
+      static_assert(holo::all_of([](auto l) {
+         return holo::sizeof_type(l) <= holo::size_c<8>;
+      }, list));
+   }
+
+   TEST_CASE("none of") {
+      constexpr auto list = holo::type_list_t<int, char, long, char, bool, double, uint64_t, uint32_t, float, bool>;
+      static_assert(holo::none_of([](auto l) {
+         return holo::sizeof_type(l) > holo::size_c<8>;
+      }, list));
+
+      static_assert(!holo::none_of([](auto l) {
+         return holo::sizeof_type(l) == holo::size_c<1>;
+      }, list));
    }
 }

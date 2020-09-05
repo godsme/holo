@@ -108,6 +108,15 @@ struct group_algo;
 template<typename Tag>
 struct group_by_algo;
 
+template<typename Tag>
+struct any_of_algo;
+
+template<typename Tag>
+struct all_of_algo;
+
+template<typename Tag>
+struct none_of_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_DEFS_H

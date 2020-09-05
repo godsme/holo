@@ -6,7 +6,7 @@
 #define HOLO_TYPE_LIST_T_H
 
 #include <holo/types/type_c.h>
-#include <holo/types/size_c.h>
+#include <holo/types/integral_constant/size_c.h>
 #include <holo/concept/algo.h>
 #include <holo/types/tuple_trait.h>
 #include <type_traits>

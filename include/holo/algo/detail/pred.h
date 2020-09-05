@@ -7,7 +7,7 @@
 
 #include <holo/types/type_c.h>
 #include <type_traits>
-#include <holo/types/integral_c.h>
+#include <holo/types/integral_constant/integral_c.h>
 #include <holo/types/type_list/type_list_contains.h>
 
 HOLO_NS_BEGIN

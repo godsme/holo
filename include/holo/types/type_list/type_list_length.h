@@ -6,7 +6,7 @@
 #define HOLO_TYPE_LIST_LENGTH_H
 
 #include <holo/types/type_list/type_list_t.h>
-#include <holo/types/size_c.h>
+#include <holo/types/integral_constant/size_c.h>
 
 HOLO_NS_BEGIN
 

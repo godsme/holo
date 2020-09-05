@@ -5,9 +5,9 @@
 #ifndef HOLO_HOLO_H
 #define HOLO_HOLO_H
 
-#include <holo/types/char_c.h>
+#include <holo/types/integral_constant/char_c.h>
 #include <holo/types/tuple_trait.h>
-#include <holo/types/pair.h>
+#include <holo/types/tuple/pair.h>
 #include <holo/algo/tail.h>
 #include <holo/algo/fold_left.h>
 #include <holo/algo/take.h>
@@ -24,7 +24,7 @@
 #include <holo/algo/head.h>
 #include <holo/algo/partition.h>
 #include <holo/algo/sort.h>
-#include <holo/types/sizeof_c.h>
+#include <holo/types/integral_constant/sizeof_c.h>
 #include <holo/algo/unique.h>
 #include <holo/algo/flatten.h>
 #include <holo/algo/product.h>

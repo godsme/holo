@@ -6,7 +6,7 @@
 #define HOLO_TYPE_LIST_PRODUCT_H
 
 #include <holo/types/type_list/type_list_t.h>
-#include <holo/types/type_pair.h>
+#include <holo/types/type_list/type_pair.h>
 #include <holo/types/type_list/type_list_flatten.h>
 
 HOLO_NS_BEGIN

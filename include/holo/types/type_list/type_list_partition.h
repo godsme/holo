@@ -8,7 +8,7 @@
 #include <holo/types/type_list/type_list_t.h>
 #include <holo/concept/algo.h>
 #include <holo/algo/detail/pred.h>
-#include <holo/types/type_pair.h>
+#include <holo/types/type_list/type_pair.h>
 
 HOLO_NS_BEGIN
 

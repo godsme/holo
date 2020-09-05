@@ -5,7 +5,7 @@
 #ifndef HOLO_CHAR_C_H
 #define HOLO_CHAR_C_H
 
-#include <holo/types/integral_c.h>
+#include <holo/types/integral_constant/integral_c.h>
 
 HOLO_NS_BEGIN
 

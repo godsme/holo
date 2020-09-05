@@ -18,7 +18,7 @@
 #include <holo/algo/tail.h>
 #include <holo/algo/partition.h>
 #include <holo/algo/sort.h>
-#include <holo/types/sizeof_c.h>
+#include <holo/types/integral_constant/sizeof_c.h>
 #include <holo/algo/unique.h>
 #include <holo/algo/flatten.h>
 #include <holo/algo/product.h>

@@ -6,9 +6,9 @@
 #define HOLO_TUPLE_T_H
 
 #include <holo/types/type_c.h>
-#include <holo/types/integral_c.h>
+#include <holo/types/integral_constant/integral_c.h>
 #include <holo/types/detail/ebo.h>
-#include <holo/types/size_c.h>
+#include <holo/types/integral_constant/size_c.h>
 #include <holo/concept/algo.h>
 #include <holo/types/tuple_trait.h>
 #include <utility>

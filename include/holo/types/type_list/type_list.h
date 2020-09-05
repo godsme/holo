@@ -29,6 +29,7 @@
 #include <holo/types/type_list/type_list_take.h>
 #include <holo/types/type_list/type_list_drop.h>
 #include <holo/types/type_list/type_list_empty.h>
+#include <holo/types/type_list/type_list_group.h>
 
 HOLO_NS_BEGIN
 

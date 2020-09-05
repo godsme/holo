@@ -102,6 +102,12 @@ struct zip3_with_algo;
 template<typename Tag>
 struct empty_algo;
 
+template<typename Tag>
+struct group_algo;
+
+template<typename Tag>
+struct group_by_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_DEFS_H

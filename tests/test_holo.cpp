@@ -23,6 +23,7 @@
 #include <holo/algo/flatten.h>
 #include <holo/algo/product.h>
 #include <holo/algo/zip.h>
+#include <holo/algo/group.h>
 
 namespace {
    TEST_CASE("holo fold left") {
@@ -223,5 +224,33 @@ namespace {
          holo::type_list_t<float, short, int>);
 
       static_assert(result == holo::bool_list_t<false, true>);
+   }
+
+   TEST_CASE("group") {
+      constexpr auto result = holo::type_list_t<int, char, long, char, float, double, long, double, long, float>
+         | holo::group();
+
+      constexpr auto expected = holo::make_type_list(
+         holo::type_list_t<int>,
+         holo::type_list_t<char, char>,
+         holo::type_list_t<long, long, long>,
+         holo::type_list_t<float, float>,
+         holo::type_list_t<double, double>);
+
+      static_assert(result == expected);
+   }
+
+   TEST_CASE("group by") {
+      constexpr auto result = holo::type_list_t<int, char, long, char, bool, double, uint64_t, uint32_t, float, bool>
+                              | holo::group_by([](auto l, auto r) {
+                                 return holo::sizeof_type(l) == holo::sizeof_type(r);
+                              });
+
+      constexpr auto expected = holo::make_type_list(
+         holo::type_list_t<int, uint32_t, float>,
+         holo::type_list_t<char, char, bool, bool>,
+         holo::type_list_t<long, double, uint64_t>);
+
+      static_assert(result == expected);
    }
 }

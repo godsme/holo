@@ -33,6 +33,7 @@
 #include <holo/algo/length.h>
 #include <holo/algo/zip.h>
 #include <holo/algo/empty.h>
+#include <holo/algo/group.h>
 
 #define __HOLO_USE_TYPE_LIST 1
 

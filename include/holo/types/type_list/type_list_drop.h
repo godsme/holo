@@ -45,15 +45,15 @@ namespace detail {
 
    template<typename F, typename H, typename ... Xs>
    struct drop_while_impl<F, H, Xs...> {
-   using type = std::conditional_t
-      < detail::Is_Pred_Satisfied<F, H>
-      , typename take_while_impl<F, Xs...>::type
-      , type_list<H, Xs...>>;
+      using type = std::conditional_t
+         < detail::Is_Pred_Satisfied<F, H>
+         , typename drop_while_impl<F, Xs...>::type
+         , type_list<H, Xs...>>;
    };
 }
 
 template<typename F, typename ... Xs>
-using TL_drop_while_t = typename detail::drop_while_impl<F, type_list<>, Xs...>::type;
+using TL_drop_while_t = typename detail::drop_while_impl<F, Xs...>::type;
 
 template<>
 struct drop_while_algo<type_list_tag> {

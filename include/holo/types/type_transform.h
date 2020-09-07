@@ -16,6 +16,9 @@ struct type_transform;
 template<typename T, template<typename ...> typename C>
 using type_transform_t = typename type_transform<std::decay_t<T>, C>::type;
 
+template<template<typename ...> typename C, typename T>
+constexpr auto map_to(T) -> type_transform_t<T, C> { return {}; }
+
 HOLO_NS_END
 
 #endif //HOLO_TYPE_TRANSFORM_H

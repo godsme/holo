@@ -5,4 +5,14 @@
 #ifndef HOLO_TYPEOF_C_H
 #define HOLO_TYPEOF_C_H
 
+#include <holo/types/type_c.h>
+#include <type_traits>
+
+HOLO_NS_BEGIN
+
+template<typename T>
+constexpr auto typeof_c(type_c_t<T>) -> T { return {}; }
+
+HOLO_NS_END
+
 #endif //HOLO_TYPEOF_C_H

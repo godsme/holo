@@ -8,7 +8,7 @@
 #include <holo/types/type_c.h>
 #include <holo/types/integral_constant/size_c.h>
 #include <holo/concept/algo.h>
-#include <holo/types/tuple_trait.h>
+#include <holo/types/type_transform.h>
 #include <type_traits>
 
 HOLO_NS_BEGIN
@@ -66,7 +66,7 @@ template <typename ... Ts>
 constexpr type_list<type_c_t <Ts>...> type_list_t{};
 
 template <template<typename ...> typename C, typename ... Ts>
-struct tuple_trait<type_list<Ts...>, C> {
+struct type_transform<type_list<Ts...>, C> {
    using type = C<typename Ts::type...>;
 };
 

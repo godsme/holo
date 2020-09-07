@@ -11,7 +11,7 @@
 HOLO_NS_BEGIN
 
 template<typename T>
-constexpr auto typeof_c(type_c_t<T>) -> T { return {}; }
+inline constexpr auto typeof_c(type_c_t<T>) noexcept -> T { return {}; }
 
 HOLO_NS_END
 

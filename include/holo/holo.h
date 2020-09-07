@@ -6,7 +6,7 @@
 #define HOLO_HOLO_H
 
 #include <holo/types/integral_constant/char_c.h>
-#include <holo/types/tuple_trait.h>
+#include <holo/types/type_transform.h>
 #include <holo/types/tuple/pair.h>
 #include <holo/algo/tail.h>
 #include <holo/algo/fold_left.h>

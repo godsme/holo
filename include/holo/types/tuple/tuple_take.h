@@ -20,13 +20,7 @@ private:
 public:
    template<std::size_t N, typename ... Xs, typename = std::enable_if_t<(sizeof...(Xs) >= N)>>
    constexpr static auto apply(size_c_t<N>, tuple<Xs...> const& xs) {
-      if constexpr (sizeof...(Xs) == N) {
-         return xs;
-      } else if constexpr (N == 0) {
-         return tuple{};
-      } else {
-         return tuple_take(xs, std::make_index_sequence<N>{});
-      }
+      return tuple_take(xs, std::make_index_sequence<N>{});
    }
 };
 

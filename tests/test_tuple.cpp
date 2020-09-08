@@ -240,17 +240,15 @@ namespace {
 
    TEST_CASE("tuple sort") {
       constexpr auto result = holo::sort([](auto l, auto r) {
-                                 return holo::sizeof_c<typename decltype(l)::type> <
-                                        holo::sizeof_c<typename decltype(r)::type>;
-                              }, holo::tuple_t<long double, int, long long, bool, short, char>);
+         return holo::sizeof_type_c(l) < holo::sizeof_type_c(r);
+       }, holo::tuple_t<long double, int, long long, bool, short, char>);
 
       static_assert(result == holo::tuple_t<char, bool, short, int, long long, long double>);
    }
 
    TEST_CASE("tuple sort 2") {
       constexpr auto result = holo::sort([](auto l, auto r) {
-         return holo::sizeof_c<typename decltype(l)::type> <
-                holo::sizeof_c<typename decltype(r)::type>;
+         return holo::sizeof_type_c(l) < holo::sizeof_type_c(r);
       }, holo::tuple_t<int, long long, bool, short, char>);
 
       static_assert(result == holo::tuple_t<char, bool, short, int, long long>);
@@ -258,8 +256,7 @@ namespace {
 
    TEST_CASE("tuple empty sort") {
       constexpr auto result = holo::sort([](auto l, auto r) {
-         return holo::sizeof_c<typename decltype(l)::type> <
-                holo::sizeof_c<typename decltype(r)::type>;
+         return holo::sizeof_type_c(l) < holo::sizeof_type_c(r);
       }, holo::tuple_t<>);
 
       static_assert(result == holo::tuple_t<>);
@@ -267,8 +264,7 @@ namespace {
 
    TEST_CASE("tuple single sort") {
       constexpr auto result = holo::sort([](auto l, auto r) {
-         return holo::sizeof_c<typename decltype(l)::type> <
-                holo::sizeof_c<typename decltype(r)::type>;
+         return holo::sizeof_type_c(l) < holo::sizeof_type_c(r);
       }, holo::tuple_t<int>);
 
       static_assert(result == holo::tuple_t<int>);
@@ -276,8 +272,7 @@ namespace {
 
    TEST_CASE("tuple double sort") {
       constexpr auto result = holo::sort([](auto l, auto r) {
-         return holo::sizeof_c<typename decltype(l)::type> <
-                holo::sizeof_c<typename decltype(r)::type>;
+         return holo::sizeof_type_c(l) < holo::sizeof_type_c(r);
       }, holo::tuple_t<int, char>);
 
       static_assert(result == holo::tuple_t<char, int>);

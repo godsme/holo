@@ -135,6 +135,9 @@ struct drop_while_algo;
 template<typename Tag>
 struct split_algo;
 
+template<typename Tag>
+struct unpack_algo;
+
 HOLO_NS_END
 
 #endif //HOLO_ALGO_DEFS_H

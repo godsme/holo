@@ -28,6 +28,12 @@ inline constexpr auto operator!=(type_c_t<U> const&, type_c_t<V> const&) noexcep
 template <typename T>
 constexpr type_c_t<T> type_c{};
 
+template<typename T>
+constexpr bool Is_Type_C = false;
+
+template<typename T>
+constexpr bool Is_Type_C<type_c_t<T>> = true;
+
 HOLO_NS_END
 
 #endif //HOLO_TYPE_C_H

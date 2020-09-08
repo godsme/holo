@@ -223,9 +223,9 @@ namespace {
          holo::tuple_t<char, short, int>,
          holo::tuple_t<float, double>);
 
-      static_assert(result == holo::tuple(holo::pair_t<char, float>, holo::pair_t<char, double>,
-                                          holo::pair_t<short, float>, holo::pair_t<short, double>,
-                                          holo::pair_t<int, float>, holo::pair_t<int, double>));
+      static_assert(result == holo::tuple(holo::value_pair_t<char, float>, holo::value_pair_t<char, double>,
+                                          holo::value_pair_t<short, float>, holo::value_pair_t<short, double>,
+                                          holo::value_pair_t<int, float>, holo::value_pair_t<int, double>));
    }
 
    template<std::size_t Start, std::size_t ... Xn>

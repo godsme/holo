@@ -5,9 +5,11 @@
 #ifndef HOLO_HOLO_H
 #define HOLO_HOLO_H
 
+#include <holo/types/type_list/type_list.h>
+#include <holo/types/tuple/tuple.h>
+#include <holo/types/tuple/pair.h>
 #include <holo/types/integral_constant/char_c.h>
 #include <holo/types/type_transform.h>
-#include <holo/types/tuple/pair.h>
 #include <holo/algo/tail.h>
 #include <holo/algo/fold_left.h>
 #include <holo/algo/take.h>
@@ -41,22 +43,37 @@
 #include <holo/algo/drop_right.h>
 #include <holo/algo/last.h>
 
-#define __HOLO_USE_TYPE_LIST 1
 
-#if __HOLO_USE_TYPE_LIST
-#include <holo/types/type_list/type_list.h>
-#define __HOLO_make_tuple holo::make_type_list
-#define __HOLO_make_pair  holo::make_type_pair
-#define __HOLO_tuple_t    holo::type_list_t
-#define __HOLO_tuple      holo::type_list
-#define __HOLO_pair       holo::type_pair
-#else
-#include <holo/types/tuple/tuple.h>
-#define __HOLO_make_tuple holo::make_tuple
-#define __HOLO_make_pair  holo::make_pair
-#define __HOLO_tuple_t    holo::tuple_t
-#define __HOLO_tuple      holo::tuple
-#define __HOLO_pair       holo::pair
-#endif
+HOLO_NS_BEGIN
+
+template<typename ... Xs>
+constexpr auto make_list(Xs&& ... xs) {
+   if constexpr (sizeof...(Xs) == 0) {
+      return holo::type_list_t<>;
+   } if constexpr ((std::is_empty_v<std::decay_t<Xs>> && ...)) {
+      return holo::type_list<std::decay_t<Xs>...>{};
+   } else {
+      static_assert((std::is_empty_v<std::decay_t<Xs>> && ...));
+      return holo::make_tuple(std::forward<Xs>(xs)...);
+   }
+}
+
+template<typename X, typename Y>
+constexpr auto make_pair(X&& x, Y&& y) {
+   if constexpr ((std::is_empty_v<std::decay_t<X>> && std::is_empty_v<std::decay_t<Y>>)) {
+      return holo::type_pair<std::decay_t<X>, std::decay_t<Y>>{};
+   } else {
+      return holo::make_value_pair(std::forward<X>(x), std::forward<Y>(y));
+   }
+}
+
+template<typename ... Xs>
+constexpr auto list_t = type_list_t<Xs...>;
+
+template<typename X, typename Y>
+constexpr auto pair_t = type_pair_t<X, Y>;
+
+HOLO_NS_END
+
 
 #endif //HOLO_HOLO_H

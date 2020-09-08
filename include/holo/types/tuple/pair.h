@@ -57,7 +57,7 @@ template<typename X, typename Y>
 pair(X&&, Y&&) -> pair<std::decay_t<X>, std::decay_t<Y>>;
 
 template<typename X, typename Y>
-constexpr auto make_pair(X&& x, Y&& y) -> pair<std::decay_t<X>, std::decay_t<Y>> {
+constexpr auto make_value_pair(X&& x, Y&& y) -> pair<std::decay_t<X>, std::decay_t<Y>> {
    return pair{x, y};
 }
 
@@ -87,7 +87,7 @@ template<> struct second_algo<pair_tag> {
 };
 
 template<typename T1, typename T2>
-constexpr pair<type_c_t<T1>, type_c_t<T2>> pair_t{};
+constexpr pair<type_c_t<T1>, type_c_t<T2>> value_pair_t{};
 
 HOLO_NS_END
 

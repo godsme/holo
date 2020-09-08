@@ -27,7 +27,7 @@
 #include <holo/types/tuple/tuple_product.h>
 #include <holo/types/tuple/tuple_sort.h>
 #include <holo/types/tuple/tuple_length.h>
-
+#include <holo/types/tuple/tuple_zip.h>
 
 HOLO_NS_BEGIN
 template<typename ... Ts, typename F, typename = std::enable_if_t<std::is_invocable_v<F, tuple<Ts...>>>>

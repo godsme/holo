@@ -16,6 +16,8 @@ using size_c_t = integral_c<std::size_t, V>;
 template <std::size_t V>
 constexpr size_c_t<V> size_c{};
 
+constexpr size_c_t<std::numeric_limits<std::size_t>::max()> max_size_c{};
+
 HOLO_NS_END
 
 #endif //HOLO_SIZE_C_H

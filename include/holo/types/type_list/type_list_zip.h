@@ -16,7 +16,6 @@ template<> struct zip_algo<type_list_tag> {
       -> type_list<type_pair<Xs, Ys>...> { return {}; }
 };
 
-
 namespace detail {
    template<typename F, typename Xs, typename Ys, typename ... Rs>
    struct zip_impl;
@@ -65,7 +64,6 @@ template<> struct zip3_algo<type_list_tag> {
    constexpr static auto apply(type_list<Xs...>, type_list<Ys...>, type_list<Zs...>)
    -> type_list<type_list<Xs, Ys, Zs>...> { return {}; }
 };
-
 
 template<> struct zip_with_algo<type_list_tag> {
    template<typename F, typename ... Xs, typename ... Ys>

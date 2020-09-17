@@ -30,11 +30,11 @@
 
 namespace {
    TEST_CASE("holo fold left") {
-      constexpr auto result = holo::fold_left(holo::type_list_t<>,
-                                              [](auto const& acc, auto const& elem){
-                                                 return holo::append(elem, acc);
-                                              },
-                                              holo::type_list_t<int, float, double>);
+      constexpr auto result = holo::type_list_t<int, float, double> |
+         holo::fold_left(holo::type_list_t<>,
+                [](auto const& acc, auto const& elem){
+                   return holo::append(elem, acc);
+                });
 
       static_assert(result == holo::type_list_t<int, float, double>);
    }
